@@ -26,6 +26,13 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
         #endif
     }
 
+    public void DeselectButtons()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        OnDeselect(null);
+    }
+
     // For mouse highlighting of buttons
     public void OnPointerEnter(PointerEventData eventData)
     {
