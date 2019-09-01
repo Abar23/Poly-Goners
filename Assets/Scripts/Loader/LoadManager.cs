@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class LoadManager : MonoBehaviour
@@ -23,34 +25,35 @@ public class LoadManager : MonoBehaviour
 
     }
 
-    public List<LoadingItem> LoadingItems;
+    public List<LoadingItem> PresentItems;
 
     public Image Mask;
 
-    // Start is called before the first frame update
+    public Text ProgressStatus;
+
+    public Slider ProgressBar;
+
+    public int NextSceneIndex;
+
+    private AsyncOperation op;
+
     void Start()
     {
-        LoadingItems[0].Object.SetActive(true);
-        StartCoroutine(FadeIn(LoadingItems[0]));
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
+        PresentItems[0].Object.SetActive(true);
+        StartCoroutine(FadeIn(PresentItems[0]));
+        StartCoroutine(LoadAsync(NextSceneIndex));
     }
 
     IEnumerator FadeIn(LoadingItem item)
     {
-        float updateTime = 0.05f;
         float time = 0;
         while (time <= item.FadeInTime)
         {
             Color color = Mask.color;
             color.a = Mathf.Lerp(1, 0, time / item.FadeInTime);
             Mask.color = color;
-            time += updateTime;
-            yield return new WaitForSeconds(updateTime);
+            time += Time.deltaTime;
+            yield return null;
         }
         StartCoroutine(Hold(item));
     }
@@ -63,38 +66,56 @@ public class LoadManager : MonoBehaviour
 
     IEnumerator FadeOut(LoadingItem item)
     {
-        float updateTime = 0.05f;
         float time = 0;
         while (time <= item.FadeOutTime)
         {
             Color color = Mask.color;
             color.a = Mathf.Lerp(0, 1, time / item.FadeOutTime);
             Mask.color = color;
-            time += updateTime;
-            yield return new WaitForSeconds(updateTime);
+            time += Time.deltaTime;
+            yield return null;
         }
-        if (item.Equals(LoadingItems[LoadingItems.Count - 1]))
+        if (item.Equals(PresentItems[PresentItems.Count - 1]))
         {
             Exit();
         }
         else
         {
             item.Object.SetActive(false);
-            item = LoadingItems[LoadingItems.IndexOf(item) + 1];
+            item = PresentItems[PresentItems.IndexOf(item) + 1];
             item.Object.SetActive(true);
             StartCoroutine(FadeIn(item));
         }
     }
 
+    IEnumerator LoadAsync(int sceneIndex)
+    {
+        op = SceneManager.LoadSceneAsync(sceneIndex);
+        op.allowSceneActivation = false;
+        while (!op.isDone)
+        {
+            float progress = Mathf.Clamp01(op.progress / 0.9f);
+            ProgressStatus.text = String.Format("{0,0:F0} %", progress * 100f);
+            ProgressBar.value = progress;
+            if (Mathf.Abs(progress - 1f) < 0.001f)
+            {
+                ProgressStatus.text = "Done";
+            }
+            yield return null;
+        }
+        
+    }
+
     void Exit()
     {
-        #if UNITY_EDITOR
-        // Application.Quit() does not work in the editor so
-        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-        UnityEditor.EditorApplication.isPlaying = false;
-        #else
-        Application.Quit();
-        #endif
+        //#if UNITY_EDITOR
+        //// Application.Quit() does not work in the editor so
+        //// UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        //UnityEditor.EditorApplication.isPlaying = false;
+        //#else
+        //Application.Quit();
+        //#endif
+        op.allowSceneActivation = true;
     }
 
 }
