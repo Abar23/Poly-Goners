@@ -44,7 +44,7 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     IEnumerator DelaySceneLoad(int sceneIndex)
     {
         clickSource.PlayOneShot(clickSource.clip);
-        yield return new WaitForSeconds(clickSource.clip.length);
+        yield return new WaitForSecondsRealtime(clickSource.clip.length);
         SceneManager.LoadScene(sceneIndex);
     }
 
@@ -56,7 +56,7 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     IEnumerator DelayMenuLoad()
     {
         clickSource.PlayOneShot(clickSource.clip);
-        yield return new WaitForSeconds(clickSource.clip.length);
+        yield return new WaitForSecondsRealtime(clickSource.clip.length);
         CurrentPanel.SetActive(false);
         CurrentTitle.SetActive(false);
         NextPanel.SetActive(true);
@@ -102,5 +102,23 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {        
         ButtonText.color = _textDefaultColor;
         GetComponent<Image>().color = _buttonDefaultColor;
+    }
+
+    public void ResetTimeScale()
+    {
+        Time.timeScale = 1.0f;
+    }
+
+    public void SaveLevel(DataEncapsulator dataEncapsulator)
+    {
+        SaveSystem.SaveLevel(dataEncapsulator.playerController, dataEncapsulator.collectibles);
+        SaveSystem.shouldLevelBeLoaded = false;
+    }
+
+    public void LoadLevel()
+    {
+        SaveSystem.LoadLevel();
+        SaveSystem.shouldLevelBeLoaded = true;
+        LoadSceneByIndex(SaveSystem.loadedLevelData.levelIndex);
     }
 }
