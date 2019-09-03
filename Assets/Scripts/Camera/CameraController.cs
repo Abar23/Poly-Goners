@@ -6,13 +6,11 @@ public class CameraController : MonoBehaviour
 
     public float cameraZOffset;
 
-    // Start is called before the first frame update
     void Start()
     {
         this.TrackTarget();
     }
 
-    // Update is called once per frame
     void Update()
     {
         this.TrackTarget();
