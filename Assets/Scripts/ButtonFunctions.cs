@@ -111,14 +111,20 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void SaveLevel(DataEncapsulator dataEncapsulator)
     {
+        clickSource.PlayOneShot(clickSource.clip);
         SaveSystem.SaveLevel(dataEncapsulator.playerController, dataEncapsulator.collectibles);
-        SaveSystem.shouldLevelBeLoaded = false;
+        ShouldLevelLoad(false);
     }
 
     public void LoadLevel()
     {
         SaveSystem.LoadLevel();
-        SaveSystem.shouldLevelBeLoaded = true;
+        ShouldLevelLoad(true);
         LoadSceneByIndex(SaveSystem.loadedLevelData.levelIndex);
+    }
+
+    public void ShouldLevelLoad(bool status)
+    {
+        SaveSystem.shouldLevelBeLoaded = status;
     }
 }
