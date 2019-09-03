@@ -33,7 +33,7 @@ public class LoadManager : MonoBehaviour
 
     public Slider ProgressBar;
 
-    public int NextSceneIndex;
+    public string NextSceneName;
 
     private AsyncOperation op;
 
@@ -41,7 +41,7 @@ public class LoadManager : MonoBehaviour
     {
         PresentItems[0].Object.SetActive(true);
         StartCoroutine(FadeIn(PresentItems[0]));
-        StartCoroutine(LoadAsync(NextSceneIndex));
+        StartCoroutine(LoadAsync(NextSceneName));
     }
 
     IEnumerator FadeIn(LoadingItem item)
@@ -88,9 +88,9 @@ public class LoadManager : MonoBehaviour
         }
     }
 
-    IEnumerator LoadAsync(int sceneIndex)
+    IEnumerator LoadAsync(string sceneName)
     {
-        op = SceneManager.LoadSceneAsync(sceneIndex);
+        op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
         while (!op.isDone)
         {
