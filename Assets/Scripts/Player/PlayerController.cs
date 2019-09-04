@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         this.UpdateCollectedText();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(!PauseManager.isGamePaused)
         {
