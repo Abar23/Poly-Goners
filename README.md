@@ -15,3 +15,4 @@ Unity incorporates a tool called UnityYAMLMerge that can merge scene and prefab 
 	POLYGON - Adventure Pack.unitypackage
 	POLYGON - Nature Pack.unitypackage
 	
+	FX Mega Pack - added since 09/07
