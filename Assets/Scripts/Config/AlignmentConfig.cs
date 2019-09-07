@@ -5,6 +5,14 @@ public class AlignmentConfig : ScriptableObject
 {
 
     public string Name;
-    public int index;
+    public EntityType Type;
+    public int MaxHealth;
 
+}
+
+public enum EntityType
+{
+    PlayerOne = 0x0,
+    PlayerTwo = 0x1,
+    Enemy = 0x2,
 }
