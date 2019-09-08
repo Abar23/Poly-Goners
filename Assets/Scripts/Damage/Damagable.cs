@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Damagable : MonoBehaviour
@@ -32,10 +33,32 @@ public class Damagable : MonoBehaviour
 
     void TakeDamage(DamagerConfig config)
     {
-        health -= config.Damage;
+        if (config is OneTimeDamagerConfig)
+        {
+            health -= config.Damage;
+            CheckHealth();
+        }
+        else
+        {
+            StartCoroutine("TakeContinuousDamage", config);
+        }        
+    }
+
+    IEnumerator TakeContinuousDamage(ContinuousDamagerConfig config)
+    {
+        for (int i = 0; i < config.DamageIteration; i++)
+        {
+            health -= Mathf.Max(0, config.Damage - i * config.DamageDecay);
+            CheckHealth();
+            yield return new WaitForSeconds(config.DamageInterval);
+        }
+    }
+
+    void CheckHealth()
+    {
         if (health <= 0)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 

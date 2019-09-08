@@ -4729,6 +4729,8 @@ GameObject:
   - component: {fileID: 5992735875775742643}
   - component: {fileID: 5992735875775855379}
   - component: {fileID: 5992735876099800426}
+  - component: {fileID: 1643250196}
+  - component: {fileID: 1643250197}
   m_Layer: 0
   m_Name: Lightning Ball
   m_TagString: Untagged
@@ -9233,3 +9235,46 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 2.12
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1643250196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5992735875794328531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163631946c5e47c4f94d9b85d86a361d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Config: {fileID: 11400000, guid: bcd0d805150c0814ba4a973d972f47bd, type: 2}
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &1643250197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5992735875794328531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 820e56ad6fecdd643b642cfe3dd7ac89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 5
+  AfterEffect: {fileID: 0}
+  SelfDestructionTime: 10
+  OnInvoke:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnDestruction:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
