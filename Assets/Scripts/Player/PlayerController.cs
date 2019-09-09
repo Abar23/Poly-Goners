@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
             float[] position = levelData.playerPosition;
             this.transform.position = new Vector3(position[0], position[1], position[2]);
         }
-
+        
         this.winText.text = "";
         this.UpdateCollectedText();
     }
