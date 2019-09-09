@@ -11,13 +11,32 @@ public class Damager : MonoBehaviour
     public DamagerConfig Config;
 
     [Header("Events")]
-    public UnityEvent OnHit;
+    public UnityEvent OnCauseDamage;
+    public UnityEvent OnHitAlly;
+    public UnityEvent OnHitDummy;
 
     void OnTriggerEnter(Collider other)
     {
-        if (OnHit != null)
+        Damageable damageable = other.gameObject.GetComponent<Damageable>();
+        if (damageable == null)
         {
-            OnHit.Invoke();
+            TriggerEvent(OnHitDummy);
+        }
+        else if ((int)damageable.Config.Alignment + (int)Config.Alignment <= 1)
+        {
+            TriggerEvent(OnHitAlly);
+        }
+        else
+        {
+            TriggerEvent(OnCauseDamage);
+        }
+    }
+
+    void TriggerEvent(UnityEvent uEvent)
+    {
+        if (uEvent != null)
+        {
+            uEvent.Invoke();
         }
     }
 

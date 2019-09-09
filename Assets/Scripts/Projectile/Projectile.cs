@@ -24,11 +24,6 @@ public class Projectile : MonoBehaviour
     private bool MotionActive = true;
     private float activeTime = 0f;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         activeTime += Time.deltaTime;
