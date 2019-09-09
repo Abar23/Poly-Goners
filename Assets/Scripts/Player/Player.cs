@@ -1,18 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerMovementState playerMovementState;
+
+    private void Start()
     {
-        
+        this.playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
     }
+
+    public void ChangeMovementState(PlayerMovementState state)
+    {
+        this.playerMovementState = state;
+    }
+
+
+    public void RequestMove()
+    {
+
+    }
+
 }
