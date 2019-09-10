@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayerMovementState : MonoBehaviour
+public abstract class PlayerMovementState
 {
     protected Player player;
     protected Animator anim;

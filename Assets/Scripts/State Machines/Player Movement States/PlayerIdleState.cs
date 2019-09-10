@@ -16,5 +16,6 @@ class PlayerIdleState : PlayerMovementState
     public override void HandleMovingTransition()
     {
         this.anim.SetBool("isIdle", false);
+        this.player.ChangeMovementState(new PlayerMovingState(this.player, this.anim));
     }
 }

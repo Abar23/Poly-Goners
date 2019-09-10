@@ -18,6 +18,7 @@ class PlayerMovingState : PlayerMovementState
         this.anim.SetBool("isRunningBackRight", false);
         this.anim.SetBool("isRunningForwardLeft", false);
         this.anim.SetBool("isRunningForwardRight", false);
+        this.player.ChangeMovementState(new PlayerIdleState(this.player, this.anim));
     }
 
     public override void HandleMovingTransition()
