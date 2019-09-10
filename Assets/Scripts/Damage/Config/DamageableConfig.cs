@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Damagable Data", menuName = "ScriptableObjects/DamagableConfig", order = 1)]
-public class DamagableConfig : ScriptableObject
+[CreateAssetMenu(fileName = "Damageable Data", menuName = "ScriptableObjects/DamageableConfig", order = 1)]
+public class DamageableConfig : ScriptableObject
 {
 
     public int MaxHealth;

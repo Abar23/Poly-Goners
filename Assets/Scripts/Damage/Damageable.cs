@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Damagable : MonoBehaviour
+public class Damageable : MonoBehaviour
 {
 
-    public DamagableConfig Config;
+    public DamageableConfig Config;
     public Slider HealthBar;
     int health;
 
@@ -25,7 +25,7 @@ public class Damagable : MonoBehaviour
         if (damager == null)
             return;
 
-        if (damager.Config.Alignment != Config.Alignment)
+        if ((int)damager.Config.Alignment + (int)Config.Alignment > 0x1)
         {
             TakeDamage(damager.Config);
         }
