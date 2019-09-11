@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     public float MoveSpeed = 1.0f;
     public float RotateSpeed = 1.0f;
+    public float Gravity = 10.0f;
     public float JumpSpeed = 1.0f;
     public float FallMultiplier = 2.5f;
     public float LowJumpMultiplier = 2.0f;
@@ -26,7 +27,6 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        anim.SetFloat("VerticalVelocity", GetComponent<Rigidbody>().velocity.y);
         RequestMove();
         RequestRotation();
 
@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
             anim.SetTrigger("CastTrigger");
         }
 
+
+
+
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (FallMultiplier - 1) * Time.deltaTime;
@@ -48,6 +51,7 @@ public class Player : MonoBehaviour
         {
             rb.velocity += Vector3.up * Physics.gravity.y * (LowJumpMultiplier - 1) * Time.deltaTime;
         }
+        
 
     }
 
@@ -77,12 +81,8 @@ public class Player : MonoBehaviour
     public void RequestMove()
     {
         Vector3 moveDir = new Vector3(controllerManager.GetPlayerOneController().GetControllerActions().move.X, 0f, controllerManager.GetPlayerOneController().GetControllerActions().move.Y);
-        if (controllerManager.GetPlayerOneController().GetControllerActions().action1.IsPressed)
-        {
-            playerMovementState.HandleJumpingTransition();
-            rb.velocity = Vector3.up * JumpSpeed;
-        }
-        else
+
+        if (characterController.isGrounded)
         {
             if (moveDir.Equals(Vector3.zero))
             {
@@ -104,8 +104,17 @@ public class Player : MonoBehaviour
                 }
             }
 
-            characterController.Move(moveDir * Time.deltaTime);
+            if (controllerManager.GetPlayerOneController().GetControllerActions().action1.IsPressed && playerMovementState is PlayerIdleState)
+            {
+                playerMovementState.HandleJumpingTransition();
+                rb.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                //moveDir.y = JumpSpeed;
+            }
         }
+
+       // moveDir.y -= Gravity * Time.deltaTime;
+
+        characterController.Move(moveDir * Time.deltaTime);
     }
 
     private void UpdateMovingAnimation(Vector3 moveDir)
