@@ -1,27 +1,25 @@
 ﻿using UnityEngine;
 
-class PlayerIdleState : PlayerMovementState
+class PlayerJumpingState : PlayerMovementState
 {
-    public PlayerIdleState(Player player, Animator anim)
+    public PlayerJumpingState(Player player, Animator anim)
     {
         this.player = player;
         this.anim = anim;
-        this.anim.SetBool("isIdle", true);
+        this.anim.SetTrigger("JumpTrigger");
     }
 
     public override void HandleIdleTransition()
     {
+        this.player.ChangeMovementState(new PlayerIdleState(this.player, this.anim));
     }
 
     public override void HandleMovingTransition()
     {
-        this.anim.SetBool("isIdle", false);
         this.player.ChangeMovementState(new PlayerMovingState(this.player, this.anim));
     }
 
     public override void HandleJumpingTransition()
     {
-        this.anim.SetBool("isIdle", false);
-        this.player.ChangeMovementState(new PlayerJumpingState(this.player, this.anim));
     }
 }

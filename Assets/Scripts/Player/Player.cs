@@ -5,23 +5,50 @@ public class Player : MonoBehaviour
 {
     public float MoveSpeed = 1.0f;
     public float RotateSpeed = 1.0f;
+    public float JumpSpeed = 1.0f;
+    public float FallMultiplier = 2.5f;
+    public float LowJumpMultiplier = 2.0f;
+
     private PlayerMovementState playerMovementState;
     private ControllerManager controllerManager;
     private CharacterController characterController;
     private Animator anim;
+    private Rigidbody rb;
 
     private void Start()
     {
         playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
         controllerManager = ControllerManager.GetInstance().GetComponent<ControllerManager>();
         characterController = GetComponent<CharacterController>();
-        anim = GetComponent<Animator>();        
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        anim.SetFloat("VerticalVelocity", GetComponent<Rigidbody>().velocity.y);
         RequestMove();
         RequestRotation();
+
+        if (controllerManager.GetPlayerOneController().GetControllerActions().rightBumper.WasPressed)
+        {
+            anim.SetTrigger("MeleeTrigger");
+        }
+
+        if (controllerManager.GetPlayerOneController().GetControllerActions().leftBumper.WasPressed)
+        {
+            anim.SetTrigger("CastTrigger");
+        }
+
+        if (rb.velocity.y < 0)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (FallMultiplier - 1) * Time.deltaTime;
+        }
+        else if (rb.velocity.y > 0 && !controllerManager.GetPlayerOneController().GetControllerActions().action1.IsPressed)
+        {
+            rb.velocity += Vector3.up * Physics.gravity.y * (LowJumpMultiplier - 1) * Time.deltaTime;
+        }
+
     }
 
     public void ChangeMovementState(PlayerMovementState state)
@@ -44,31 +71,37 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir, Vector3.up), RotateSpeed * Time.deltaTime);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
         }
-
-
     }
 
 
     public void RequestMove()
     {
         Vector3 moveDir = new Vector3(controllerManager.GetPlayerOneController().GetControllerActions().move.X, 0f, controllerManager.GetPlayerOneController().GetControllerActions().move.Y);
-        if (moveDir.Equals(Vector3.zero))
+        if (controllerManager.GetPlayerOneController().GetControllerActions().action1.IsPressed)
         {
-            playerMovementState.HandleIdleTransition();
-            anim.speed = 1;
+            playerMovementState.HandleJumpingTransition();
+            rb.velocity = Vector3.up * JumpSpeed;
         }
         else
         {
-            playerMovementState.HandleMovingTransition();
-            moveDir *= MoveSpeed;
-            UpdateMovingAnimation(moveDir);
-            if (moveDir.magnitude > 1)
+            if (moveDir.Equals(Vector3.zero))
             {
+                playerMovementState.HandleIdleTransition();
                 anim.speed = 1;
             }
             else
             {
-                anim.speed = (float)Math.Sqrt(moveDir.magnitude);
+                playerMovementState.HandleMovingTransition();
+                moveDir *= MoveSpeed;
+                UpdateMovingAnimation(moveDir);
+                if (moveDir.magnitude > 1)
+                {
+                    anim.speed = 1;
+                }
+                else
+                {
+                    anim.speed = moveDir.normalized.magnitude;
+                }
             }
 
             characterController.Move(moveDir * Time.deltaTime);
@@ -120,8 +153,6 @@ public class Player : MonoBehaviour
                 DisableAnimations();
                 anim.SetBool("isRunningBackward", true);
             }
-
-
         }
     }
 

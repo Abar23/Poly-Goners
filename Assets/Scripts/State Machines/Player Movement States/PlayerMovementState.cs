@@ -10,4 +10,6 @@ public abstract class PlayerMovementState
     public abstract void HandleIdleTransition();
 
     public abstract void HandleMovingTransition();
+
+    public abstract void HandleJumpingTransition();
 }
