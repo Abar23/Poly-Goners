@@ -32,6 +32,9 @@ public class ControllerActions : PlayerActionSet
     public PlayerAction leftTrigger;
     public PlayerAction rightTrigger;
 
+    public PlayerAction leftStickClick;
+    public PlayerAction rightStickClick;
+
     public ControllerActions()
     {
 
@@ -64,6 +67,9 @@ public class ControllerActions : PlayerActionSet
 
         leftTrigger = CreatePlayerAction("Left Trigger");
         rightTrigger = CreatePlayerAction("Right Trigger");
+
+        leftStickClick = CreatePlayerAction("Left Stick Click");
+        rightStickClick = CreatePlayerAction("Right Stick Click");
     }
 
     public static ControllerActions CreateWithKeyBoardBindings()
@@ -97,6 +103,9 @@ public class ControllerActions : PlayerActionSet
 
         actions.leftTrigger.AddDefaultBinding(Key.F);
         actions.rightTrigger.AddDefaultBinding(Key.G);
+
+        actions.leftStickClick.AddDefaultBinding(Key.Q);
+        actions.rightStickClick.AddDefaultBinding(Key.E);
 
         return actions;
     }
@@ -132,6 +141,9 @@ public class ControllerActions : PlayerActionSet
 
         actions.leftTrigger.AddDefaultBinding(InputControlType.LeftTrigger);
         actions.rightTrigger.AddDefaultBinding(InputControlType.RightTrigger);
+
+        actions.leftStickClick.AddDefaultBinding(InputControlType.LeftStickButton);
+        actions.rightStickClick.AddDefaultBinding(InputControlType.RightStickButton);
 
         return actions;
     }
