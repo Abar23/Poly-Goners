@@ -36,5 +36,10 @@ public class MagicBoxController : MonoBehaviour
         {
             Box.FireMagic(4);
         }
+
+        if (ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerOneController().GetControllerActions().leftBumper.WasPressed)
+        {
+            Box.FireMagic(2);
+        }
     }
 }

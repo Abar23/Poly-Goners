@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int PlayerNumber;
     public float MoveSpeed = 1.0f;
     public float RotateSpeed = 1.0f;
     public float Gravity = 14.0f;
@@ -11,61 +12,71 @@ public class Player : MonoBehaviour
     public GameObject Crosshair;
 
     private PlayerMovementState playerMovementState;
-    private ControllerManager controllerManager;
-    private CharacterController characterController;
-    private Animator anim;
+    private CharacterController character;
+    private Animator animator;
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
 
+    public Vector3 MoveDir { get; private set; }
+    public IController Controller { get; private set; }
+
     private void Start()
     {
         playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
-        controllerManager = ControllerManager.GetInstance().GetComponent<ControllerManager>();
-        characterController = GetComponent<CharacterController>();
-        anim = GetComponent<Animator>();
+        character = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         lookDir = transform.forward;
+
+        if (PlayerNumber == 1)
+            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerOneController();
+        else if (PlayerNumber == 2)
+            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerTwoController();
+
     }
 
     private void Update()
     {
-        RequestMove();
-        RequestRotation();
+        UpdateInput();
+        playerMovementState.Update();
+        Debug.Log(transform.forward);
+    }
 
-        if (controllerManager.GetPlayerOneController().GetControllerActions().rightBumper.WasPressed)
+    private void UpdateInput()
+    {
+        HandleMove();
+        HandleRotation();
+
+        if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
-            anim.SetTrigger("MeleeTrigger");
+            animator.SetTrigger("MeleeTrigger");
         }
 
-        if (controllerManager.GetPlayerOneController().GetControllerActions().leftBumper.WasPressed)
+        if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
-            anim.SetTrigger("CastTrigger");
-        }   
-
-        if (controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed &&  playerMovementState is PlayerIdleState)
-        {
-            anim.SetTrigger("RollBack");
+            animator.SetTrigger("CastTrigger");
         }
 
-        if (controllerManager.GetPlayerOneController().GetControllerActions().rightStickClick.WasPressed)
+        if (Controller.GetControllerActions().rightStickClick.WasPressed)
         {
             lockAim = !lockAim;
         }
     }
+
 
     public void ChangeMovementState(PlayerMovementState state)
     {
         playerMovementState = state;
     }
 
-    public void RequestRotation()
+    public void HandleRotation()
     {
         if (!lockAim)
         {
-            lookDir = Vector3.right * controllerManager.GetPlayerOneController().GetControllerActions().look.X + Vector3.forward * controllerManager.GetPlayerOneController().GetControllerActions().look.Y;
+            lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
         }
 
-        Vector3 moveDir = Vector3.right * controllerManager.GetPlayerOneController().GetControllerActions().move.X + Vector3.forward * controllerManager.GetPlayerOneController().GetControllerActions().move.Y;
+        Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
         if (lookDir.sqrMagnitude > 0.0f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir, Vector3.up), RotateSpeed * Time.deltaTime);
@@ -83,26 +94,25 @@ public class Player : MonoBehaviour
     }
 
 
-    public void RequestMove()
+    public void HandleMove()
     {
-        Vector3 moveDir = new Vector3(controllerManager.GetPlayerOneController().GetControllerActions().move.X, 0f, controllerManager.GetPlayerOneController().GetControllerActions().move.Y);
+        MoveDir = new Vector3(Controller.GetControllerActions().move.X, 0f, Controller.GetControllerActions().move.Y);
 
-        if (characterController.isGrounded)
+        if (character.isGrounded)
         {
-            if (moveDir.Equals(Vector3.zero))
+            if (MoveDir.Equals(Vector3.zero))
             {
                 playerMovementState.HandleIdleTransition();
             }
             else
             {
+                MoveDir *= MoveSpeed;
                 playerMovementState.HandleMovingTransition();
-                moveDir *= MoveSpeed;
-                UpdateMovingAnimation(moveDir);
             }
-            
 
+            // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
-            if (controllerManager.GetPlayerOneController().GetControllerActions().action1.WasPressed && !(playerMovementState is PlayerJumpingState))
+            if (Controller.GetControllerActions().action1.WasPressed && !(playerMovementState is PlayerJumpingState))
             {
                 playerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
@@ -110,130 +120,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            moveDir *= MoveSpeed;
+            MoveDir *= MoveSpeed;
             verticalVelocity -= Gravity * Time.deltaTime;
         }
 
-        moveDir.y = verticalVelocity;
-        characterController.Move(moveDir * Time.deltaTime);
-        anim.SetFloat("VerticalVelocity", verticalVelocity);
-
-        float angleBetween = Vector3.Angle(transform.forward, moveDir);
-
-        if (angleBetween > 45 && angleBetween < 135 && moveDir.x < 0 && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState && transform.forward.z >= 0)
-        {
-            anim.SetTrigger("RollLeft");
-        }
-        if (angleBetween > 45 && angleBetween < 135 && moveDir.x > 0 && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState && transform.forward.z >= 0)
-        {
-            anim.SetTrigger("RollRight");
-        }
-        if (angleBetween > 45 && angleBetween < 135 && moveDir.x < 0 && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState && transform.forward.z < 0)
-        {
-            anim.SetTrigger("RollRight");
-        }
-        if (angleBetween > 45 && angleBetween < 135 && moveDir.x > 0 && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState && transform.forward.z < 0)
-        {
-            anim.SetTrigger("RollLeft");
-        }
-        if (angleBetween <= 45f && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState)
-        {
-            anim.SetTrigger("RollForward");
-        }
-        if (angleBetween >= 135 && controllerManager.GetPlayerOneController().GetControllerActions().action2.WasPressed && playerMovementState is PlayerMovingState)
-        {
-            anim.SetTrigger("RollBack");
-        }
+        MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
+        character.Move(MoveDir * Time.deltaTime);
     }
-
-    private void UpdateMovingAnimation(Vector3 moveDir)
-    {
-        if (playerMovementState is PlayerMovingState)
-        {
-            float angleBetween = Vector3.Angle(transform.forward, moveDir);
-            if (angleBetween < 22.5)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningForward", true);
-            }
-            else if(angleBetween >= 22.5 && angleBetween < 67.5 && moveDir.x < 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningForwardLeft", true);
-            }
-            else if (angleBetween >= 22.5 && angleBetween < 67.5 && moveDir.x > 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningForwardRight", true);
-            }
-            else if (angleBetween >= 22.5 && angleBetween < 67.5 && moveDir.x < 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningForwardRight", true);
-            }
-            else if (angleBetween >= 22.5 && angleBetween < 67.5 && moveDir.x > 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningForwardLeft", true);
-            }
-            else if (angleBetween >= 67.5 && angleBetween < 112.5 && moveDir.x < 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isStrafingLeft", true);
-            }
-            else if (angleBetween >= 67.5 && angleBetween < 112.5 && moveDir.x > 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isStrafingRight", true);
-            }
-            else if (angleBetween >= 67.5 && angleBetween < 112.5 && moveDir.x < 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isStrafingRight", true);
-            }
-            else if (angleBetween >= 67.5 && angleBetween < 112.5 && moveDir.x > 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isStrafingLeft", true);
-            }
-            else if (angleBetween >= 112.5 && angleBetween < 157.5 && moveDir.x < 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningBackLeft", true);
-            }
-            else if (angleBetween >= 112.5 && angleBetween < 157.5 && moveDir.x > 0 && transform.forward.z >= 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningBackRight", true);
-            }
-            else if (angleBetween >= 112.5 && angleBetween < 157.5 && moveDir.x < 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningBackRight", true);
-            }
-            else if (angleBetween >= 112.5 && angleBetween < 157.5 && moveDir.x > 0 && transform.forward.z < 0)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningBackLeft", true);
-            }
-            else if (angleBetween >= 157.5)
-            {
-                DisableAnimations();
-                anim.SetBool("isRunningBackward", true);
-            }
-        }
-    }
-
-    private void DisableAnimations()
-    {
-        anim.SetBool("isRunningForward", false);
-        anim.SetBool("isRunningBackward", false);
-        anim.SetBool("isStrafingLeft", false);
-        anim.SetBool("isStrafingRight", false);
-        anim.SetBool("isRunningBackLeft", false);
-        anim.SetBool("isRunningBackRight", false);
-        anim.SetBool("isRunningForwardLeft", false);
-        anim.SetBool("isRunningForwardRight", false);
-    }
-
 }

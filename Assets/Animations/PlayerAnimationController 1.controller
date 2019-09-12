@@ -291,7 +291,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Armed-Roll-Forward
+  m_Name: Roll Forward
   m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions: []
@@ -395,7 +395,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Armed-Roll-Right
+  m_Name: Roll Right
   m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions: []
@@ -592,12 +592,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: VerticalVelocity
-    m_Type: 1
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
   - m_Name: RollBack
     m_Type: 9
     m_DefaultFloat: 0
@@ -713,7 +707,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.2
+  m_TransitionDuration: 0.15
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 0
@@ -886,49 +880,49 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 2123065346969843204}
-    m_Position: {x: -210, y: -650, z: 0}
+    m_Position: {x: -80, y: -610, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5656013247825582908}
-    m_Position: {x: -170, y: -290, z: 0}
+    m_Position: {x: -60, y: -390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7503659251936562556}
-    m_Position: {x: -530, y: -520, z: 0}
+    m_Position: {x: -490, y: -460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2365020242922072692}
-    m_Position: {x: -520, y: -450, z: 0}
+    m_Position: {x: -370, y: -390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3112921504609297394}
-    m_Position: {x: 30, y: -450, z: 0}
+    m_Position: {x: 100, y: -510, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 818856601026945964}
-    m_Position: {x: -420, y: -280, z: 0}
+    m_Position: {x: -210, y: -340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1128599110946478889}
-    m_Position: {x: 90, y: -280, z: 0}
+    m_Position: {x: 70, y: -450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2993736808672504318}
-    m_Position: {x: -420, y: -650, z: 0}
+    m_Position: {x: -210, y: -670, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7194926337043563385}
-    m_Position: {x: 10, y: -590, z: 0}
+    m_Position: {x: 20, y: -560, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4753478135974883059}
-    m_Position: {x: -550, y: -380, z: 0}
+    m_Position: {x: -390, y: -730, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3281473025453732314}
-    m_Position: {x: -670, y: -310, z: 0}
+    m_Position: {x: -390, y: -800, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6630891313955982121}
-    m_Position: {x: -650, y: -650, z: 0}
+    m_Position: {x: -610, y: -600, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5833430733272260780}
-    m_Position: {x: -660, y: -230, z: 0}
+    m_Position: {x: -720, y: -660, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2754301760246773267}
-    m_Position: {x: -320, y: -210, z: 0}
+    m_Position: {x: -500, y: -660, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3339333720282888475}
-    m_Position: {x: 20, y: -200, z: 0}
+    m_Position: {x: -610, y: -720, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 215139340657699395}
@@ -948,9 +942,9 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -190, y: -440, z: 0}
-  m_EntryPosition: {x: -760, y: -520, z: 0}
-  m_ExitPosition: {x: -720, y: -450, z: 0}
+  m_AnyStatePosition: {x: -190, y: -450, z: 0}
+  m_EntryPosition: {x: -720, y: -460, z: 0}
+  m_ExitPosition: {x: -720, y: -400, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -7503659251936562556}
 --- !u!1101 &4040088286715085721
@@ -985,9 +979,6 @@ AnimatorStateTransition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: isJumping
-    m_EventTreshold: 0
-  - m_ConditionMode: 3
-    m_ConditionEvent: VerticalVelocity
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -4753478135974883059}
@@ -1085,7 +1076,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Armed-Roll-Left
+  m_Name: Roll Left
   m_Speed: 1.3
   m_CycleOffset: 0
   m_Transitions: []

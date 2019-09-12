@@ -5,11 +5,13 @@ using UnityEngine;
 public abstract class PlayerMovementState
 {
     protected Player player;
-    protected Animator anim;
+    protected Animator animator;
 
     public abstract void HandleIdleTransition();
 
     public abstract void HandleMovingTransition();
 
     public abstract void HandleJumpingTransition();
+
+    public abstract void Update();
 }
