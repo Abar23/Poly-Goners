@@ -37,7 +37,7 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         if (MotionActive)
-            transform.Translate(Vector3.right * Speed * Time.deltaTime, Space.World);
+            transform.Translate(Vector3.right * Speed * Time.deltaTime);
     }
 
     public void ProjectileInvoke()
@@ -59,7 +59,7 @@ public class Projectile : MonoBehaviour
     public void Reset()
     {
         TriggerEvent(OnReset);
-        transform.position = Vector3.zero;
+        transform.localPosition = Vector3.zero;
         activeTime = 0f;
         MotionActive = true;
         gameObject.SetActive(false);
