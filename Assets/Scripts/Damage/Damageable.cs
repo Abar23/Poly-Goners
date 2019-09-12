@@ -31,6 +31,18 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        Damager damager = collision.collider.GetComponent<Damager>();
+        if (damager == null)
+            return;
+
+        if ((int)damager.Config.Alignment + (int)Config.Alignment > 0x1)
+        {
+            TakeDamage(damager.Config);
+        }
+    }
+
     void TakeDamage(DamagerConfig config)
     {
         if (config is OneTimeDamagerConfig)
