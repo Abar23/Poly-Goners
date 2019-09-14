@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     {
         UpdateInput();
         playerMovementState.Update();
-        Debug.Log(transform.forward);
+        //Debug.Log(transform.forward);
     }
 
     private void UpdateInput()
