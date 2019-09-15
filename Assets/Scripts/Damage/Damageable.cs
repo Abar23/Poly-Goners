@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Damageable : MonoBehaviour
 {
 
     public DamageableConfig Config;
-    public Slider HealthBar;
-    int health;
 
-    void Start()
+    [SerializeField] private UnityEvent OnHit;
+
+    [SerializeField] private UnityEvent OnDeath;
+
+    [SerializeField] private Slider HealthBar;
+
+    private int health;
+
+    void Awake()
     {
         health = Config.StartingHealth;
     }
@@ -17,6 +24,11 @@ public class Damageable : MonoBehaviour
     void Update()
     {
         HealthBar.value = health / (float)Config.MaxHealth;
+    }
+
+    public int GetHealth()
+    {
+        return health;
     }
 
     void OnTriggerEnter(Collider other)
@@ -50,6 +62,7 @@ public class Damageable : MonoBehaviour
         if (config is OneTimeDamagerConfig)
         {
             health -= config.Damage;
+            TriggerEvent(OnHit);
             CheckHealth();
         }
         else
@@ -72,8 +85,25 @@ public class Damageable : MonoBehaviour
     {
         if (health <= 0)
         {
-            Destroy(gameObject);
+            TriggerEvent(OnDeath);
         }
     }
 
+    void TriggerEvent(UnityEvent uEvent)
+    {
+        if (uEvent != null)
+        {
+            uEvent.Invoke();
+        }
+    }
+
+    public void ScheduleDestroy(float time)
+    {
+        Invoke("DestoryThis", time);
+    }
+
+    void DestoryThis()
+    {
+        Destroy(gameObject);
+    }
 }
