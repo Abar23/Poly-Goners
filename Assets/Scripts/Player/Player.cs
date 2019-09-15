@@ -27,19 +27,17 @@ public class Player : MonoBehaviour
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         lookDir = transform.forward;
-
-        if (PlayerNumber == 1)
-            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerOneController();
-        else if (PlayerNumber == 2)
-            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerTwoController();
-
     }
 
     private void Update()
     {
+        if (PlayerNumber == 1)
+            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerOneController();
+        else
+            Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerTwoController();
+
         UpdateInput();
         playerMovementState.Update();
-        Debug.Log(transform.forward);
     }
 
     private void UpdateInput()
