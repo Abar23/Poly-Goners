@@ -6,12 +6,15 @@ public class Sword : MonoBehaviour, IWeapon
 {
     bool beingHeld = false;
     bool swingingWeapon = false;
+    private bool ableToHitEnemy = false;
     public GameObject playerHand;
     private Collider collider;
     public GameObject player;
     private float swingTime;
     private float elapsedTime;
-    private bool ableToHitEnemy;
+
+    private Vector3 pickupPosition = new Vector3(0.058f, 0.037f, 0.173f);
+    private Vector3 pickupRotation = new Vector3(-71.232f, -119.827f, 89.33301f);
 
     void Start() {
         collider = GetComponent<Collider>();
@@ -24,24 +27,19 @@ public class Sword : MonoBehaviour, IWeapon
             if (elapsedTime > swingTime) {
                 elapsedTime = 0;
                 ableToHitEnemy = true;
-                
-                if (!collider.enabled)
-                    ToggleHitbox();
-
                 swingingWeapon = false;
                 ableToHitEnemy = false;
+                collider.enabled = false;
             }
         }
     }
 
     void PickUpByPlayer() {
         this.transform.parent = playerHand.transform;
-        //this.transform.position = new Vector3(0.08472525f, 0.07799925f, 0.179994f);
-        this.transform.position = new Vector3(playerHand.transform.position.x + 0.08472525f, playerHand.transform.position.y + 0.07799925f, playerHand.transform.position.z + 0.179994f);
-        //Quaternion rotation = Quaternion.Euler(602.791f - playerHand.transform.rotation.x, 69.25199f - playerHand.transform.rotation.y, 69.32098f + playerHand.transform.rotation.z);
-        Quaternion rotation = Quaternion.Euler(45, 45, 45);
-        this.transform.rotation = rotation;
+        this.transform.localPosition = pickupPosition;
+        this.transform.localEulerAngles = pickupRotation;
         player.GetComponent<Player>().ChangeCurrentWeapon(this);
+        collider.enabled = false; // turn hitbox off until weapon is swung
     }
 
     void ToggleHitbox() {
@@ -52,6 +50,7 @@ public class Sword : MonoBehaviour, IWeapon
         swingingWeapon = true;
         swingTime = animationTime;
         ableToHitEnemy = true;
+        collider.enabled = true;
     }
 
     void OnTriggerEnter() {
@@ -59,8 +58,8 @@ public class Sword : MonoBehaviour, IWeapon
             beingHeld = true;
             PickUpByPlayer();
         } else if (ableToHitEnemy) {
-            ToggleHitbox();
             ableToHitEnemy = false;
+            collider.enabled = false;
         }
     }
 }
