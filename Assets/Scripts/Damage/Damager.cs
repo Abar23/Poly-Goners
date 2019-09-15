@@ -21,7 +21,8 @@ public class Damager : MonoBehaviour
         {
             TriggerEvent(OnHitDummy);
         }
-        else if ((int)damageable.Config.Alignment + (int)Alignment <= 1)
+        else if ((int)damageable.Config.Alignment + (int)Alignment <= 1
+            || damageable.Config.Alignment == Alignment)
         {
             TriggerEvent(OnHitAlly);
         }
