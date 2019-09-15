@@ -13,18 +13,26 @@ public class MagicBox : MonoBehaviour
         public float CoolDown;
     }
 
+    [SerializeField] private Alignment m_Alignment;
+
     public List<Spell> Spells;
 
     private float[] coolDowns;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         coolDowns = new float[Spells.Count];
         MagicPool.Instance.Initialize(Spells);
+        foreach (Spell spell in Spells)
+        {
+            Damager damager = spell.Object.GetComponent<Damager>();
+            if (damager != null)
+            {
+                damager.Alignment = m_Alignment;
+            }
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         for (int i = 0; i < coolDowns.Length; i++)

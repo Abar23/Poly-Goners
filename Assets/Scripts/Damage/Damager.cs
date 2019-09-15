@@ -6,9 +6,8 @@ using UnityEngine.Events;
 public class Damager : MonoBehaviour
 {
 
-    public delegate void Hit();
-
     public DamagerConfig Config;
+    public Alignment Alignment;
 
     [Header("Events")]
     public UnityEvent OnCauseDamage;
@@ -22,7 +21,7 @@ public class Damager : MonoBehaviour
         {
             TriggerEvent(OnHitDummy);
         }
-        else if ((int)damageable.Config.Alignment + (int)Config.Alignment <= 1)
+        else if ((int)damageable.Config.Alignment + (int)Alignment <= 1)
         {
             TriggerEvent(OnHitAlly);
         }

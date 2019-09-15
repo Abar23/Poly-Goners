@@ -25,7 +25,7 @@ public class Damageable : MonoBehaviour
         if (damager == null)
             return;
 
-        if ((int)damager.Config.Alignment + (int)Config.Alignment > 0x1)
+        if ((int)damager.Alignment + (int)Config.Alignment > 0x1)
         {
             TakeDamage(damager.Config);
         }
@@ -37,7 +37,7 @@ public class Damageable : MonoBehaviour
         if (damager == null)
             return;
 
-        if ((int)damager.Config.Alignment + (int)Config.Alignment > 0x1)
+        if ((int)damager.Alignment + (int)Config.Alignment > 0x1)
         {
             TakeDamage(damager.Config);
         }
