@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
 
+    private IWeapon currentWeapon;
+
     private void Start()
     {
         playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
@@ -50,6 +52,7 @@ public class Player : MonoBehaviour
         if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
             animator.SetTrigger("MeleeTrigger");
+            currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
         }
 
         if (Controller.GetControllerActions().leftBumper.WasPressed)
@@ -63,6 +66,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ChangeCurrentWeapon(IWeapon weapon) {
+        currentWeapon = weapon;
+    }
 
     public void ChangeMovementState(PlayerMovementState state)
     {
