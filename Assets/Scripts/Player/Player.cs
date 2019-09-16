@@ -36,8 +36,11 @@ public class Player : MonoBehaviour
         else
             Controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerTwoController();
 
-        UpdateInput();
-        playerMovementState.Update();
+        if (!(Controller is NullController))
+        {
+            UpdateInput();
+            playerMovementState.Update();
+        }
     }
 
     private void UpdateInput()
@@ -124,5 +127,13 @@ public class Player : MonoBehaviour
 
         MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
         character.Move(MoveDir * Time.deltaTime);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "MainCamera")
+        {
+            Physics.IgnoreCollision(collision.collider, GetComponent<Collider>());
+        }
     }
 }
