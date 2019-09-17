@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class MagicBox : MonoBehaviour
 {
 
@@ -13,18 +14,28 @@ public class MagicBox : MonoBehaviour
         public float CoolDown;
     }
 
-    public List<Spell> Spells;
+    [SerializeField] private Alignment m_Alignment;
+
+    [SerializeField] private List<Spell> m_Spells;
 
     private float[] coolDowns;
+    private MagicPool pool;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        coolDowns = new float[Spells.Count];
-        MagicPool.Instance.Initialize(Spells);
+        coolDowns = new float[m_Spells.Count];
+        pool = new MagicPool();
+        foreach (Spell spell in m_Spells)
+        {
+            Damager damager = spell.Object.GetComponent<Damager>();
+            if (damager != null)
+            {
+                damager.Alignment = m_Alignment;
+            }
+        }
+        pool.Initialize(m_Spells);
     }
 
-    // Update is called once per frame
     void Update()
     {
         for (int i = 0; i < coolDowns.Length; i++)
@@ -39,14 +50,21 @@ public class MagicBox : MonoBehaviour
         {
             return false;
         }
-        GameObject magic = MagicPool.Instance.Require(index);
+        GameObject magic = pool.Require(index);
+        magic.transform.rotation = transform.rotation;
+        magic.transform.position = transform.position;
         Projectile projectile = magic.GetComponent<Projectile>();
         if (projectile == null)
         {
             return false;
         }
         projectile.ProjectileInvoke();
-        coolDowns[index] = Spells[index].CoolDown;
+        coolDowns[index] = m_Spells[index].CoolDown;
         return true;
+    }
+    
+    public int GetNumberOfSpells()
+    {
+        return m_Spells.Count;
     }
 }

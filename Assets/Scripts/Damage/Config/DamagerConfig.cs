@@ -13,8 +13,6 @@ public class DamagerConfig : ScriptableObject
 
     public DamageType Type;
 
-    public Alignment Alignment;
-
     public int Damage;
 
 }

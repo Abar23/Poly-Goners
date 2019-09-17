@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private int totalNumberOfCollectables;
 
     public int numberOfCollectedItems { get; private set; }
+
     public bool hasPlayerWon { get; private set; }
     public Text collectedText;
     public Text winText;

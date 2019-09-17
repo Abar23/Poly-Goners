@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
 
     private bool MotionActive = true;
     private float activeTime = 0f;
+    private MagicPool magicPool;
 
     void Update()
     {
@@ -37,7 +38,7 @@ public class Projectile : MonoBehaviour
     void FixedUpdate()
     {
         if (MotionActive)
-            transform.Translate(Vector3.right * Speed * Time.deltaTime, Space.World);
+            transform.Translate(Vector3.right * Speed * Time.deltaTime);
     }
 
     public void ProjectileInvoke()
@@ -59,16 +60,21 @@ public class Projectile : MonoBehaviour
     public void Reset()
     {
         TriggerEvent(OnReset);
-        transform.position = Vector3.zero;
+        transform.localPosition = Vector3.zero;
         activeTime = 0f;
         MotionActive = true;
         gameObject.SetActive(false);
-        MagicPool.Instance.Realse(gameObject);
+        magicPool.Realse(gameObject);
     }
 
     public void ResetDestructionCountDown()
     {
         activeTime = 0f;
+    }
+
+    public void RegistMagicPool(MagicPool mp)
+    {
+        magicPool = mp;
     }
 
     void TriggerEvent(UnityEvent uEvent){

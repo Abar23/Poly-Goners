@@ -5,27 +5,10 @@ using UnityEngine;
 public class MagicPool
 {
 
-    #region Singleton
-    private static MagicPool _instance;
-
-    public static MagicPool Instance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = new MagicPool();
-            }
-            return _instance;
-        }
-    }
-
-    private MagicPool()
+    public MagicPool()
     {
 
     }
-
-    #endregion
 
     List<GameObject> samples;
     Dictionary<GameObject, List<GameObject>> pools;
@@ -51,6 +34,7 @@ public class MagicPool
         {
             GameObject newObject = MonoBehaviour.Instantiate(sample);
             Projectile projectile = newObject.GetComponent<Projectile>();
+            projectile.RegistMagicPool(this);
             projectile.Sample = sample;
             pools[sample].Add(newObject);
         }
