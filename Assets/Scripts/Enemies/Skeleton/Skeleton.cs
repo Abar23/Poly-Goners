@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(SkeletonAnimatorController))]
-public class SkeletonKing : MonoBehaviour
+public class Skeleton : MonoBehaviour
 {
 
     [SerializeField] private TargetScanner m_Scanner;
-    [SerializeField] private Transform m_Player;
+    private static Transform m_Player;
     [SerializeField] private float m_AttackDelay = 3.0f;
 
     private NavMeshAgent m_Agent;
@@ -20,7 +20,10 @@ public class SkeletonKing : MonoBehaviour
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_Controller = GetComponent<SkeletonAnimatorController>();
-        
+        if (m_Player == null)
+        {
+            m_Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
     }
 
     void Start()
