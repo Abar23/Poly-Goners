@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonController : MonoBehaviour
+[RequireComponent(typeof(Animator), typeof(Damageable))]
+public class SkeletonAnimatorController : MonoBehaviour
 {
 
-    [SerializeField] private Animator m_Animator;
+    private Animator m_Animator;
 
-    [SerializeField] private Damageable m_Damageable;
+    private Damageable m_Damageable;
+
+    void Awake()
+    {
+        m_Animator = GetComponent<Animator>();
+        m_Damageable = GetComponent<Damageable>();
+    }
 
     public void OnHit()
     {
@@ -21,6 +28,16 @@ public class SkeletonController : MonoBehaviour
     public void OnDead()
     {
         m_Animator.SetBool("IsDead", true);
+    }
+
+    public void Attack(bool isAttacking)
+    {
+        m_Animator.SetBool("IsAttacking", isAttacking);
+    }
+
+    public void Walk(bool isWalking)
+    {
+        m_Animator.SetBool("IsWalking", isWalking);
     }
     
 }
