@@ -18,11 +18,13 @@ public class MagicBox : MonoBehaviour
     [SerializeField] private List<Spell> m_Spells;
 
     private float[] coolDowns;
+    private MagicPool pool;
 
     void Awake()
     {
         coolDowns = new float[m_Spells.Count];
-        MagicPool.Instance.Initialize(m_Spells);
+        pool = new MagicPool();
+        pool.Initialize(m_Spells);
         foreach (Spell spell in m_Spells)
         {
             Damager damager = spell.Object.GetComponent<Damager>();
@@ -47,7 +49,7 @@ public class MagicBox : MonoBehaviour
         {
             return false;
         }
-        GameObject magic = MagicPool.Instance.Require(index);
+        GameObject magic = pool.Require(index);
         Projectile projectile = magic.GetComponent<Projectile>();
         if (projectile == null)
         {
