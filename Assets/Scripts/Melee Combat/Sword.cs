@@ -69,4 +69,8 @@ public class Sword : MonoBehaviour, IWeapon
             collider.enabled = false;
         }
     }
+
+    public bool CheckIfAttacking() {
+        return swingingWeapon;
+    }
 }

@@ -5,4 +5,6 @@ using UnityEngine;
 public interface IWeapon
 {
     void SwingWeapon(float animationTime);
+
+    bool CheckIfAttacking();
 }

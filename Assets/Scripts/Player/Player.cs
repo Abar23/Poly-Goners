@@ -51,8 +51,10 @@ public class Player : MonoBehaviour
 
         if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
-            animator.SetTrigger("MeleeTrigger");
-            currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+            if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) {
+                animator.SetTrigger("MeleeTrigger");
+                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+            }
         }
 
         if (Controller.GetControllerActions().leftBumper.WasPressed)
