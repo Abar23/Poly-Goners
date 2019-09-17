@@ -62,4 +62,9 @@ public class MagicBox : MonoBehaviour
         coolDowns[index] = m_Spells[index].CoolDown;
         return true;
     }
+    
+    public int GetNumberOfSpells()
+    {
+        return m_Spells.Count;
+    }
 }

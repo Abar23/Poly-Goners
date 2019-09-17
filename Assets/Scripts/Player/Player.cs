@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
+    private int activeSpellIndex;
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         lookDir = transform.forward;
+        activeSpellIndex = 0;
     }
 
     private void Update()
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
     {
         HandleMove();
         HandleRotation();
+        HandleMagicChange();
 
         if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
@@ -64,7 +67,7 @@ public class Player : MonoBehaviour
 
         if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
-            if (magicBox.FireMagic(2))
+            if (magicBox.FireMagic(activeSpellIndex))
             {
                 animator.SetTrigger("CastTrigger");
             }
@@ -141,11 +144,32 @@ public class Player : MonoBehaviour
         character.Move(MoveDir * Time.deltaTime);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void HandleMagicChange()
     {
-        if(collision.gameObject.tag == "MainCamera")
+        ControllerActions actions = Controller.GetControllerActions();
+        int totalNumberOfSpells = magicBox.GetNumberOfSpells();
+
+        if (actions.dPadLeft.WasPressed)
         {
-            Physics.IgnoreCollision(collision.collider, GetComponent<Collider>());
+            if (activeSpellIndex - 1 < 0)
+            {
+                activeSpellIndex = totalNumberOfSpells - 1;
+            }
+            else
+            {
+                activeSpellIndex--;
+            }
+        }
+        else if (actions.dPadRight.WasPressed)
+        {
+            if (activeSpellIndex + 1 > totalNumberOfSpells - 1)
+            {
+                activeSpellIndex = 0;
+            }
+            else
+            {
+                activeSpellIndex++;
+            }
         }
     }
 }
