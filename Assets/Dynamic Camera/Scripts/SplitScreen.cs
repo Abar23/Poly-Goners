@@ -101,7 +101,7 @@ public class SplitScreen : MonoBehaviour {
 
 			} else {
 				//Lerps the second cameras position and rotation to that of the second midpoint, so relative to the second player.
-				camera2.transform.position = Vector3.Lerp(camera2.transform.position,midPoint2 + new Vector3(0,10,-7),Time.deltaTime*5);
+				camera2.transform.position = Vector3.Lerp(camera2.transform.position,midPoint2 + new Vector3(0,10,-5),Time.deltaTime*5);
 				Quaternion newRot2 = Quaternion.LookRotation(midPoint2-camera2.transform.position);
 				camera2.transform.rotation = Quaternion.Lerp(camera2.transform.rotation, newRot2, Time.deltaTime*5);
 			}
@@ -115,7 +115,7 @@ public class SplitScreen : MonoBehaviour {
 
 		/*Lerps the first cameras position and rotation to that of the second midpoint, so relative to the first player
 		or when both players are in view it lerps the camera to their midpoint.*/
-		camera1.transform.position = Vector3.Lerp(camera1.transform.position,midPoint + new Vector3(0,10,-7),Time.deltaTime*5);
+		camera1.transform.position = Vector3.Lerp(camera1.transform.position,midPoint + new Vector3(0,10,-5),Time.deltaTime*5);
 		Quaternion newRot = Quaternion.LookRotation(midPoint-camera1.transform.position);
 		camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime*5);
 	}
