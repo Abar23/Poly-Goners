@@ -49,7 +49,7 @@ public class MagicPool
         GameObject result;
         if (pools[sample].Count == 0)
         {
-            GameObject newObject = MonoBehaviour.Instantiate(sample);
+            GameObject newObject = MonoBehaviour.Instantiate(sample, sample.GetComponentInParent<Transform>());
             Projectile projectile = newObject.GetComponent<Projectile>();
             projectile.Sample = sample;
             pools[sample].Add(newObject);
