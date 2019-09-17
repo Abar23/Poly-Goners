@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class MagicBox : MonoBehaviour
 {
 
@@ -24,7 +25,6 @@ public class MagicBox : MonoBehaviour
     {
         coolDowns = new float[m_Spells.Count];
         pool = new MagicPool();
-        pool.Initialize(m_Spells);
         foreach (Spell spell in m_Spells)
         {
             Damager damager = spell.Object.GetComponent<Damager>();
@@ -33,6 +33,7 @@ public class MagicBox : MonoBehaviour
                 damager.Alignment = m_Alignment;
             }
         }
+        pool.Initialize(m_Spells);
     }
 
     void Update()
@@ -50,6 +51,8 @@ public class MagicBox : MonoBehaviour
             return false;
         }
         GameObject magic = pool.Require(index);
+        magic.transform.rotation = transform.rotation;
+        magic.transform.position = transform.position;
         Projectile projectile = magic.GetComponent<Projectile>();
         if (projectile == null)
         {

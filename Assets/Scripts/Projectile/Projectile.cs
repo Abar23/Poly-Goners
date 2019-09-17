@@ -23,6 +23,7 @@ public class Projectile : MonoBehaviour
 
     private bool MotionActive = true;
     private float activeTime = 0f;
+    private MagicPool magicPool;
 
     void Update()
     {
@@ -63,12 +64,17 @@ public class Projectile : MonoBehaviour
         activeTime = 0f;
         MotionActive = true;
         gameObject.SetActive(false);
-        MagicPool.Instance.Realse(gameObject);
+        magicPool.Realse(gameObject);
     }
 
     public void ResetDestructionCountDown()
     {
         activeTime = 0f;
+    }
+
+    public void RegistMagicPool(MagicPool mp)
+    {
+        magicPool = mp;
     }
 
     void TriggerEvent(UnityEvent uEvent){

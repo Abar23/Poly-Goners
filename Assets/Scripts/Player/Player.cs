@@ -11,6 +11,10 @@ public class Player : MonoBehaviour
     public float CrosshairDistance = 3.0f;
     public GameObject Crosshair;
 
+    #region MagicCast
+    private MagicBox magicBox;
+    #endregion
+
     private PlayerMovementState playerMovementState;
     private CharacterController character;
     private Animator animator;
@@ -20,6 +24,11 @@ public class Player : MonoBehaviour
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
+
+    void Awake()
+    {
+        magicBox = GetComponentInChildren<MagicBox>();
+    }
 
     private void Start()
     {
@@ -55,7 +64,10 @@ public class Player : MonoBehaviour
 
         if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
-            animator.SetTrigger("CastTrigger");
+            if (magicBox.FireMagic(2))
+            {
+                animator.SetTrigger("CastTrigger");
+            }
         }
 
         if (Controller.GetControllerActions().rightStickClick.WasPressed)
