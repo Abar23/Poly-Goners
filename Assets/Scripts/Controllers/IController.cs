@@ -7,5 +7,7 @@ public interface IController
 
     ControllerActions GetControllerActions();
 
+    bool isUsingKeyboard();
+
     void SetControllerActions(ControllerActions controllerActions);
 }

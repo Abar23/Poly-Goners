@@ -99,7 +99,19 @@ public class Player : MonoBehaviour
     {
         if (!lockAim)
         {
-            lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
+            if(Controller.isUsingKeyboard())
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    lookDir = hit.point - transform.position;
+                }
+            }
+            else
+            {
+                lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
+            }
         }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
