@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
     public void HandleMove()
     {
         MoveDir = new Vector3(Controller.GetControllerActions().move.X, 0f, Controller.GetControllerActions().move.Y);
-
+        Debug.LogError(MoveDir.ToString());
         if (character.isGrounded)
         {
             if (MoveDir.Equals(Vector3.zero))
