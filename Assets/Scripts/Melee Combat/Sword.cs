@@ -38,7 +38,6 @@ public class Sword : MonoBehaviour, IWeapon
                 swingingWeapon = false;
                 ableToHitEnemy = false;
                 collider.enabled = false;
-                Debug.Log("Attack animation finished.");
             }
         }
     }
@@ -73,7 +72,7 @@ public class Sword : MonoBehaviour, IWeapon
             player = other.gameObject;
             beingHeld = true;
             PickUpByPlayer();
-            
+
         } else if (ableToHitEnemy) {
             ableToHitEnemy = false;
             collider.enabled = false;
