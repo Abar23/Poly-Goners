@@ -30,7 +30,7 @@ public class MagicPool
     public GameObject Require(GameObject sample)
     {
         GameObject result;
-        if (pools[sample].Count == 0)
+        if (pools[sample].Count <= 0)
         {
             GameObject newObject = MonoBehaviour.Instantiate(sample);
             Projectile projectile = newObject.GetComponent<Projectile>();

@@ -24,11 +24,12 @@ public class Projectile : MonoBehaviour
     private bool MotionActive = true;
     private float activeTime = 0f;
     private MagicPool magicPool;
+    private bool selfDestructionActive = true;
 
     void Update()
     {
         activeTime += Time.deltaTime;
-        if (activeTime > SelfDestructionTime)
+        if (activeTime > SelfDestructionTime && selfDestructionActive)
         {
             TriggerEvent(OnDestruction);
             Reset();
@@ -60,16 +61,16 @@ public class Projectile : MonoBehaviour
     public void Reset()
     {
         TriggerEvent(OnReset);
-        transform.localPosition = Vector3.zero;
         activeTime = 0f;
         MotionActive = true;
         gameObject.SetActive(false);
         magicPool.Realse(gameObject);
+        selfDestructionActive = true;
     }
 
     public void ResetDestructionCountDown()
     {
-        activeTime = 0f;
+        selfDestructionActive = false;
     }
 
     public void RegistMagicPool(MagicPool mp)
