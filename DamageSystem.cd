@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ContinuousDamagerConfig">
+    <Position X="4" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAAAAABAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Config\ContinuousDamagerConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DamageableConfig">
+    <Position X="8.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAGAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Config\DamageableConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DamagerConfig">
+    <Position X="5.25" Y="4.25" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="DamagerConfig.DamageType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Damage\Config\DamagerConfig.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Config\DamagerConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OneTimeDamagerConfig">
+    <Position X="6.5" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="DamagerConfig" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="5.934" />
+        <Point X="6" Y="6.812" />
+        <Point X="6.5" Y="6.812" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Config\OneTimeDamagerConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Damageable">
+    <Position X="8.25" Y="1.25" Width="1.5" />
+    <Members>
+      <Method Name="Awake" Hidden="true" />
+      <Method Name="DestoryThis" Hidden="true" />
+      <Method Name="GetHealth" Hidden="true" />
+      <Field Name="HealthBar" Hidden="true" />
+      <Method Name="ScheduleDestroy" Hidden="true" />
+      <Method Name="Update" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQIAAAAAgACAAAAAAAAAIABAAEAgABIQBAAgCAAAEg=</HashCode>
+      <FileName>Assets\Scripts\Damage\Damageable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Config" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Damager">
+    <Position X="5.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAgAAAAAAACAEAAABAAAAAIAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Damager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Config" />
+    </ShowAsAssociation>
+  </Class>
+  <Enum Name="Alignment">
+    <Position X="10.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAACAACAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Config\DamageableConfig.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

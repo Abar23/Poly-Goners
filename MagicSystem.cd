@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="A projectile requests two components: Projectile and Damager.">
+    <Position X="10.542" Y="6.929" Height="0.75" Width="1.7" />
+  </Comment>
+  <Class Name="MagicPool">
+    <Position X="5.75" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAQAEAAAAAAAAACAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\MagicPool.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="pools" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MagicBox">
+    <Position X="3.25" Y="4" Width="1.75" />
+    <Members>
+      <Method Name="Awake" Hidden="true" />
+      <Method Name="Update" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="MagicBox.Spell">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Damage\MagicBox.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQSAAAAAAAAAAAAAAAAAAAAAACAgAAAACAEA=</HashCode>
+      <FileName>Assets\Scripts\Damage\MagicBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="pool" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;" Collapsed="true">
+    <Position X="5.75" Y="6.75" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;.Enumerator" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Struct>
+      <Class Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;.KeyCollection" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Class>
+      <Class Name="System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;.ValueCollection" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Projectile">
+    <Position X="8.75" Y="4" Width="1.5" />
+    <Members>
+      <Method Name="FixedUpdate" Hidden="true" />
+      <Field Name="Sample" Hidden="true" />
+      <Field Name="selfDestructionActive" Hidden="true" />
+      <Method Name="Update" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAhAAAgIIBIAAAAAAACBBAACACEAAAEAAAABgCAI=</HashCode>
+      <FileName>Assets\Scripts\Projectile\Projectile.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="magicPool" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Damager">
+    <Position X="10.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAgAAAAAAACAEAAABAAAAAIAAQAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Damage\Damager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
