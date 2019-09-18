@@ -5,8 +5,8 @@ class PlayerJumpingState : PlayerMovementState
     public PlayerJumpingState(Player player, Animator anim)
     {
         this.player = player;
-        this.animator = anim;
-        this.animator.SetBool("isJumping", true);
+        animator = anim;
+        animator.SetBool("isJumping", true);
     }
 
     public override void HandleGroundedTransition()

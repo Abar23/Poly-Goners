@@ -5,8 +5,8 @@ class PlayerRollingState : PlayerMovementState
     public PlayerRollingState(Player player, Animator anim)
     {
         this.player = player;
-        this.animator = anim;
-        this.animator.SetBool("isRolling", true);
+        animator = anim;
+        animator.SetBool("isRolling", true);
     }
 
     public override void HandleGroundedTransition()
