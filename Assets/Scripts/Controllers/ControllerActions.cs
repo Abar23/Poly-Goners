@@ -88,24 +88,24 @@ public class ControllerActions : PlayerActionSet
 
         actions.start.AddDefaultBinding(Key.Escape);
 
-        actions.action1.AddDefaultBinding(Key.Key1);
-        actions.action2.AddDefaultBinding(Key.Key2);
-        actions.action3.AddDefaultBinding(Key.Key3);
-        actions.action4.AddDefaultBinding(Key.Key4);
+        actions.action1.AddDefaultBinding(Key.Space);
+        actions.action2.AddDefaultBinding(Key.LeftControl);
+        actions.action3.AddDefaultBinding(Key.Key3); // Not used
+        actions.action4.AddDefaultBinding(Key.Key4); // Not used
 
-        actions.dPadUp.AddDefaultBinding(Key.UpArrow);
+        actions.dPadUp.AddDefaultBinding(Key.UpArrow); 
         actions.dPadDown.AddDefaultBinding(Key.DownArrow);
-        actions.dPadLeft.AddDefaultBinding(Key.LeftArrow);
-        actions.dPadRight.AddDefaultBinding(Key.RightArrow);
+        actions.dPadLeft.AddDefaultBinding(Key.Q);
+        actions.dPadRight.AddDefaultBinding(Key.E);
 
-        actions.leftBumper.AddDefaultBinding(Key.R);
-        actions.rightBumper.AddDefaultBinding(Key.T);
+        actions.leftBumper.AddDefaultBinding(Mouse.LeftButton);
+        actions.rightBumper.AddDefaultBinding(Mouse.RightButton);
 
-        actions.leftTrigger.AddDefaultBinding(Key.F);
-        actions.rightTrigger.AddDefaultBinding(Key.G);
+        actions.leftTrigger.AddDefaultBinding(Key.F); // Not used
+        actions.rightTrigger.AddDefaultBinding(Key.G); // Not used
 
-        actions.leftStickClick.AddDefaultBinding(Key.Q);
-        actions.rightStickClick.AddDefaultBinding(Key.E);
+        actions.leftStickClick.AddDefaultBinding(Key.Tilde); // Not used, so it is put far away from the player
+        actions.rightStickClick.AddDefaultBinding(Mouse.MiddleButton);
 
         return actions;
     }
