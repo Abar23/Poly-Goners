@@ -227,7 +227,7 @@ AnimatorState:
   - {fileID: -6826329156130525082}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -283,7 +283,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.3
   m_TransitionOffset: 0
-  m_ExitTime: 0.70000005
+  m_ExitTime: 0.7
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -303,61 +303,67 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: VerticalMovement
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isMoving
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 1
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: isJumping
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: isRolling
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   - m_Name: MeleeTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: CastTrigger
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: RollBack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: RollLeft
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: RollRight
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: RollForward
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -553,16 +559,16 @@ AnimatorStateMachine:
     m_Position: {x: -350, y: -590, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6630891313955982121}
-    m_Position: {x: -730, y: -300, z: 0}
+    m_Position: {x: -750, y: -330, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5833430733272260780}
-    m_Position: {x: -620, y: -240, z: 0}
+    m_Position: {x: -640, y: -260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2754301760246773267}
-    m_Position: {x: -400, y: -240, z: 0}
+    m_Position: {x: -390, y: -260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3339333720282888475}
-    m_Position: {x: -270, y: -300, z: 0}
+    m_Position: {x: -270, y: -330, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5474193282531962682}
     m_Position: {x: -510, y: -460, z: 0}
@@ -571,9 +577,9 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -870, y: -530, z: 0}
-  m_EntryPosition: {x: -770, y: -450, z: 0}
-  m_ExitPosition: {x: -870, y: -390, z: 0}
+  m_AnyStatePosition: {x: -810, y: -550, z: 0}
+  m_EntryPosition: {x: -810, y: -460, z: 0}
+  m_ExitPosition: {x: -810, y: -500, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -5474193282531962682}
 --- !u!1101 &3918399405135132378

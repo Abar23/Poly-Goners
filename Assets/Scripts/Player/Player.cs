@@ -128,10 +128,16 @@ public class Player : MonoBehaviour
         {
             MoveDir *= MoveSpeed;
             playerMovementState.HandleGroundedTransition();
+            
+            // Handle Roll Input
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling())
+            {
+                playerMovementState.HandleRollingTransition();
+            }
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
-            if (Controller.GetControllerActions().action1.WasPressed && !(playerMovementState is PlayerJumpingState))
+            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()))
             {
                 playerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
@@ -145,6 +151,16 @@ public class Player : MonoBehaviour
 
         MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
         character.Move(MoveDir * Time.deltaTime);
+    }
+
+    private bool IsRolling()
+    {
+        return animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Forward") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Back")
+            || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Right") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Left")
+            //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Forward -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Back -> Moving")
+            //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Right -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Left -> Moving")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Forward") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Back")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
     }
 
     private void HandleMagicChange()

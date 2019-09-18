@@ -11,5 +11,7 @@ public abstract class PlayerMovementState
 
     public abstract void HandleJumpingTransition();
 
+    public abstract void HandleRollingTransition();
+
     public abstract void Update();
 }
