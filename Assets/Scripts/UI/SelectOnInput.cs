@@ -7,11 +7,17 @@ public class SelectOnInput : MonoBehaviour
     public GameObject SelectedGameObject;
 
     private bool _buttonSelected;
-	
-	// Update is called once per frame
-	void Update ()
+    private ControllerManager cm;
+
+    private void Start()
+    {
+        cm = ControllerManager.GetInstance().GetComponent<ControllerManager>();
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
-	    if (!Input.GetAxisRaw("Vertical").Equals(0.0f) && _buttonSelected == false)
+	    if (!cm.GetPlayerOneController().GetControllerActions().move.Y.Equals(0f) && _buttonSelected == false)
 	    {
             EventSystem.SetSelectedGameObject(SelectedGameObject);
             _buttonSelected = true;
