@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
 
+    private IWeapon currentWeapon;
+
     void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
@@ -62,7 +64,11 @@ public class Player : MonoBehaviour
 
         if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
-            animator.SetTrigger("MeleeTrigger");
+                if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
+                {
+                    animator.SetTrigger("MeleeTrigger");
+                    currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                }
         }
 
         if (Controller.GetControllerActions().leftBumper.WasPressed)
@@ -79,6 +85,10 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ChangeCurrentWeapon(IWeapon weapon) 
+    {
+        currentWeapon = weapon;
+    }
 
     public void ChangeMovementState(PlayerMovementState state)
     {
