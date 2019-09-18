@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
         {
             if (magicBox.FireMagic(activeSpellIndex))
             {
+                Debug.Log(magicBox.FireMagic(activeSpellIndex));
                 animator.SetTrigger("CastTrigger");
             }
         }
@@ -151,25 +152,11 @@ public class Player : MonoBehaviour
 
         if (actions.dPadLeft.WasPressed)
         {
-            if (activeSpellIndex - 1 < 0)
-            {
-                activeSpellIndex = totalNumberOfSpells - 1;
-            }
-            else
-            {
-                activeSpellIndex--;
-            }
+            activeSpellIndex = (activeSpellIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
         }
         else if (actions.dPadRight.WasPressed)
         {
-            if (activeSpellIndex + 1 > totalNumberOfSpells - 1)
-            {
-                activeSpellIndex = 0;
-            }
-            else
-            {
-                activeSpellIndex++;
-            }
+            activeSpellIndex = (activeSpellIndex + 1) % totalNumberOfSpells;
         }
     }
 }
