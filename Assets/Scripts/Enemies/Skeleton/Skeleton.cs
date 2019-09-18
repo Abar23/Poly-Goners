@@ -80,7 +80,7 @@ public class Skeleton : MonoBehaviour
         return toPlayer.magnitude;
     }
 
-    void EnableWalk(bool isWalking)
+    public void EnableWalk(bool isWalking)
     {
         m_Agent.isStopped = !isWalking;
         m_Controller.Walk(isWalking);
