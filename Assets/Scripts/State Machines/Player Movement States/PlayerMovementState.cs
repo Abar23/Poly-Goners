@@ -7,9 +7,7 @@ public abstract class PlayerMovementState
     protected Player player;
     protected Animator animator;
 
-    public abstract void HandleIdleTransition();
-
-    public abstract void HandleMovingTransition();
+    public abstract void HandleGroundedTransition();
 
     public abstract void HandleJumpingTransition();
 

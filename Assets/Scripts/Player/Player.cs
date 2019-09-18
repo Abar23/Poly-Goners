@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
+        playerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         lookDir = transform.forward;
@@ -116,15 +116,8 @@ public class Player : MonoBehaviour
 
         if (character.isGrounded)
         {
-            if (MoveDir.Equals(Vector3.zero))
-            {
-                playerMovementState.HandleIdleTransition();
-            }
-            else
-            {
-                MoveDir *= MoveSpeed;
-                playerMovementState.HandleMovingTransition();
-            }
+            MoveDir *= MoveSpeed;
+            playerMovementState.HandleGroundedTransition();
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
