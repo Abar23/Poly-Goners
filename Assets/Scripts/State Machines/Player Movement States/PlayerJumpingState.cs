@@ -24,6 +24,12 @@ class PlayerJumpingState : PlayerMovementState
         player.ChangeMovementState(new PlayerRollingState(this.player, this.animator));
     }
 
+    public override void HandleDeathTransition()
+    {
+        animator.SetBool("isJumping", false);
+        player.ChangeMovementState(new PlayerDeathState(this.player, this.animator));
+    }
+
     public override void Update()
     {
     }

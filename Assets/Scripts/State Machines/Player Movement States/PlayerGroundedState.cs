@@ -25,6 +25,12 @@ class PlayerGroundedState : PlayerMovementState
         player.ChangeMovementState(new PlayerRollingState(player, animator));
     }
 
+    public override void HandleDeathTransition()
+    {
+        animator.SetBool("isMoving", false);
+        player.ChangeMovementState(new PlayerDeathState(this.player, this.animator));
+    }
+
     public override void Update()
     {
         float angleBetween = Vector3.Angle(player.transform.forward, player.MoveDir);

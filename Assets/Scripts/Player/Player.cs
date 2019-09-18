@@ -51,8 +51,11 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            UpdateInput();
-            playerMovementState.Update();
+            if (!(playerMovementState is PlayerDeathState))
+            {
+                UpdateInput();
+                playerMovementState.Update();
+            }
         }
     }
 
@@ -151,6 +154,11 @@ public class Player : MonoBehaviour
 
         MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
         character.Move(MoveDir * Time.deltaTime);
+    }
+
+    public void HandleDeath()
+    {
+        playerMovementState.HandleDeathTransition();
     }
 
     private bool IsRolling()
