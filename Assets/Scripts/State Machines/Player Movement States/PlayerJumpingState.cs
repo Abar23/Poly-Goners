@@ -5,24 +5,29 @@ class PlayerJumpingState : PlayerMovementState
     public PlayerJumpingState(Player player, Animator anim)
     {
         this.player = player;
-        this.animator = anim;
-        this.animator.SetBool("isJumping", true);
+        animator = anim;
+        animator.SetBool("isJumping", true);
     }
 
-    public override void HandleIdleTransition()
+    public override void HandleGroundedTransition()
     {
-        this.player.ChangeMovementState(new PlayerIdleState(this.player, this.animator));
-        this.animator.SetBool("isJumping", false);
-    }
-
-    public override void HandleMovingTransition()
-    {
-        this.player.ChangeMovementState(new PlayerMovingState(this.player, this.animator));
-        this.animator.SetBool("isJumping", false);
+        animator.SetBool("isJumping", false);
+        player.ChangeMovementState(new PlayerGroundedState(this.player, this.animator));
     }
 
     public override void HandleJumpingTransition()
     {
+    }
+    public override void HandleRollingTransition()
+    {
+        animator.SetBool("isJumping", false);
+        player.ChangeMovementState(new PlayerRollingState(this.player, this.animator));
+    }
+
+    public override void HandleDeathTransition()
+    {
+        animator.SetBool("isJumping", false);
+        player.ChangeMovementState(new PlayerDeathState(this.player, this.animator));
     }
 
     public override void Update()

@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        playerMovementState = new PlayerIdleState(this, GetComponent<Animator>());
+        playerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         lookDir = transform.forward;
@@ -51,8 +51,11 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            UpdateInput();
-            playerMovementState.Update();
+            if (!(playerMovementState is PlayerDeathState))
+            {
+                UpdateInput();
+                playerMovementState.Update();
+            }
         }
     }
 
@@ -99,7 +102,19 @@ public class Player : MonoBehaviour
     {
         if (!lockAim)
         {
-            lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
+            if(Controller.isUsingKeyboard())
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit))
+                {
+                    lookDir = hit.point - transform.position;
+                }
+            }
+            else
+            {
+                lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
+            }
         }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
@@ -123,22 +138,21 @@ public class Player : MonoBehaviour
     public void HandleMove()
     {
         MoveDir = new Vector3(Controller.GetControllerActions().move.X, 0f, Controller.GetControllerActions().move.Y);
-        Debug.LogError(MoveDir.ToString());
+
         if (character.isGrounded)
         {
-            if (MoveDir.Equals(Vector3.zero))
+            MoveDir *= MoveSpeed;
+            playerMovementState.HandleGroundedTransition();
+            
+            // Handle Roll Input
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling())
             {
-                playerMovementState.HandleIdleTransition();
-            }
-            else
-            {
-                MoveDir *= MoveSpeed;
-                playerMovementState.HandleMovingTransition();
+                playerMovementState.HandleRollingTransition();
             }
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
-            if (Controller.GetControllerActions().action1.WasPressed && !(playerMovementState is PlayerJumpingState))
+            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()))
             {
                 playerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
@@ -152,6 +166,21 @@ public class Player : MonoBehaviour
 
         MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
         character.Move(MoveDir * Time.deltaTime);
+    }
+
+    public void HandleDeath()
+    {
+        playerMovementState.HandleDeathTransition();
+    }
+
+    private bool IsRolling()
+    {
+        return animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Forward") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Back")
+            || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Right") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Left")
+            //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Forward -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Back -> Moving")
+            //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Right -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Left -> Moving")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Forward") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Back")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
     }
 
     private void HandleMagicChange()

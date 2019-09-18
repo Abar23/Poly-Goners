@@ -24,4 +24,9 @@ public class Controller : IController
     {
         this.controllerActions = controllerActions;
     }
+
+    public bool isUsingKeyboard()
+    {
+        return this.controllerActions.Device == null;
+    }
 }
