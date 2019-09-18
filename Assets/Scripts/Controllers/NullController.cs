@@ -17,4 +17,9 @@ public class NullController : IController
     {
 
     }
+
+    public bool isUsingKeyboard()
+    {
+        return false;
+    }
 }
