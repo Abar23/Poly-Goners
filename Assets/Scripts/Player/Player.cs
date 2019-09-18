@@ -69,7 +69,6 @@ public class Player : MonoBehaviour
         {
             if (magicBox.FireMagic(activeSpellIndex))
             {
-                Debug.Log(magicBox.FireMagic(activeSpellIndex));
                 animator.SetTrigger("CastTrigger");
             }
         }
