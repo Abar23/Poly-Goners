@@ -124,7 +124,7 @@ public class ControllerActions : PlayerActionSet
         actions.lookLeft.AddDefaultBinding(InputControlType.RightStickLeft);
         actions.lookRight.AddDefaultBinding(InputControlType.RightStickRight);
 
-        actions.start.AddDefaultBinding(InputControlType.Start);
+        actions.start.AddDefaultBinding(InputControlType.Options);
 
         actions.action1.AddDefaultBinding(InputControlType.Action1);
         actions.action2.AddDefaultBinding(InputControlType.Action2);
