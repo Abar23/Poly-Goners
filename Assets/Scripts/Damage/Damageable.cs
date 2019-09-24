@@ -59,6 +59,8 @@ public class Damageable : MonoBehaviour
 
     void TakeDamage(DamagerConfig config)
     {
+        if (health <= 0)
+            return;
         if (config is OneTimeDamagerConfig)
         {
             health -= config.Damage;
@@ -68,7 +70,7 @@ public class Damageable : MonoBehaviour
         else
         {
             StartCoroutine("TakeContinuousDamage", config);
-        }        
+        }
     }
 
     IEnumerator TakeContinuousDamage(ContinuousDamagerConfig config)
