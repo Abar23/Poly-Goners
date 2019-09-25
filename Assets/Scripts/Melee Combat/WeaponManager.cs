@@ -17,6 +17,8 @@ public class WeaponManager : MonoBehaviour
     public void EquipSword()
     {
         sword.SetActive(true);
+
+        UnequipAxe(); // change this
     }
 
     public void UnequipSword()
@@ -27,6 +29,8 @@ public class WeaponManager : MonoBehaviour
     public void EquipAxe()
     {
         axe.SetActive(true);
+                
+        UnequipSword(); // change this
     }
 
     public void UnequipAxe()
