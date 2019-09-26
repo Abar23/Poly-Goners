@@ -6,6 +6,7 @@ public class WeaponManager : MonoBehaviour
 {
     private GameObject sword;
     private GameObject axe;
+    private GameObject dagger;
     private Dictionary<string, GameObject> weaponPickups = new Dictionary<string, GameObject>();
     private GameObject currentWeapon;
 
@@ -17,6 +18,9 @@ public class WeaponManager : MonoBehaviour
 
         axe = this.gameObject.transform.GetChild(1).gameObject;
         weaponPickups.Add("Axe Pickup", axe);
+
+        dagger = this.gameObject.transform.GetChild(2).gameObject;
+        weaponPickups.Add("Dagger Pickup", dagger);
     }
 
     public void EquipWeapon(string weaponPickupType)
