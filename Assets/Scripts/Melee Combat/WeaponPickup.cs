@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordPickup : MonoBehaviour
+public class WeaponPickup : MonoBehaviour
 {
     private WeaponManager weaponManager;
 
@@ -13,7 +13,7 @@ public class SwordPickup : MonoBehaviour
             weaponManager = other.gameObject.GetComponentInChildren<WeaponManager>();
             if (weaponManager != null) 
             {
-                weaponManager.EquipSword();
+                weaponManager.EquipWeapon(this.gameObject.name);
                 Destroy(this.gameObject);
             }
         }

@@ -6,35 +6,41 @@ public class WeaponManager : MonoBehaviour
 {
     private GameObject sword;
     private GameObject axe;
+    private Dictionary<string, GameObject> weaponPickups = new Dictionary<string, GameObject>();
+    private GameObject currentWeapon;
 
     void Start()
     {
-        // weapon indices must correspond to child number for GetChild (i.e. sword is the first child so use index 0)
+        // child indices must correspond to order that weapons appear as children under Weapons prefab
         sword = this.gameObject.transform.GetChild(0).gameObject;
+        weaponPickups.Add("Sword Pickup", sword);
+
         axe = this.gameObject.transform.GetChild(1).gameObject;
+        weaponPickups.Add("Axe Pickup", axe);
     }
 
-    public void EquipSword()
+    public void EquipWeapon(string weaponPickupType)
     {
-        sword.SetActive(true);
-
-        UnequipAxe(); // change this
+        if (weaponPickups[weaponPickupType] != null)
+        {
+            UnequipCurrentWeapon();
+            weaponPickups[weaponPickupType].SetActive(true);
+            currentWeapon = weaponPickups[weaponPickupType];
+        }
     }
 
-    public void UnequipSword()
+    public void UnequipWeapon(string weaponPickupType)
     {
-        sword.SetActive(false);
+        if (weaponPickups[weaponPickupType] != null)
+        {
+            weaponPickups[weaponPickupType].SetActive(false);
+            currentWeapon = null;
+        }
     }
 
-    public void EquipAxe()
+    void UnequipCurrentWeapon()
     {
-        axe.SetActive(true);
-                
-        UnequipSword(); // change this
-    }
-
-    public void UnequipAxe()
-    {
-        axe.SetActive(false);
+        if (currentWeapon != null)
+            currentWeapon.SetActive(false);
     }
 }
