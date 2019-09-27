@@ -27,10 +27,12 @@ public class Player : MonoBehaviour
     public IController Controller { get; private set; }
 
     private IWeapon currentWeapon;
+    private WeaponManager weaponManager;
 
     void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
+        weaponManager = GetComponentInChildren<WeaponManager>();
     }
 
     private void Start()
@@ -69,7 +71,10 @@ public class Player : MonoBehaviour
         {
                 if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
                 {
-                    animator.SetTrigger("MeleeTrigger");
+                    string trigger = weaponManager.GetPrimaryAttackAnimationTrigger();
+                    Debug.Log(trigger);
+                    //animator.SetTrigger("MeleeTrigger");
+                    animator.SetTrigger(trigger);
                     currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
                 }
         }
