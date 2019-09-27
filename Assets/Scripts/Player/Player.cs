@@ -1,30 +1,37 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public int PlayerNumber;
+    public Player OtherPlayer;
     public float MoveSpeed = 1.0f;
     public float RotateSpeed = 1.0f;
     public float Gravity = 14.0f;
     public float JumpSpeed = 10.0f;
     public float CrosshairDistance = 3.0f;
     public GameObject Crosshair;
+    public GameObject RevivePrompt;
+    public Image RevivePromptFill;
 
     #region MagicCast
     private MagicBox magicBox;
     #endregion
 
-    private PlayerMovementState playerMovementState;
     private CharacterController character;
     private Animator animator;
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
     private int activeSpellIndex;
+    private float reviveTimer;
+    private float timeToRevive = 3f;
+    private float reviveDistance = 2.5f;
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
+    public PlayerMovementState PlayerMovementState { get; private set; }
 
     private IWeapon currentWeapon;
 
@@ -35,11 +42,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        playerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
+        PlayerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
+        RevivePrompt.SetActive(false);
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         lookDir = transform.forward;
         activeSpellIndex = 0;
+        reviveTimer = 0f;
     }
 
     private void Update()
@@ -51,10 +60,10 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            if (!(playerMovementState is PlayerDeathState))
+            if (!(PlayerMovementState is PlayerDeathState))
             {
                 UpdateInput();
-                playerMovementState.Update();
+                PlayerMovementState.Update();
             }
         }
     }
@@ -65,15 +74,47 @@ public class Player : MonoBehaviour
         HandleRotation();
         HandleMagicChange();
 
-        if (Controller.GetControllerActions().rightBumper.WasPressed)
+        float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
+
+        // Check if able to revive the other player
+        if (dist < reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
         {
-                if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
+            OtherPlayer.RevivePrompt.gameObject.SetActive(true);
+            OtherPlayer.RevivePromptFill.fillAmount = reviveTimer / timeToRevive;
+
+            if (Controller.GetControllerActions().action3.IsPressed)
+            {
+                reviveTimer += Time.deltaTime;
+
+                if (reviveTimer > timeToRevive)
                 {
-                    animator.SetTrigger("MeleeTrigger");
-                    currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                    OtherPlayer.PlayerMovementState.HandleGroundedTransition();
+                    OtherPlayer.GetComponent<Damageable>().RevivePlayer();
                 }
+            }
+            else
+            {
+                if (reviveTimer > 0f)
+                    reviveTimer -= Time.deltaTime * 2f;
+            }
+        }
+        else if (dist >= reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
+        {
+            OtherPlayer.RevivePrompt.gameObject.SetActive(false);
+            reviveTimer = 0f;
         }
 
+        // Perform melee attack
+        if (Controller.GetControllerActions().rightBumper.WasPressed)
+        {
+            if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
+            {
+                animator.SetTrigger("MeleeTrigger");
+                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+            }
+        }
+
+        // Perform magic attack
         if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
             if (magicBox.FireMagic(activeSpellIndex))
@@ -82,6 +123,7 @@ public class Player : MonoBehaviour
             }
         }
 
+        // Lock on 
         if (Controller.GetControllerActions().rightStickClick.WasPressed)
         {
             lockAim = !lockAim;
@@ -95,7 +137,7 @@ public class Player : MonoBehaviour
 
     public void ChangeMovementState(PlayerMovementState state)
     {
-        playerMovementState = state;
+        PlayerMovementState = state;
     }
 
     public void HandleRotation()
@@ -142,19 +184,19 @@ public class Player : MonoBehaviour
         if (character.isGrounded)
         {
             MoveDir *= MoveSpeed;
-            playerMovementState.HandleGroundedTransition();
+            PlayerMovementState.HandleGroundedTransition();
             
             // Handle Roll Input
             if (Controller.GetControllerActions().action2.WasPressed && !IsRolling())
             {
-                playerMovementState.HandleRollingTransition();
+                PlayerMovementState.HandleRollingTransition();
             }
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
             if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()))
             {
-                playerMovementState.HandleJumpingTransition();
+                PlayerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
             }
         }
@@ -170,7 +212,7 @@ public class Player : MonoBehaviour
 
     public void HandleDeath()
     {
-        playerMovementState.HandleDeathTransition();
+        PlayerMovementState.HandleDeathTransition();
     }
 
     private bool IsRolling()
