@@ -6,6 +6,7 @@ public class Axe : Weapon
 {
     private Vector3 startPosition = new Vector3(0.058f, 0.037f, 0.173f);
     private Vector3 startRotation = new Vector3(109.232f, -119.827f, 89.33301f);
+    
 
     void Start()
     {

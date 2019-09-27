@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private PlayerMovementState playerMovementState;
     private CharacterController character;
     private Animator animator;
+    private AnimatorOverrideController animatorOverrideController;
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
@@ -40,6 +41,8 @@ public class Player : MonoBehaviour
         playerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
         activeSpellIndex = 0;
     }
@@ -71,9 +74,8 @@ public class Player : MonoBehaviour
         {
                 if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
                 {
-                    string trigger = weaponManager.GetPrimaryAttackAnimationTrigger();
-                    //animator.SetTrigger("MeleeTrigger");
-                    animator.SetTrigger(trigger);
+                    animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
+                    animator.SetTrigger("PrimaryAttackTrigger");
                     currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
                 }
         }

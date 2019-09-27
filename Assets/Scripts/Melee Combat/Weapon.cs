@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private float swingTime;
     private float elapsedTime;
     private Collider collider;
+    public WeaponAnimationConfig weaponAnimationConfig;
 
     public void Start()
     {
@@ -49,5 +50,10 @@ public class Weapon : MonoBehaviour, IWeapon
             ableToHitEnemy = false;
             collider.enabled = false;
         }
+    }
+
+    public WeaponAnimationConfig GetAnimationConfig()
+    {
+        return weaponAnimationConfig;
     }
 }
