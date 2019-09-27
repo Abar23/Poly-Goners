@@ -27,6 +27,7 @@ public class Weapon : MonoBehaviour, IWeapon
             {
                 elapsedTime = 0;
                 swingingWeapon = false;
+                this.GetComponent<Damager>().enabled = true;
             }
         }
     }
@@ -48,7 +49,7 @@ public class Weapon : MonoBehaviour, IWeapon
         if (ableToHitEnemy)
         {
             ableToHitEnemy = false;
-            collider.enabled = false;
+            this.GetComponentInChildren<Damager>().enabled = false;
         }
     }
 
