@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 
     private IWeapon currentWeapon;
 
-    void Awake()
+    private void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
     }
