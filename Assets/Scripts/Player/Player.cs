@@ -72,7 +72,6 @@ public class Player : MonoBehaviour
                 if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
                 {
                     string trigger = weaponManager.GetPrimaryAttackAnimationTrigger();
-                    Debug.Log(trigger);
                     //animator.SetTrigger("MeleeTrigger");
                     animator.SetTrigger(trigger);
                     currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
