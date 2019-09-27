@@ -30,6 +30,13 @@ public class Skeleton : MonoBehaviour
                 m_Players.Add(ob.transform);
             }
         }
+        RoomController room = gameObject.GetComponentInParent<RoomController>();
+        Damageable damageable = gameObject.GetComponent<Damageable>();
+        if (damageable != null && room != null)
+        {
+            room.RegisterEnemy();
+            damageable.OnDeath.AddListener(room.RemoveEnemy);
+        }
     }
 
     void Start()

@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class InteractableObject : MonoBehaviour
 {
 
-    [SerializeField] UnityEvent onTriggerInvoke;
+    [SerializeField] private UnityEvent onTriggerInvoke;
 
-    [SerializeField] UnityEvent onTriggerDevoke;
+    [SerializeField] private UnityEvent onTriggerDevoke;
 
     void OnTriggerEnter(Collider other)
     {

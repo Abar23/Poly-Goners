@@ -9,10 +9,15 @@ public class ChestBox : MonoBehaviour
 
     private const float k_openAngle = 60f;
     private const int k_numSteps = 50;
+    private bool isOpen = false;
 
     public void OpenChest()
     {
-        StartCoroutine(OpenLid());
+        if (!isOpen)
+        {
+            StartCoroutine(OpenLid());
+            isOpen = true;
+        }
     }
 
     IEnumerator OpenLid()

@@ -8,13 +8,14 @@ public class Damageable : MonoBehaviour
 
     public DamageableConfig Config;
 
-    [SerializeField] private UnityEvent OnHit;
+    [SerializeField] public UnityEvent OnHit;
 
-    [SerializeField] private UnityEvent OnDeath;
+    [SerializeField] public UnityEvent OnDeath;
 
     [SerializeField] private Slider HealthBar;
 
     private int health;
+    private bool isDead = false;
 
     void Awake()
     {
@@ -85,9 +86,10 @@ public class Damageable : MonoBehaviour
 
     void CheckHealth()
     {
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
             TriggerEvent(OnDeath);
+            isDead = true;
         }
     }
 
