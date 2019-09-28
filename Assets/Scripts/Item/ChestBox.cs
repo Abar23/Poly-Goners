@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChestBox : MonoBehaviour
 {
 
     [SerializeField] private GameObject m_Lid;
+    [SerializeField] private UnityEvent m_AfterOpen;
 
     private const float k_openAngle = 60f;
     private const int k_numSteps = 50;
@@ -27,6 +29,10 @@ public class ChestBox : MonoBehaviour
         {
             m_Lid.transform.Rotate(-Vector3.right, step_angle);
             yield return new WaitForEndOfFrame();
+        }
+        if (m_AfterOpen != null)
+        {
+            m_AfterOpen.Invoke();
         }
     }
 

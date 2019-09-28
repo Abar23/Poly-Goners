@@ -2195,7 +2195,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.45, y: 1.8, z: 0.45}
+  m_Size: {x: 2, y: 2, z: 2}
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!143 &4291733561623052618
 CharacterController:
@@ -2234,6 +2234,11 @@ MonoBehaviour:
   JumpSpeed: 10
   CrosshairDistance: 4
   Crosshair: {fileID: 4291733562885094423}
+  OnMeleeAttack:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &8100180240666157892
 MonoBehaviour:
   m_ObjectHideFlags: 0
