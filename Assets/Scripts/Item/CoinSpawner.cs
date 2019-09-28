@@ -44,6 +44,10 @@ public class CoinSpawner : MonoBehaviour
     {
         for (int i = 0; i < iterations; i++)
         {
+            if (rigidbody == null)
+            {
+                break;
+            }
             rigidbody.AddRelativeForce(force, ForceMode.Force);
             yield return new WaitForFixedUpdate();
         }
