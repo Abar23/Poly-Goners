@@ -19,8 +19,10 @@ public class Player : MonoBehaviour
     private MagicBox magicBox;
     #endregion
 
+    private Inventory inventory;
     private CharacterController character;
     private Animator animator;
+    private AnimatorOverrideController animatorOverrideController;
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
@@ -34,18 +36,23 @@ public class Player : MonoBehaviour
     public PlayerMovementState PlayerMovementState { get; private set; }
 
     private IWeapon currentWeapon;
+    private WeaponManager weaponManager;
 
     private void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
+        weaponManager = GetComponentInChildren<WeaponManager>();
     }
 
     private void Start()
     {
+        inventory = GetComponent<Inventory>();
         PlayerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         RevivePrompt.SetActive(false);
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
         activeSpellIndex = 0;
         reviveTimer = 0f;
@@ -75,7 +82,7 @@ public class Player : MonoBehaviour
         HandleMagicChange();
 
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
-
+        
         // Check if able to revive the other player
         if (dist < reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
         {
@@ -109,8 +116,9 @@ public class Player : MonoBehaviour
         {
             if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
             {
-                animator.SetTrigger("MeleeTrigger");
-                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
+				animator.SetTrigger("PrimaryAttackTrigger");
+				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
             }
         }
 
