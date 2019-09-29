@@ -12,8 +12,12 @@ Unity incorporates a tool called UnityYAMLMerge that can merge scene and prefab 
 
 # Third Party Package Dependencies
 
-	POLYGON - Adventure Pack.unitypackage
-	POLYGON - Nature Pack.unitypackage
-	InControl - Get InControl unity package from shared Google Drive Folder
-	FX Mega Pack - added since 09/07
-	Lowpoly Dungeon Assets (https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-dungeon-assets-117330)
+	InControl.unitypackage - On Shared Google Drive Folder
+	FX Mega Pack.unitypackage - On OSU Box
+	Mini Skeleton Swarm Pack.unitypackage - On OSU Box
+	POLYGON - Adventure Pack.unitypackage - On OSU Box
+	POLYGON - Nature Pack.unitypackage - On OSU Box
+	PolyWorld Woodland Low Poly Toolkit.unitypackage - On OSU Box
+
+	Lowpoly Dungeon Assets - Free On Unity Store
+		- (https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-dungeon-assets-117330) (Delete Sample Scenes)

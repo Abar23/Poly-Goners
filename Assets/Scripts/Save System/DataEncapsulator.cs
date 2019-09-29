@@ -2,6 +2,6 @@
 
 public class DataEncapsulator : MonoBehaviour
 {
-    public PlayerController playerController;
+    public Player playerController;
     public GameObject collectibles;
 }

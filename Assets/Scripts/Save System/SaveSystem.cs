@@ -7,7 +7,7 @@ public static class SaveSystem
     public static LevelData loadedLevelData { get; private set; }
     public static bool shouldLevelBeLoaded = false;
 
-    public static void SaveLevel(PlayerController playerController, GameObject collectibles)
+    public static void SaveLevel(Player playerController, GameObject collectibles)
     {
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/levelData.pgs"; // The generated binary file will custom extensions. pgs stands for poly-goners
