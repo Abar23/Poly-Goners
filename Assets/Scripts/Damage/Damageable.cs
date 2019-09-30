@@ -31,6 +31,11 @@ public class Damageable : MonoBehaviour
         return health;
     }
 
+    public void RevivePlayer()
+    {
+        health = Config.MaxHealth / 4;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         Damager damager = other.GetComponent<Damager>();

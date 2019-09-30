@@ -11,6 +11,8 @@ class PlayerDeathState : PlayerMovementState
 
     public override void HandleGroundedTransition()
     {
+        animator.SetBool("isDead", false);
+        player.ChangeMovementState(new PlayerGroundedState(this.player, this.animator));
     }
 
     public override void HandleJumpingTransition()
