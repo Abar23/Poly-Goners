@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public GameObject Crosshair;
     public GameObject RevivePrompt;
     public Image RevivePromptFill;
+    public Image MeleeDropFill;
 
     #region MagicCast
     private MagicBox magicBox;
@@ -27,9 +28,14 @@ public class Player : MonoBehaviour
     private bool lockAim = false;
     private Vector3 lookDir;
     private int activeSpellIndex;
+
     private float reviveTimer;
     private float timeToRevive = 3f;
     private float reviveDistance = 2.5f;
+
+    private float dropTimer;
+    private float timeToDrop = 2f;
+    private bool itemDropped = false;
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
@@ -46,16 +52,17 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        inventory = GetComponent<Inventory>();
         PlayerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         RevivePrompt.SetActive(false);
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        inventory = GetComponent<Inventory>();
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
         activeSpellIndex = 0;
         reviveTimer = 0f;
+        dropTimer = 0f;
     }
 
     private void Update()
@@ -131,6 +138,33 @@ public class Player : MonoBehaviour
             }
         }
 
+        // Drop melee weapon
+        MeleeDropFill.fillAmount = dropTimer / timeToDrop;
+        if (Controller.GetControllerActions().dPadRight.WasReleased && !itemDropped)
+        {
+            animator.SetTrigger("SwitchWeapons");
+        }
+        else if (currentWeapon != null && Controller.GetControllerActions().dPadRight.IsPressed)
+        {
+            dropTimer += Time.deltaTime;
+
+            if (dropTimer > timeToDrop)
+            {
+                inventory.DropWeapon();
+                dropTimer = 0f;
+                itemDropped = true;
+            }
+        }
+        else if (Controller.GetControllerActions().dPadRight.WasReleased && itemDropped)
+        {
+            itemDropped = false;
+        }
+        else
+        {
+            if (dropTimer > 0f)
+                dropTimer -= Time.deltaTime * 2f;
+        }
+
         // Lock on 
         if (Controller.GetControllerActions().rightStickClick.WasPressed)
         {
@@ -141,6 +175,7 @@ public class Player : MonoBehaviour
     public void ChangeCurrentWeapon(IWeapon weapon) 
     {
         currentWeapon = weapon;
+        itemDropped = false;
     }
 
     public void ChangeMovementState(PlayerMovementState state)
@@ -242,9 +277,11 @@ public class Player : MonoBehaviour
         {
             activeSpellIndex = (activeSpellIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
         }
-        else if (actions.dPadRight.WasPressed)
-        {
-            activeSpellIndex = (activeSpellIndex + 1) % totalNumberOfSpells;
-        }
+    }
+
+    // For the switch weapon animation event
+    public void SwitchWeapon()
+    {
+        inventory.NextMeleeWeapon();
     }
 }

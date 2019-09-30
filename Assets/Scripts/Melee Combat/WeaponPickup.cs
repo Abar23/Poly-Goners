@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeaponPickup : MonoBehaviour
 {
@@ -10,11 +8,16 @@ public class WeaponPickup : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            weaponManager = other.gameObject.GetComponentInChildren<WeaponManager>();
-            if (weaponManager != null) 
+            Inventory inv = other.GetComponent<Inventory>();
+            if (!inv.IsMeleeFull())
             {
-                weaponManager.EquipWeapon(this.gameObject.name);
-                Destroy(this.gameObject);
+                weaponManager = other.gameObject.GetComponentInChildren<WeaponManager>();
+                if (weaponManager != null)
+                {
+                    inv.AddMeleeWeapon(weaponManager.weaponPickups[this.gameObject.name].GetComponent<Weapon>());
+                    weaponManager.EquipWeapon(this.gameObject.name);
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
