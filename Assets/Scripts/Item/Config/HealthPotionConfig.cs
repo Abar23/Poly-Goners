@@ -5,6 +5,6 @@ public class HealthPotionConfig : PotionConfig
 {
 
     public int Amount;
-    public int Interval;
+    public float Interval;
 
 }

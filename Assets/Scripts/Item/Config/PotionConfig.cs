@@ -3,6 +3,6 @@
 public class PotionConfig : ScriptableObject
 {
 
-    public int EffectiveTime;
+    public float EffectiveTime;
 
 }

@@ -32,6 +32,11 @@ public class Damageable : MonoBehaviour
         return health;
     }
 
+    public void IncreaseHealth(int number)
+    {
+        health += number;
+    }
+
     public void RevivePlayer()
     {
         health = Config.MaxHealth / 4;

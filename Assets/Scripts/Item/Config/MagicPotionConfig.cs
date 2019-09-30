@@ -5,6 +5,6 @@ public class MagicPotionConfig : PotionConfig
 {
 
     public int Amount;
-    public int Interval;
+    public float Interval;
 
 }
