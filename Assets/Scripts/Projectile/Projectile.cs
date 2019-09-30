@@ -78,6 +78,18 @@ public class Projectile : MonoBehaviour
         magicPool = mp;
     }
 
+    public void CameraShakeEffect(float duration)
+    {
+        GameObject[] cameras = GameObject.FindGameObjectsWithTag("MainCamera");
+        if (cameras == null || cameras.Length <= 0) return;
+        foreach (GameObject camera in cameras)
+        {
+            CameraShake cs = camera.GetComponent<CameraShake>();
+            if (cs == null) return;
+            StartCoroutine(cs.CameraShakeEffect(0.1f, duration));
+        }
+    }
+
     void TriggerEvent(UnityEvent uEvent){
         if (uEvent != null)
         {
