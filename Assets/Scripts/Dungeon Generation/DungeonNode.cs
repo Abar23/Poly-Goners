@@ -3,7 +3,7 @@
 public class DungeonNode
 {
     public DungeonRoom DungeonRoom { get; set; }
-    public Vector2Int DungeonPosition { get; set; }
+    public Vector2Int lookUpPosition { get; set; }
     public DungeonNode LeftNode { get; set; }
     public DungeonNode RightNode { get; set; }
     public DungeonNode TopNode { get; set; }
@@ -13,7 +13,7 @@ public class DungeonNode
     public DungeonNode(DungeonRoom dungeonRoom, Vector2Int DungeonPosition, DungeonNode parentNode = null)
     {
         this.DungeonRoom = dungeonRoom;
-        this.DungeonPosition = DungeonPosition;
+        this.lookUpPosition = DungeonPosition;
         this.ParentNode = parentNode;
         this.LeftNode = null;
         this.RightNode = null;
