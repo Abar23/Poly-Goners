@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -8,11 +7,14 @@ public class WeaponManager : MonoBehaviour
     private GameObject axe;
     private GameObject dagger;
     private GameObject spear;
-    private Dictionary<string, GameObject> weaponPickups = new Dictionary<string, GameObject>();
     private GameObject currentWeapon;
+
+    public Dictionary<string, GameObject> weaponPickups { get; private set; }
 
     void Start()
     {
+        weaponPickups = new Dictionary<string, GameObject>();
+
         // child indices must correspond to order that weapons appear as children under Weapons prefab
         sword = this.gameObject.transform.GetChild(0).gameObject;
         weaponPickups.Add("Sword Pickup", sword);
@@ -46,7 +48,7 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    void UnequipCurrentWeapon()
+    public void UnequipCurrentWeapon()
     {
         if (currentWeapon != null) 
         {

@@ -148,13 +148,13 @@ public class SplitScreen : MonoBehaviour {
             Quaternion newRot = Quaternion.LookRotation(player1.position - camera1.transform.position);
             camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 10);
 
-            float dist = Vector3.Distance(camera1.transform.position, player1.transform.position);
-            RaycastHit[] hits = Physics.RaycastAll(camera1.transform.position, camera1.transform.forward, dist);
-            foreach (RaycastHit h in hits)
-            {
-                if (h.collider.transform.gameObject.name != "Player 1")
-                    h.collider.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            }
+            //float dist = Vector3.Distance(camera1.transform.position, player1.transform.position);
+            //RaycastHit[] hits = Physics.RaycastAll(camera1.transform.position, camera1.transform.forward, dist);
+            //foreach (RaycastHit h in hits)
+            //{
+            //    if (h.collider.transform.gameObject.name != "Player 1")
+            //        h.collider.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //}
         }
 	}
 }
