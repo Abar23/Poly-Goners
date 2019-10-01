@@ -34,9 +34,15 @@ public class Spawner : MonoBehaviour
 
     public void StartSpawn()
     {
+        StartCoroutine(SpawnController());
+    }
+
+    IEnumerator SpawnController()
+    {
         for (int i = 0; i < m_Items.Count; i++)
         {
             StartCoroutine(SpawnCoin(i));
+            yield return new WaitForSeconds(0.1f);
         }
     }
 
