@@ -51,7 +51,7 @@ public class Damageable : MonoBehaviour
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
-            TakeDamage(damager.Config);
+            TakeDamage(damager.Config, damager.GetMultiplier());
         }
     }
 
@@ -64,31 +64,31 @@ public class Damageable : MonoBehaviour
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
-            TakeDamage(damager.Config);
+            TakeDamage(damager.Config, damager.GetMultiplier());
         }
     }
 
-    void TakeDamage(DamagerConfig config)
+    void TakeDamage(DamagerConfig config, float multiplier)
     {
         if (health <= 0)
             return;
         if (config is OneTimeDamagerConfig)
         {
-            health -= config.Damage;
+            health -= (int)(config.Damage * multiplier);
             TriggerEvent(OnHit);
             CheckHealth();
         }
-        else
+        else if (config is ContinuousDamagerConfig)
         {
-            StartCoroutine("TakeContinuousDamage", config);
+            StartCoroutine(TakeContinuousDamage((ContinuousDamagerConfig)config, multiplier));
         }
     }
 
-    IEnumerator TakeContinuousDamage(ContinuousDamagerConfig config)
+    IEnumerator TakeContinuousDamage(ContinuousDamagerConfig config, float multiplier)
     {
         for (int i = 0; i < config.DamageIteration; i++)
         {
-            health -= Mathf.Max(0, config.Damage - i * config.DamageDecay);
+            health -= (int)(Mathf.Max(0, (config.Damage - i * config.DamageDecay)) * multiplier);
             CheckHealth();
             yield return new WaitForSeconds(config.DamageInterval);
         }

@@ -8,6 +8,7 @@ public class Damager : MonoBehaviour
 
     public DamagerConfig Config;
     public Alignment Alignment;
+    private float multiplier = 1;
 
     [Header("Events")]
     public UnityEvent OnCauseDamage;
@@ -38,6 +39,16 @@ public class Damager : MonoBehaviour
         {
             uEvent.Invoke();
         }
+    }
+
+    public void SetMultiplier(float multiplier)
+    {
+        this.multiplier = multiplier;
+    }
+
+    public float GetMultiplier()
+    {
+        return multiplier;
     }
 
 }
