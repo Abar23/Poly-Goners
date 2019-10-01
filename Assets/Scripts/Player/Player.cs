@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     public GameObject RevivePrompt;
     public Image RevivePromptFill;
     public Image MeleeDropFill;
+    public UnityEvent OnMeleeAttack;
 
     #region MagicCast
     private MagicBox magicBox;
@@ -104,6 +106,9 @@ public class Player : MonoBehaviour
                 {
                     OtherPlayer.PlayerMovementState.HandleGroundedTransition();
                     OtherPlayer.GetComponent<Damageable>().RevivePlayer();
+                    animator.SetTrigger("MeleeTrigger");
+                    currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                    TriggerEvent(OnMeleeAttack);
                 }
             }
             else
@@ -284,5 +289,13 @@ public class Player : MonoBehaviour
     public void SwitchWeapon()
     {
         inventory.NextMeleeWeapon();
+    }
+
+    void TriggerEvent(UnityEvent uEvent)
+    {
+        if (uEvent != null)
+        {
+            uEvent.Invoke();
+        }
     }
 }
