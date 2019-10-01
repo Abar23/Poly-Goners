@@ -310,9 +310,9 @@ Transform:
   - {fileID: 451097255508295349}
   - {fileID: 451097255152392672}
   - {fileID: 4183286174644115496}
+  - {fileID: 8720788075015046562}
   - {fileID: 1824982361517066249}
   - {fileID: 7791791526321512606}
-  - {fileID: 8720788075015046562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -387,6 +387,8 @@ MonoBehaviour:
   JumpSpeed: 10
   CrosshairDistance: 4
   Crosshair: {fileID: 451097255152392673}
+  RevivePrompt: {fileID: 5669460601413625862}
+  RevivePromptFill: {fileID: 7918923372599659627}
   OnMeleeAttack:
     m_PersistentCalls:
       m_Calls:
@@ -403,8 +405,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  RevivePrompt: {fileID: 5669460601413625862}
-  RevivePromptFill: {fileID: 7918923372599659627}
 --- !u!114 &8347909136909234354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -420,21 +420,45 @@ MonoBehaviour:
   Config: {fileID: 11400000, guid: b90cb5c6d2ed6d040b6082a35224a252, type: 2}
   OnHit:
     m_PersistentCalls:
-      m_Calls: [{m_Target: {fileID: 451097255499171983}, m_MethodName: SetTrigger,
-          m_Mode: 5, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: 'UnityEngine.Object,
-              UnityEngine', m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: TakeDamage,
-            m_BoolArgument: 0}, m_CallState: 2}, {m_Target: {fileID: 4475436659438248171},
-          m_MethodName: Play, m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0},
-            m_ObjectArgumentAssemblyTypeName: 'UnityEngine.Object, UnityEngine', m_IntArgument: 0,
-            m_FloatArgument: 0, m_StringArgument: '', m_BoolArgument: 0}, m_CallState: 2}]
+      m_Calls:
+      - m_Target: {fileID: 451097255499171983}
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: TakeDamage
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4475436659438248171}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   OnDeath:
     m_PersistentCalls:
-      m_Calls: [{m_Target: {fileID: 451097255167017071}, m_MethodName: HandleDeath,
-          m_Mode: 1, m_Arguments: {m_ObjectArgument: {fileID: 0}, m_ObjectArgumentAssemblyTypeName: 'UnityEngine.Object,
-              UnityEngine', m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: DeathTrigger,
-            m_BoolArgument: 0}, m_CallState: 2}]
+      m_Calls:
+      - m_Target: {fileID: 451097255167017071}
+        m_MethodName: HandleDeath
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DeathTrigger
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   HealthBar: {fileID: 0}
@@ -3208,7 +3232,7 @@ Transform:
   - {fileID: 451097255508278217}
   - {fileID: 451097255508308031}
   - {fileID: 451097255508293403}
-  - {fileID: 7163276349226606839}
+  - {fileID: 2447281745147980002}
   m_Father: {fileID: 451097255508294993}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -121898,52 +121922,47 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1001 &3907816624429859223
+--- !u!1001 &8404902895766342018
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 451097255508182813}
     m_Modifications:
-    - target: {fileID: 6024588926266259987, guid: 4987950f952a7ec4d9c92b235f85a6e7,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon
-      objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.79963183
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.36094
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.034174077
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00000005390774
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000005587934
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000018552119
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
@@ -121965,13 +121984,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6024588926266259987, guid: 4987950f952a7ec4d9c92b235f85a6e7,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapons
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4987950f952a7ec4d9c92b235f85a6e7, type: 3}
---- !u!4 &7163276349226606839 stripped
+--- !u!4 &2447281745147980002 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
     type: 3}
-  m_PrefabInstance: {fileID: 3907816624429859223}
+  m_PrefabInstance: {fileID: 8404902895766342018}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8445143311541249976
 PrefabInstance:
@@ -121980,6 +122004,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 451097255508284109}
     m_Modifications:
+    - target: {fileID: 5709765550978744211, guid: 32628d2bc8103ea44a93df4f97ea4473,
+        type: 3}
+      propertyPath: m_Name
+      value: MagicBox
+      objectReference: {fileID: 0}
     - target: {fileID: 5709765550978744208, guid: 32628d2bc8103ea44a93df4f97ea4473,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122035,11 +122064,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5709765550978744211, guid: 32628d2bc8103ea44a93df4f97ea4473,
-        type: 3}
-      propertyPath: m_Name
-      value: MagicBox
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32628d2bc8103ea44a93df4f97ea4473, type: 3}
 --- !u!4 &4183286174644115496 stripped
@@ -122055,11 +122079,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 451097255508284109}
     m_Modifications:
-    - target: {fileID: 71077137082143081, guid: f063724fad54b024d839044f3ea4bd18,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 71077137082143080, guid: f063724fad54b024d839044f3ea4bd18,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122164,6 +122183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 71077137082143081, guid: f063724fad54b024d839044f3ea4bd18,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f063724fad54b024d839044f3ea4bd18, type: 3}
