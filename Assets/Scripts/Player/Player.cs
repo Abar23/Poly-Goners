@@ -151,6 +151,7 @@ public class Player : MonoBehaviour
             if (dropTimer > timeToDrop)
             {
                 inventory.DropWeapon();
+                animator.SetTrigger("DropWeapon");
                 dropTimer = 0f;
                 itemDropped = true;
             }
