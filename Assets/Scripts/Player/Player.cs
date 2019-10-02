@@ -176,6 +176,12 @@ public class Player : MonoBehaviour
         {
             lockAim = !lockAim;
         }
+
+        // Cheats
+        if (Controller.GetControllerActions().cheatRegeneration.WasPressed)
+        {
+            magicBox.RestoreFullMP();
+        }
     }
 
     public void ChangeCurrentWeapon(IWeapon weapon) 
