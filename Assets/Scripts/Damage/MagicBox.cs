@@ -81,7 +81,7 @@ public class MagicBox : MonoBehaviour
     public void IncreaseMagicPoint(int number)
     {
         if (number < 0) return;
-        m_MagicPoint = Mathf.Min(number, magicMax);
+        m_MagicPoint = Mathf.Min(m_MagicPoint + number, magicMax);
     }
 
     bool CheckMagicPoint(int number)

@@ -34,7 +34,7 @@ public class Damageable : MonoBehaviour
 
     public void IncreaseHealth(int number)
     {
-        health += number;
+        health = Mathf.Min(health + number, Config.MaxHealth);
     }
 
     public void RevivePlayer()
