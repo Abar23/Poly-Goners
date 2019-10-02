@@ -107,9 +107,6 @@ public class Player : MonoBehaviour
                 {
                     OtherPlayer.PlayerMovementState.HandleGroundedTransition();
                     OtherPlayer.GetComponent<Damageable>().RevivePlayer();
-                    animator.SetTrigger("MeleeTrigger");
-                    currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
-                    TriggerEvent(OnMeleeAttack);
                 }
             }
             else
@@ -132,6 +129,7 @@ public class Player : MonoBehaviour
 				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
 				animator.SetTrigger("PrimaryAttackTrigger");
 				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                TriggerEvent(OnMeleeAttack);
             }
         }
 
