@@ -26,7 +26,9 @@ public class Collector : MonoBehaviour
         if (collectable.CollectableType == Collectable.Type.Coin)
         {
             inventory.IncreaseGold(1);
-        } else if (collectable.CollectableType == Collectable.Type.Potion) {
+        }
+        else if (collectable.CollectableType == Collectable.Type.Potion)
+        {
             PotionConfig config = collectable.GetComponent<Collectable>().Config;
             if (config is HealthPotionConfig)
             {
@@ -55,8 +57,8 @@ public class Collector : MonoBehaviour
         while (elapse < config.EffectiveTime)
         {
             damageable.IncreaseHealth(config.Amount);
+            elapse += config.Interval;
             yield return new WaitForSeconds(config.Interval);
-            elapse += Time.deltaTime;
         }
     }
 
@@ -66,8 +68,8 @@ public class Collector : MonoBehaviour
         while (elapse < config.EffectiveTime)
         {
             magicBox.IncreaseMagicPoint(config.Amount);
+            elapse += config.Interval;
             yield return new WaitForSeconds(config.Interval);
-            elapse += Time.deltaTime;
         }
     }
 

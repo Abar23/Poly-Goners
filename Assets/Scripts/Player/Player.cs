@@ -16,12 +16,11 @@ public class Player : MonoBehaviour
     public GameObject RevivePrompt;
     public Image RevivePromptFill;
     public Image MeleeDropFill;
+    public Image MagicDropFill;
+    public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
 
-    #region MagicCast
     private MagicBox magicBox;
-    #endregion
-
     private Inventory inventory;
     private CharacterController character;
     private Animator animator;
@@ -29,15 +28,17 @@ public class Player : MonoBehaviour
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
-    private int activeSpellIndex;
 
     private float reviveTimer;
     private float timeToRevive = 3f;
     private float reviveDistance = 2.5f;
 
-    private float dropTimer;
+    private float meleeDropTimer;
+    private float magicDropTimer;
+    private float potionDropTimer;
     private float timeToDrop = 2f;
-    private bool itemDropped = false;
+    private bool meleeDropped = false;
+    private bool magicDropped = false;
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
@@ -62,9 +63,10 @@ public class Player : MonoBehaviour
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
-        activeSpellIndex = 0;
         reviveTimer = 0f;
-        dropTimer = 0f;
+        meleeDropTimer = 0f;
+        magicDropTimer = 0f;
+        potionDropTimer = 0f;
     }
 
     private void Update()
@@ -88,7 +90,6 @@ public class Player : MonoBehaviour
     {
         HandleMove();
         HandleRotation();
-        HandleMagicChange();
 
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
         
@@ -106,9 +107,6 @@ public class Player : MonoBehaviour
                 {
                     OtherPlayer.PlayerMovementState.HandleGroundedTransition();
                     OtherPlayer.GetComponent<Damageable>().RevivePlayer();
-                    animator.SetTrigger("MeleeTrigger");
-                    currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
-                    TriggerEvent(OnMeleeAttack);
                 }
             }
             else
@@ -131,44 +129,99 @@ public class Player : MonoBehaviour
 				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
 				animator.SetTrigger("PrimaryAttackTrigger");
 				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                TriggerEvent(OnMeleeAttack);
             }
         }
 
         // Perform magic attack
         if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
-            if (magicBox.FireMagic(activeSpellIndex))
+            if (inventory.UseMagic())
             {
                 animator.SetTrigger("CastTrigger");
             }
         }
 
+        // Use Potion
+        if (Controller.GetControllerActions().action4.WasPressed)
+        {
+            animator.SetTrigger("DrinkPotion");
+            inventory.UsePotion();
+        }
+
         // Drop melee weapon
-        MeleeDropFill.fillAmount = dropTimer / timeToDrop;
-        if (Controller.GetControllerActions().dPadRight.WasReleased && !itemDropped)
+        MeleeDropFill.fillAmount = meleeDropTimer / timeToDrop;
+        if (Controller.GetControllerActions().dPadRight.WasReleased && !meleeDropped)
         {
             animator.SetTrigger("SwitchWeapons");
         }
         else if (currentWeapon != null && Controller.GetControllerActions().dPadRight.IsPressed)
         {
-            dropTimer += Time.deltaTime;
+            meleeDropTimer += Time.deltaTime;
 
-            if (dropTimer > timeToDrop)
+            if (meleeDropTimer > timeToDrop)
             {
                 inventory.DropWeapon();
-                animator.SetTrigger("DropWeapon");
-                dropTimer = 0f;
-                itemDropped = true;
+                animator.SetTrigger("DropItem");
+                meleeDropTimer = 0f;
+                meleeDropped = true;
             }
         }
-        else if (Controller.GetControllerActions().dPadRight.WasReleased && itemDropped)
+        else if (Controller.GetControllerActions().dPadRight.WasReleased && meleeDropped)
         {
-            itemDropped = false;
+            meleeDropped = false;
         }
         else
         {
-            if (dropTimer > 0f)
-                dropTimer -= Time.deltaTime * 2f;
+            if (meleeDropTimer > 0f)
+                meleeDropTimer -= Time.deltaTime * 2f;
+        }
+
+        // Drop magic weapon
+        MagicDropFill.fillAmount = magicDropTimer / timeToDrop;
+        if (Controller.GetControllerActions().dPadLeft.WasReleased && !magicDropped)
+        {
+            inventory.NextMagicWeapon();
+        }
+        else if (currentWeapon != null && Controller.GetControllerActions().dPadLeft.IsPressed)
+        {
+            magicDropTimer += Time.deltaTime;
+
+            if (magicDropTimer > timeToDrop)
+            {
+                inventory.DropMagic();
+                animator.SetTrigger("DropItem");
+                magicDropTimer = 0f;
+                magicDropped = true;
+            }
+        }
+        else if (Controller.GetControllerActions().dPadLeft.WasReleased && magicDropped)
+        {
+            magicDropped = false;
+        }
+        else
+        {
+            if (magicDropTimer > 0f)
+                magicDropTimer -= Time.deltaTime * 2f;
+        }
+
+        // Drop potion
+        PotionDropFill.fillAmount = potionDropTimer / timeToDrop;
+        if (inventory.HasPotion() && Controller.GetControllerActions().dPadUp.IsPressed)
+        {
+            potionDropTimer += Time.deltaTime;
+
+            if (potionDropTimer > timeToDrop)
+            {
+                inventory.DropPotion();
+                animator.SetTrigger("DropItem");
+                potionDropTimer = 0f;
+            }
+        }
+        else
+        {
+            if (potionDropTimer > 0f)
+                potionDropTimer -= Time.deltaTime * 2f;
         }
 
         // Lock on 
@@ -176,12 +229,18 @@ public class Player : MonoBehaviour
         {
             lockAim = !lockAim;
         }
+
+        // Cheats
+        if (Controller.GetControllerActions().cheatMagicRefill.WasPressed)
+        {
+            magicBox.ResetMagicToFull();
+        }
     }
 
     public void ChangeCurrentWeapon(IWeapon weapon) 
     {
         currentWeapon = weapon;
-        itemDropped = false;
+        meleeDropped = false;
     }
 
     public void ChangeMovementState(PlayerMovementState state)
@@ -272,17 +331,6 @@ public class Player : MonoBehaviour
             //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Right -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Left -> Moving")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Forward") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Back")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
-    }
-
-    private void HandleMagicChange()
-    {
-        ControllerActions actions = Controller.GetControllerActions();
-        int totalNumberOfSpells = magicBox.GetNumberOfSpells();
-
-        if (actions.dPadLeft.WasPressed)
-        {
-            activeSpellIndex = (activeSpellIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
-        }
     }
 
     // For the switch weapon animation event
