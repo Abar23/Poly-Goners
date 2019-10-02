@@ -16,6 +16,11 @@ public class SplitScreen : MonoBehaviour {
 	public Color splitterColor;
 	public float splitterWidth;
 
+    // Transfrom positions for the cameras for simple changes and testing
+    public float cameraX = 0f;
+    public float cameraY = 14f;
+    public float cameraZ = -5f;
+
 	//The two cameras, both of which are initalized/referenced in the start function.
 	private GameObject camera1;
 	private GameObject camera2;
@@ -35,6 +40,8 @@ public class SplitScreen : MonoBehaviour {
 		camera2.AddComponent<Camera> ();
 		//Setting up the culling mask of camera2 to ignore the layer "TransparentFX" as to avoid rendering the split and splitter on both cameras.
 		camera2.GetComponent<Camera> ().cullingMask = ~(1 << LayerMask.NameToLayer ("TransparentFX"));
+        camera2.AddComponent<CameraShake>();
+        camera2.tag = "MainCamera";
 
 		//Setting up the splitter and initalizing the gameobject.
 		splitter = GameObject.CreatePrimitive (PrimitiveType.Quad);
@@ -114,9 +121,9 @@ public class SplitScreen : MonoBehaviour {
                 else
                 {
                     //Lerps the second cameras position and rotation to that of the second midpoint, so relative to the second player.
-                    camera2.transform.position = Vector3.Lerp(camera2.transform.position, midPoint2 + new Vector3(0, 14, -5), Time.deltaTime * 5);
+                    camera2.transform.position = Vector3.Lerp(camera2.transform.position, midPoint2 + new Vector3(cameraX, cameraY, cameraZ), Time.deltaTime * 10);
                     Quaternion newRot2 = Quaternion.LookRotation(midPoint2 - camera2.transform.position);
-                    camera2.transform.rotation = Quaternion.Lerp(camera2.transform.rotation, newRot2, Time.deltaTime * 5);
+                    camera2.transform.rotation = Quaternion.Lerp(camera2.transform.rotation, newRot2, Time.deltaTime * 10);
                 }
 
             }
@@ -130,16 +137,24 @@ public class SplitScreen : MonoBehaviour {
 
             /*Lerps the first cameras position and rotation to that of the second midpoint, so relative to the first player
             or when both players are in view it lerps the camera to their midpoint.*/
-            camera1.transform.position = Vector3.Lerp(camera1.transform.position, midPoint + new Vector3(0, 14, -5), Time.deltaTime * 5);
+            camera1.transform.position = Vector3.Lerp(camera1.transform.position, midPoint + new Vector3(cameraX, cameraY, cameraZ), Time.deltaTime * 10);
             Quaternion newRot = Quaternion.LookRotation(midPoint - camera1.transform.position);
-            camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 5);
+            camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 10);
         }
         else
         {
             /*Lerps the first cameras position and rotation to that first players posisiton since it is the only active player on the screen.*/
-            camera1.transform.position = Vector3.Lerp(camera1.transform.position, player1.position + new Vector3(0, 14, -5), Time.deltaTime * 5);
+            camera1.transform.position = Vector3.Lerp(camera1.transform.position, player1.position + new Vector3(cameraX, cameraY, cameraZ), Time.deltaTime * 10);
             Quaternion newRot = Quaternion.LookRotation(player1.position - camera1.transform.position);
-            camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 5);
+            camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 10);
+
+            //float dist = Vector3.Distance(camera1.transform.position, player1.transform.position);
+            //RaycastHit[] hits = Physics.RaycastAll(camera1.transform.position, camera1.transform.forward, dist);
+            //foreach (RaycastHit h in hits)
+            //{
+            //    if (h.collider.transform.gameObject.name != "Player 1")
+            //        h.collider.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            //}
         }
 	}
 }

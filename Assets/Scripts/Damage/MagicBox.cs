@@ -12,14 +12,18 @@ public class MagicBox : MonoBehaviour
     {
         public GameObject Object;
         public float CoolDown;
+        public int MagicPoint;
     }
 
     [SerializeField] private Alignment m_Alignment;
 
     [SerializeField] private List<Spell> m_Spells;
 
+    [SerializeField] private int m_MagicPoint;
+
     private float[] coolDowns;
     private MagicPool pool;
+    private int magicMax;
 
     void Awake()
     {
@@ -34,6 +38,7 @@ public class MagicBox : MonoBehaviour
             }
         }
         pool.Initialize(m_Spells);
+        magicMax = m_MagicPoint;
     }
 
     void Update()
@@ -50,6 +55,10 @@ public class MagicBox : MonoBehaviour
         {
             return false;
         }
+        if (!CheckMagicPoint(m_Spells[index].MagicPoint))
+        {
+            return false;
+        }
         GameObject magic = pool.Require(index);
         magic.transform.rotation = transform.rotation;
         magic.transform.position = transform.position;
@@ -60,11 +69,33 @@ public class MagicBox : MonoBehaviour
         }
         projectile.ProjectileInvoke();
         coolDowns[index] = m_Spells[index].CoolDown;
+        ReduceMagicPoint(m_Spells[index].MagicPoint);
         return true;
     }
     
     public int GetNumberOfSpells()
     {
         return m_Spells.Count;
+    }
+
+    public void IncreaseMagicPoint(int number)
+    {
+        if (number < 0) return;
+        m_MagicPoint += number;
+    }
+
+    bool CheckMagicPoint(int number)
+    {
+        return m_MagicPoint - number >= 0;
+    }
+
+    void ReduceMagicPoint(int number)
+    {
+        m_MagicPoint -= number;
+    }
+
+    public float GetMagicPointRatio()
+    {
+        return m_MagicPoint / (float)magicMax;
     }
 }

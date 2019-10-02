@@ -7,6 +7,8 @@ class PlayerGroundedState : PlayerMovementState
         this.player = player;
         animator = anim;
         animator.SetBool("isMoving", true);
+        player.RevivePrompt.SetActive(false);
+        player.RevivePromptFill.fillAmount = 0f;
     }
 
     public override void HandleGroundedTransition()
