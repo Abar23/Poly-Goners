@@ -9,6 +9,7 @@ public class Inventory : MonoBehaviour
     public int NumberOfMagicSlots;
     public Text CoinDisplay;
     public IconManager MeleeIcon;
+    public IconManager MagicIcon;
     public IconManager PotionIcon;
     public List<GameObject> WeaponPrefabs;
 
@@ -42,6 +43,7 @@ public class Inventory : MonoBehaviour
         magicAbilities = new Projectile[NumberOfMagicSlots];
         currentMeleeIndex = 0;
         currentMagicIndex = 0;
+        MagicIcon.EnableIcon(currentMagicIndex.ToString());
     }
 
     public void IncreaseGold(int num)
@@ -79,6 +81,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool UseMagic()
+    {
+        bool canFire = magicBox.FireMagic(currentMagicIndex);
+        return canFire;
+    }
+
     public void NextMeleeWeapon()
     {
         currentMeleeIndex++;
@@ -102,7 +110,9 @@ public class Inventory : MonoBehaviour
 
     public void NextMagicWeapon()
     {
-
+        int totalNumberOfSpells = magicBox.GetNumberOfSpells();
+        currentMagicIndex = (currentMagicIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
+        MagicIcon.EnableIcon(currentMagicIndex.ToString());
     }
 
     public void AddMeleeWeapon(Weapon weapon)
@@ -146,6 +156,7 @@ public class Inventory : MonoBehaviour
     public void DropPotion()
     {
         GameObject p = Instantiate(potion.gameObject, transform.position + transform.forward * 2f, Quaternion.identity);
+        p.transform.localScale = new Vector3(2f, 2f, 2f);
         p.SetActive(true);
         PotionIcon.DisableCurrentIcon();
         Destroy(potion);

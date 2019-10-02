@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
     private float verticalVelocity;
     private bool lockAim = false;
     private Vector3 lookDir;
-    private int activeSpellIndex;
 
     private float reviveTimer;
     private float timeToRevive = 3f;
@@ -64,7 +63,6 @@ public class Player : MonoBehaviour
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
-        activeSpellIndex = 0;
         reviveTimer = 0f;
         meleeDropTimer = 0f;
         magicDropTimer = 0f;
@@ -92,7 +90,6 @@ public class Player : MonoBehaviour
     {
         HandleMove();
         HandleRotation();
-        HandleMagicChange();
 
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
         
@@ -141,7 +138,7 @@ public class Player : MonoBehaviour
         // Perform magic attack
         if (Controller.GetControllerActions().leftBumper.WasPressed)
         {
-            if (magicBox.FireMagic(activeSpellIndex))
+            if (inventory.UseMagic())
             {
                 animator.SetTrigger("CastTrigger");
             }
@@ -186,7 +183,7 @@ public class Player : MonoBehaviour
         MagicDropFill.fillAmount = magicDropTimer / timeToDrop;
         if (Controller.GetControllerActions().dPadLeft.WasReleased && !magicDropped)
         {
-            // trigger magic item switch in aniamtor
+            inventory.NextMagicWeapon();
         }
         else if (currentWeapon != null && Controller.GetControllerActions().dPadLeft.IsPressed)
         {
@@ -336,17 +333,6 @@ public class Player : MonoBehaviour
             //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Right -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Left -> Moving")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Forward") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Back")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
-    }
-
-    private void HandleMagicChange()
-    {
-        ControllerActions actions = Controller.GetControllerActions();
-        int totalNumberOfSpells = magicBox.GetNumberOfSpells();
-
-        if (actions.dPadLeft.WasPressed)
-        {
-            activeSpellIndex = (activeSpellIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
-        }
     }
 
     // For the switch weapon animation event
