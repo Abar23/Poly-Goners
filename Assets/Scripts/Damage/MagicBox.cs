@@ -98,4 +98,9 @@ public class MagicBox : MonoBehaviour
     {
         return m_MagicPoint / (float)magicMax;
     }
+
+    public void ResetMagicToFull()
+    {
+        m_MagicPoint = magicMax;
+    }
 }

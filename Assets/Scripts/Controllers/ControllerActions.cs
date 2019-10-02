@@ -35,6 +35,8 @@ public class ControllerActions : PlayerActionSet
     public PlayerAction leftStickClick;
     public PlayerAction rightStickClick;
 
+    public PlayerAction cheatMagicRefill;
+
     public ControllerActions()
     {
 
@@ -70,6 +72,8 @@ public class ControllerActions : PlayerActionSet
 
         leftStickClick = CreatePlayerAction("Left Stick Click");
         rightStickClick = CreatePlayerAction("Right Stick Click");
+
+        cheatMagicRefill = CreatePlayerAction("Cheat Magic Refill");
     }
 
     public static ControllerActions CreateWithKeyBoardBindings()
@@ -106,6 +110,8 @@ public class ControllerActions : PlayerActionSet
 
         actions.leftStickClick.AddDefaultBinding(Key.Tilde); // Not used, so it is put far away from the player
         actions.rightStickClick.AddDefaultBinding(Mouse.MiddleButton);
+
+        actions.cheatMagicRefill.AddDefaultBinding(Key.X);
 
         return actions;
     }

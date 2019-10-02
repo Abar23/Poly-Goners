@@ -234,6 +234,12 @@ public class Player : MonoBehaviour
         {
             lockAim = !lockAim;
         }
+
+        // Cheats
+        if (Controller.GetControllerActions().cheatMagicRefill.WasPressed)
+        {
+            magicBox.ResetMagicToFull();
+        }
     }
 
     public void ChangeCurrentWeapon(IWeapon weapon) 
