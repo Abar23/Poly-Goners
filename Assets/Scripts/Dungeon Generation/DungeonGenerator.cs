@@ -6,7 +6,7 @@ public class DungeonGenerator : MonoBehaviour
 {
     public DungeonTemplate template;
 
-    private const int lookUpTableDimensions = 20;
+    private const int lookUpTableDimensions = 6;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
@@ -17,6 +17,11 @@ public class DungeonGenerator : MonoBehaviour
     void Start()
     {
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
+
+        InitTemplateRooms(this.template.TopEntranceRooms);
+        InitTemplateRooms(this.template.BottomEntranceRooms);
+        InitTemplateRooms(this.template.LeftEntranceRooms);
+        InitTemplateRooms(this.template.RightEntranceRooms);
 
         // Randomly choose starting room
         DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count - 1)];
@@ -38,6 +43,14 @@ public class DungeonGenerator : MonoBehaviour
         if(dungeonGenerationState == 0)
         {
             GenerateDungeon();
+        }
+    }
+
+    private void InitTemplateRooms(List<DungeonRoom> dungeonRooms)
+    {
+        foreach(DungeonRoom room in dungeonRooms)
+        {
+            room.SetRotation(room.rotation);
         }
     }
 
@@ -271,11 +284,8 @@ public class DungeonGenerator : MonoBehaviour
         List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
         foreach(DungeonRoom room in dungeonList)
         {
-            room.SetRotation(room.rotation);
             DungeonNode potentialNode = new DungeonNode(room, invalidNode.lookUpPosition);
-            bool isValid = IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways());
-            room.SetRotation(0);
-            if (isValid)
+            if (IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways()))
             {
                 ValidNodeList.Add(room);
             }
