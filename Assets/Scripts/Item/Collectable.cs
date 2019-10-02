@@ -17,7 +17,7 @@ public class Collectable : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9 && CollectableType == Type.Coin)
         {
             Destroy(gameObject);
         }
