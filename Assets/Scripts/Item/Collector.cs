@@ -57,8 +57,8 @@ public class Collector : MonoBehaviour
         while (elapse < config.EffectiveTime)
         {
             damageable.IncreaseHealth(config.Amount);
+            elapse += config.Interval;
             yield return new WaitForSeconds(config.Interval);
-            elapse += Time.deltaTime;
         }
     }
 
@@ -68,8 +68,8 @@ public class Collector : MonoBehaviour
         while (elapse < config.EffectiveTime)
         {
             magicBox.IncreaseMagicPoint(config.Amount);
+            elapse += config.Interval;
             yield return new WaitForSeconds(config.Interval);
-            elapse += Time.deltaTime;
         }
     }
 
