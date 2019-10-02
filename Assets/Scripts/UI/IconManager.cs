@@ -19,6 +19,7 @@ public class IconManager : MonoBehaviour
 
     public void EnableIcon(string name)
     {
+        DisableCurrentIcon();
         foreach (Image icon in icons)
         {
             if (name == icon.name)

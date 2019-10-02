@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,21 +9,34 @@ public class Inventory : MonoBehaviour
     public int NumberOfMagicSlots;
     public Text CoinDisplay;
     public IconManager MeleeIcon;
+    public IconManager PotionIcon;
     public List<GameObject> WeaponPrefabs;
 
     private Player player;
     private WeaponManager weaponManager;
+    private Damageable damageable;
+    private MagicBox magicBox;
+    private bool isStrengthed = false;
+
     private Weapon[] meleeWeapons;
     private Projectile[] magicAbilities;
+    private Collectable potion;
     private int gold;
 
     private int currentMeleeIndex;
     private int currentMagicIndex;
-    
+
+    void Awake()
+    {
+        damageable = GetComponent<Damageable>();
+        magicBox = GetComponentInChildren<MagicBox>();
+    }
+
     void Start()
     {
         player = GetComponent<Player>();
         weaponManager = GetComponentInChildren<WeaponManager>();
+
         meleeWeapons = new Weapon[NumberOfMeleeSlots];
         magicAbilities = new Projectile[NumberOfMagicSlots];
         currentMeleeIndex = 0;
@@ -33,6 +47,32 @@ public class Inventory : MonoBehaviour
     {
         gold += num;
         CoinDisplay.text = gold.ToString();
+    }
+
+    public void UsePotion()
+    {
+        if (HasPotion())
+        {
+            PotionConfig config = potion.GetComponent<Collectable>().Config;
+            if (config is HealthPotionConfig)
+            {
+                StartCoroutine(HealthPotionEffect(damageable, (HealthPotionConfig)config));
+            }
+            else if (config is MagicPotionConfig)
+            {
+                StartCoroutine(MagicPotionEffect(magicBox, (MagicPotionConfig)config));
+            }
+            else if (config is StrengthPotionConfig)
+            {
+                if (isStrengthed) return;
+                Damager[] damagers = GetComponentsInChildren<Damager>();
+                foreach (Damager damager in damagers)
+                {
+                    damager.SetMultiplier(((StrengthPotionConfig)config).Multiplier);
+                }
+                Invoke("ResetMultiplier", config.EffectiveTime);
+            }
+        }
     }
 
     public void NextMeleeWeapon()
@@ -68,7 +108,6 @@ public class Inventory : MonoBehaviour
         {
             if (meleeWeapons[i] == null)
             {
-                MeleeIcon.DisableCurrentIcon();
                 meleeWeapons[i] = weapon;
                 currentMeleeIndex = i;
                 MeleeIcon.EnableIcon(meleeWeapons[currentMeleeIndex].gameObject.name);
@@ -95,6 +134,11 @@ public class Inventory : MonoBehaviour
         player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
     }
 
+    public void DropMagic()
+    {
+
+    }
+
     public bool IsMeleeFull()
     {
         bool full = true;
@@ -109,5 +153,72 @@ public class Inventory : MonoBehaviour
         }
 
         return full;
+    }
+
+    public bool HasPotion()
+    {
+        return (potion != null);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        GameObject obj = other.gameObject;
+        Collectable collectable = obj.GetComponent<Collectable>();
+        if (collectable == null) return;
+        if (collectable.CollectableType == Collectable.Type.Coin)
+        {
+            IncreaseGold(1);
+        }
+        else if (collectable.CollectableType == Collectable.Type.Potion)
+        {
+            if (!HasPotion())
+            {
+                potion = collectable;
+                PotionConfig config = potion.GetComponent<Collectable>().Config;
+                if (config is HealthPotionConfig)
+                {
+                    PotionIcon.EnableIcon("BigRed");
+                }
+                else if (config is MagicPotionConfig)
+                {
+                    PotionIcon.EnableIcon("BigBlue");
+                }
+                else if (config is StrengthPotionConfig)
+                {
+                    PotionIcon.EnableIcon("BigPurple");
+                }
+            }
+        }
+    }
+
+    IEnumerator HealthPotionEffect(Damageable damageable, HealthPotionConfig config)
+    {
+        float elapse = 0f;
+        while (elapse < config.EffectiveTime)
+        {
+            damageable.IncreaseHealth(config.Amount);
+            yield return new WaitForSeconds(config.Interval);
+            elapse += Time.deltaTime;
+        }
+    }
+
+    IEnumerator MagicPotionEffect(MagicBox magicBox, MagicPotionConfig config)
+    {
+        float elapse = 0f;
+        while (elapse < config.EffectiveTime)
+        {
+            magicBox.IncreaseMagicPoint(config.Amount);
+            yield return new WaitForSeconds(config.Interval);
+            elapse += Time.deltaTime;
+        }
+    }
+
+    void ResetMultiplier()
+    {
+        Damager[] damagers = GetComponentsInChildren<Damager>();
+        foreach (Damager damager in damagers)
+        {
+            damager.SetMultiplier(1f);
+        }
     }
 }

@@ -26,7 +26,9 @@ public class Collector : MonoBehaviour
         if (collectable.CollectableType == Collectable.Type.Coin)
         {
             inventory.IncreaseGold(1);
-        } else if (collectable.CollectableType == Collectable.Type.Potion) {
+        }
+        else if (collectable.CollectableType == Collectable.Type.Potion)
+        {
             PotionConfig config = collectable.GetComponent<Collectable>().Config;
             if (config is HealthPotionConfig)
             {
