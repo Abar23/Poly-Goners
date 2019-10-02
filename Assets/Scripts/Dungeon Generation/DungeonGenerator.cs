@@ -6,7 +6,7 @@ public class DungeonGenerator : MonoBehaviour
 {
     public DungeonTemplate template;
 
-    private const int lookUpTableDimensions = 6;
+    private const int lookUpTableDimensions = 20;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
@@ -18,15 +18,10 @@ public class DungeonGenerator : MonoBehaviour
     {
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
 
-        InitTemplateRooms(this.template.TopEntranceRooms);
-        InitTemplateRooms(this.template.BottomEntranceRooms);
-        InitTemplateRooms(this.template.LeftEntranceRooms);
-        InitTemplateRooms(this.template.RightEntranceRooms);
-
         // Randomly choose starting room
         DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count - 1)];
         // Set dungeon tree root to the starting room
-        this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int(lookUpTableDimensions / 2, lookUpTableDimensions / 2));
+        this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int((lookUpTableDimensions - 1) / 2, (lookUpTableDimensions - 1) / 2));
         // Fill look up tabel position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
         // Create starting room gameobject
@@ -46,14 +41,6 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    private void InitTemplateRooms(List<DungeonRoom> dungeonRooms)
-    {
-        foreach(DungeonRoom room in dungeonRooms)
-        {
-            room.SetRotation(room.rotation);
-        }
-    }
-
     private void GenerateDungeon()
     {
         DungeonNode node = this.nodeQueue.Dequeue();
@@ -62,6 +49,7 @@ public class DungeonGenerator : MonoBehaviour
         if(!IsDungeonNodeValid(node, node.ParentNode, dungeonRoomDoorways))
         {
             node = ResolveInvalidNode(node, node.ParentNode);
+
             if(node == null)
             {
                 dungeonRoomDoorways.Clear();
@@ -75,12 +63,12 @@ public class DungeonGenerator : MonoBehaviour
         foreach (Transform doorway in dungeonRoomDoorways)
         {
             Vector2Int nextPosition = new Vector2Int();
-            
+
             // Top entrance
             if (doorway.forward == Vector3.forward)
             {
                 nextPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y - 1);
-                if (this.lookUpTable.IsPositionOpen(nextPosition))
+                if (!this.lookUpTable.IsPositionFilled(nextPosition))
                 {
                     DungeonNode newNode = CreateNewNode(this.template.TopEntranceRooms,
                         nextPosition,
@@ -89,16 +77,17 @@ public class DungeonGenerator : MonoBehaviour
                         this.template.tileDimension);
 
                     node.TopNode = newNode;
+
                     // Add the new node to the queue to continue BFS dungeon generation
                     nodeQueue.Enqueue(newNode);
                 }
             }
-           
+
             // Bottom entrance
             else if (doorway.forward == Vector3.back)
             {
                 nextPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y + 1);
-                if (this.lookUpTable.IsPositionOpen(nextPosition))
+                if (!this.lookUpTable.IsPositionFilled(nextPosition))
                 {
                     DungeonNode newNode = CreateNewNode(this.template.BottomEntranceRooms,
                         nextPosition,
@@ -107,16 +96,17 @@ public class DungeonGenerator : MonoBehaviour
                         -this.template.tileDimension);
 
                     node.BottomNode = newNode;
+
                     // Add the new node to the queue to continue BFS dungeon generation
                     nodeQueue.Enqueue(newNode);
                 }
             }
-            
+
             // Right entrance
             else if (doorway.forward == Vector3.right)
             {
                 nextPosition.Set(node.lookUpPosition.x + 1, node.lookUpPosition.y);
-                if (this.lookUpTable.IsPositionOpen(nextPosition))
+                if (!this.lookUpTable.IsPositionFilled(nextPosition))
                 {
                     DungeonNode newNode = CreateNewNode(this.template.RightEntranceRooms,
                         nextPosition,
@@ -125,29 +115,32 @@ public class DungeonGenerator : MonoBehaviour
                         0.0f);
 
                     node.RightNode = newNode;
+
                     // Add the new node to the queue to continue BFS dungeon generation
                     nodeQueue.Enqueue(newNode);
                 }
             }
-            
+
             // Left entrance
             else if (doorway.forward == Vector3.left)
             {
                 nextPosition.Set(node.lookUpPosition.x - 1, node.lookUpPosition.y);
-                if (this.lookUpTable.IsPositionOpen(nextPosition))
+                if (!this.lookUpTable.IsPositionFilled(nextPosition))
                 {
-                    DungeonNode newNode = CreateNewNode(this.template.LeftEntranceRooms, 
+                    DungeonNode newNode = CreateNewNode(this.template.LeftEntranceRooms,
                         nextPosition,
                         node,
                         -this.template.tileDimension,
                         0.0f);
 
                     node.LeftNode = newNode;
+
                     // Add the new node to the queue to continue BFS dungeon generation
                     nodeQueue.Enqueue(newNode);
                 }
             }
         }
+
         if (this.nodeQueue.Count == 0)
         {
             this.dungeonGenerationState++;
@@ -200,7 +193,7 @@ public class DungeonGenerator : MonoBehaviour
                         continue;
                     }
                 }
-                isValid = this.lookUpTable.IsPositionOpen(checkPosition);
+                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
             }
 
             // Bottom entrance
@@ -214,7 +207,7 @@ public class DungeonGenerator : MonoBehaviour
                         continue;
                     }
                 }
-                isValid = this.lookUpTable.IsPositionOpen(checkPosition);
+                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
             }
 
             // Right entrance
@@ -228,7 +221,7 @@ public class DungeonGenerator : MonoBehaviour
                         continue;
                     }
                 }
-                isValid = this.lookUpTable.IsPositionOpen(checkPosition);
+                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
             }
 
             // Left entrance
@@ -242,8 +235,7 @@ public class DungeonGenerator : MonoBehaviour
                         continue;
                     }
                 }
-                else
-                isValid = this.lookUpTable.IsPositionOpen(checkPosition);
+                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
             }
 
             if (!isValid)
@@ -257,26 +249,27 @@ public class DungeonGenerator : MonoBehaviour
     public DungeonNode ResolveInvalidNode(DungeonNode invalidNode, DungeonNode parentNode)
     {
         DungeonNode newNode = null;
-        List<DungeonRoom> dungeonList;
-        Vector2Int connectionDirection = invalidNode.lookUpPosition - parentNode.lookUpPosition;
+        List<DungeonRoom> dungeonList = new List<DungeonRoom>();
+        Vector3 directon = (invalidNode.GetPosition() - parentNode.GetPosition()).normalized;
+        Vector2 connectionDirection = new Vector2(directon.x, directon.z);
         
         // Top entrance
-        if (connectionDirection == Vector2Int.up)
+        if (connectionDirection == Vector2.up)
         {
             dungeonList = this.template.TopEntranceRooms;
         }
         // Bottom entrance
-        else if (connectionDirection == Vector2Int.down)
+        else if (connectionDirection == Vector2.down)
         {
             dungeonList = this.template.BottomEntranceRooms;
         }
         // Right entrance
-        else if (connectionDirection == Vector2Int.right)
+        else if (connectionDirection == Vector2.right)
         {
             dungeonList = this.template.RightEntranceRooms;
         }
         // Left entrance
-        else
+        else if (connectionDirection == Vector2.left)
         {
             dungeonList = this.template.LeftEntranceRooms;
         }
@@ -284,21 +277,22 @@ public class DungeonGenerator : MonoBehaviour
         List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
         foreach(DungeonRoom room in dungeonList)
         {
+            room.SetRotation(room.rotation);
             DungeonNode potentialNode = new DungeonNode(room, invalidNode.lookUpPosition);
             if (IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways()))
             {
                 ValidNodeList.Add(room);
             }
+            room.SetRotation(0);
         }
 
         if (ValidNodeList.Count > 0)
         {
             invalidNode.ParentNode = null;
             Destroy(invalidNode.DungeonRoom.prefab);
-            Debug.Log(invalidNode.lookUpPosition);
 
             // Top entrance
-            if (connectionDirection == Vector2Int.up)
+            if (connectionDirection == Vector2.up)
             {
                 newNode = CreateNewNode(ValidNodeList,
                     invalidNode.lookUpPosition,
@@ -309,7 +303,7 @@ public class DungeonGenerator : MonoBehaviour
                 parentNode.TopNode = newNode;
             }
             // Bottom entrance
-            else if (connectionDirection == Vector2Int.down)
+            else if (connectionDirection == Vector2.down)
             {
                 newNode = CreateNewNode(ValidNodeList,
                     invalidNode.lookUpPosition,
@@ -320,7 +314,7 @@ public class DungeonGenerator : MonoBehaviour
                 parentNode.BottomNode = newNode;
             }
             // Right entrance
-            else if (connectionDirection == Vector2Int.right)
+            else if (connectionDirection == Vector2.right)
             {
                 newNode = CreateNewNode(ValidNodeList,
                     invalidNode.lookUpPosition,
@@ -331,7 +325,7 @@ public class DungeonGenerator : MonoBehaviour
                 parentNode.RightNode = newNode;
             }
             // Left entrance
-            else
+            else if (connectionDirection == Vector2.left)
             {
                 newNode = CreateNewNode(ValidNodeList,
                     invalidNode.lookUpPosition,

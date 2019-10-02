@@ -12,20 +12,23 @@ public class DungeonLookUpTable
         this.roomPlacementMap = new bool[tableDimension, tableDimension];
     }
 
-    public bool IsPositionOpen(Vector2Int position)
+    public bool IsPositionFilled(Vector2Int position)
     {
-        bool isPositionFilled = false;
+        bool isFilled = true;
 
         if(position.x >= 0 && position.x < this.tableDimension && position.y >= 0 && position.y < this.tableDimension)
         {
-            isPositionFilled = !this.roomPlacementMap[position.x, position.y];
+            isFilled = this.roomPlacementMap[position.x, position.y];
         }
         
-        return isPositionFilled;
+        return isFilled;
     }
 
     public void fillPosition(Vector2Int position)
     {
-        this.roomPlacementMap[position.x, position.y] = true;
+        if (position.x >= 0 && position.x < this.tableDimension && position.y >= 0 && position.y < this.tableDimension)
+        {
+            this.roomPlacementMap[position.x, position.y] = true;
+        }
     }
 }
