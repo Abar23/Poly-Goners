@@ -1,18 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DungeonGenerator : MonoBehaviour
 {
     public DungeonTemplate template;
 
-    private const int lookUpTableDimensions = 20;
+    private const int lookUpTableDimensions = 10;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
     private Queue<DungeonNode> nodeQueue;
 
     private int dungeonGenerationState = 0;
+
+    // Demo Only
+    float timer;
 
     void Start()
     {
@@ -31,13 +33,22 @@ public class DungeonGenerator : MonoBehaviour
         this.nodeQueue = new Queue<DungeonNode>();
         // Add root node to queue to start generation
         this.nodeQueue.Enqueue(this.dungeonTree);
+
+        // Demo Only
+        this.timer = 0.0f;
     }
 
     void Update()
     {
-        if(dungeonGenerationState == 0)
+        timer += Time.deltaTime;
+        if (dungeonGenerationState == 0 && this.timer >= 0.25f)
         {
             GenerateDungeon();
+        }
+
+        if (this.timer > 0.25f)
+        {
+            this.timer = 0.0f;
         }
     }
 
@@ -48,15 +59,18 @@ public class DungeonGenerator : MonoBehaviour
 
         if(!IsDungeonNodeValid(node, node.ParentNode, dungeonRoomDoorways))
         {
-            node = ResolveInvalidNode(node, node.ParentNode);
+            if(node.ParentNode != null)
+            {
+                node = ResolveInvalidNode(node, node.ParentNode);
 
-            if(node == null)
-            {
-                dungeonRoomDoorways.Clear();
-            }
-            else
-            {
-                dungeonRoomDoorways = node.DungeonRoom.GetDooorways();
+                if (node == null)
+                {
+                    dungeonRoomDoorways.Clear();
+                }
+                else
+                {
+                    dungeonRoomDoorways = node.DungeonRoom.GetDooorways();
+                }
             }
         }
 
@@ -277,12 +291,14 @@ public class DungeonGenerator : MonoBehaviour
         List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
         foreach(DungeonRoom room in dungeonList)
         {
+            // Rotate Prefab
             room.SetRotation(room.rotation);
             DungeonNode potentialNode = new DungeonNode(room, invalidNode.lookUpPosition);
             if (IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways()))
             {
                 ValidNodeList.Add(room);
             }
+            // Undo rotation on Prefab
             room.SetRotation(0);
         }
 

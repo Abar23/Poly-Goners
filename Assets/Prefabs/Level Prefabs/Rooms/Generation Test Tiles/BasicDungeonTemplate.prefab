@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2687626307707701359
+--- !u!1 &4244084288466163456
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8864729424553187957}
-  - component: {fileID: 8905564100662111920}
+  - component: {fileID: 7255160178722211098}
+  - component: {fileID: 7222844243290730975}
   m_Layer: 0
   m_Name: BasicDungeonTemplate
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8864729424553187957
+--- !u!4 &7255160178722211098
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2687626307707701359}
+  m_GameObject: {fileID: 4244084288466163456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,71 +31,81 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8905564100662111920
+--- !u!114 &7222844243290730975
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2687626307707701359}
+  m_GameObject: {fileID: 4244084288466163456}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4efb835ded06398408056415f8d8d56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileDimension: 10
   TopEntranceRooms:
-  - dungeonRoom: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
       type: 3}
     rotation: -90
-  - dungeonRoom: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
+  - prefab: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
       type: 3}
     rotation: 0
-  - dungeonRoom: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
+  - prefab: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
       type: 3}
     rotation: 0
-  - dungeonRoom: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+  - prefab: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
       type: 3}
     rotation: 0
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+      type: 3}
+    rotation: -90
   BottomEntranceRooms:
-  - dungeonRoom: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
       type: 3}
     rotation: 180
-  - dungeonRoom: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
+  - prefab: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
       type: 3}
     rotation: 180
-  - dungeonRoom: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+  - prefab: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
       type: 3}
     rotation: 0
-  - dungeonRoom: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
+  - prefab: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
       type: 3}
     rotation: 0
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+      type: 3}
+    rotation: 90
   LeftEntranceRooms:
-  - dungeonRoom: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
       type: 3}
     rotation: 180
-  - dungeonRoom: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
+  - prefab: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
       type: 3}
     rotation: -90
-  - dungeonRoom: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+  - prefab: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
       type: 3}
     rotation: 180
-  - dungeonRoom: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
+  - prefab: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
       type: 3}
-    rotation: 90
+    rotation: -90
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+      type: 3}
+    rotation: -90
   RightEntranceRooms:
-  - dungeonRoom: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
-      type: 3}
-    rotation: 90
-  - dungeonRoom: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
-      type: 3}
-    rotation: 90
-  - dungeonRoom: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
       type: 3}
     rotation: 0
-  - dungeonRoom: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
+  - prefab: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
+      type: 3}
+    rotation: 90
+  - prefab: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+      type: 3}
+    rotation: 0
+  - prefab: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
       type: 3}
     rotation: 90
   StartRooms:
-  - dungeonRoom: {fileID: 3689736053145698269, guid: 765d48762468c6a41a1323494dfdc17b,
+  - prefab: {fileID: 3689736053145698269, guid: 765d48762468c6a41a1323494dfdc17b,
       type: 3}
     rotation: 0
