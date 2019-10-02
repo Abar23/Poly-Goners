@@ -36,6 +36,7 @@ public class Inventory : MonoBehaviour
     {
         player = GetComponent<Player>();
         weaponManager = GetComponentInChildren<WeaponManager>();
+        potion = null;
 
         meleeWeapons = new Weapon[NumberOfMeleeSlots];
         magicAbilities = new Projectile[NumberOfMagicSlots];
@@ -72,6 +73,9 @@ public class Inventory : MonoBehaviour
                 }
                 Invoke("ResetMultiplier", config.EffectiveTime);
             }
+
+            Destroy(potion);
+            PotionIcon.DisableCurrentIcon();
         }
     }
 
@@ -139,6 +143,14 @@ public class Inventory : MonoBehaviour
 
     }
 
+    public void DropPotion()
+    {
+        GameObject p = Instantiate(potion.gameObject, transform.position + transform.forward * 2f, Quaternion.identity);
+        p.SetActive(true);
+        PotionIcon.DisableCurrentIcon();
+        Destroy(potion);
+    }
+
     public bool IsMeleeFull()
     {
         bool full = true;
@@ -174,6 +186,7 @@ public class Inventory : MonoBehaviour
             if (!HasPotion())
             {
                 potion = collectable;
+                potion.gameObject.SetActive(false);
                 PotionConfig config = potion.GetComponent<Collectable>().Config;
                 if (config is HealthPotionConfig)
                 {

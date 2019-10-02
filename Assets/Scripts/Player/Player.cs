@@ -218,10 +218,9 @@ public class Player : MonoBehaviour
 
             if (potionDropTimer > timeToDrop)
             {
-                inventory.DropMagic();
+                inventory.DropPotion();
                 animator.SetTrigger("DropItem");
-                magicDropTimer = 0f;
-                magicDropped = true;
+                potionDropTimer = 0f;
             }
         }
         else
