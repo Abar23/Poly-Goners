@@ -8,7 +8,7 @@ public class Skeleton : MonoBehaviour
 {
 
     [SerializeField] private TargetScanner m_Scanner;
-    private static List<Transform> m_Players;
+    private List<Transform> m_Players;
     [SerializeField] private float m_AttackDelay = 3.0f;
 
     private NavMeshAgent m_Agent;
@@ -21,14 +21,11 @@ public class Skeleton : MonoBehaviour
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_Controller = GetComponent<SkeletonAnimatorController>();
-        if (m_Players == null)
+        m_Players = new List<Transform>();
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject ob in objects)
         {
-            m_Players = new List<Transform>();
-            GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
-            foreach (GameObject ob in objects)
-            {
-                m_Players.Add(ob.transform);
-            }
+            m_Players.Add(ob.transform);
         }
         RoomController room = gameObject.GetComponentInParent<RoomController>();
         Damageable damageable = gameObject.GetComponent<Damageable>();
