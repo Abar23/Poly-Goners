@@ -11,12 +11,14 @@ public class RangedSkeleton : MonoBehaviour
     private List<Transform> m_Players;
     [SerializeField] private float m_AttackDelay = 3.0f;
     [SerializeField] private float m_AttackRange = 10.0f;
+    [SerializeField] private float m_FireDelay;
 
     private NavMeshAgent m_Agent;
     private SkeletonAnimatorController m_Controller;
     private const float k_ScanInterval = 0.5f;
     private const int k_RotateInterval = 10;
     private int followingIndex;
+    private MagicBox m_MagicBox;
     
 
     void Awake()
@@ -36,6 +38,7 @@ public class RangedSkeleton : MonoBehaviour
             room.RegisterEnemy();
             damageable.OnDeath.AddListener(room.RemoveEnemy);
         }
+        m_MagicBox = gameObject.GetComponentInChildren<MagicBox>();
     }
 
     void Start()
@@ -45,7 +48,8 @@ public class RangedSkeleton : MonoBehaviour
 
     IEnumerator ScanForPlayer()
     {
-        while (true)
+        bool foundPlayer = false;
+        while (!foundPlayer)
         {
             for (int i = 0; i < m_Players.Count; i++)
             {
@@ -53,7 +57,7 @@ public class RangedSkeleton : MonoBehaviour
                 {
                     followingIndex = i;
                     StartCoroutine(ReachForPlayer());
-                    break;
+                    foundPlayer = true;
                 }
             }
             yield return new WaitForSeconds(k_ScanInterval);
@@ -101,7 +105,8 @@ public class RangedSkeleton : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         m_Controller.RangedAttack();
-        StartCoroutine("ReachForPlayer", Mathf.Max(m_AttackDelay - elpase, 0));
+        StartCoroutine(FireMagicAfterFrames(0, m_FireDelay));
+        StartCoroutine("ReachForPlayer", Mathf.Max(m_AttackDelay, 0));
     }
 
     float CalculateDistanceToPlayer(int i)
@@ -115,6 +120,12 @@ public class RangedSkeleton : MonoBehaviour
     {
         m_Agent.isStopped = !isWalking;
         m_Controller.Walk(isWalking);
+    }
+
+    IEnumerator FireMagicAfterFrames(int index, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        m_MagicBox.FireMagic(index);
     }
 
 }
