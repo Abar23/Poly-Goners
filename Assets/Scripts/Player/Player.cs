@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
 
+    private Stamina stamina;
     private MagicBox magicBox;
     private Inventory inventory;
     private CharacterController character;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     private float reviveTimer;
     private float timeToRevive = 3f;
     private float reviveDistance = 2.5f;
+    private float rollStaminaCost = 20f;
 
     private float meleeDropTimer;
     private float magicDropTimer;
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
+        stamina = GetComponent<Stamina>();
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
@@ -124,8 +127,10 @@ public class Player : MonoBehaviour
         // Perform melee attack
         if (Controller.GetControllerActions().rightBumper.WasPressed)
         {
-            if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
+            float attackStamina = weaponManager.GetWeaponStaminaConfig().GetPrimaryAttackStamina();
+            if (currentWeapon != null && !currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina) 
             {
+                stamina.DecreaseStamina(attackStamina);
 				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
 				animator.SetTrigger("PrimaryAttackTrigger");
 				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
@@ -295,8 +300,9 @@ public class Player : MonoBehaviour
             PlayerMovementState.HandleGroundedTransition();
             
             // Handle Roll Input
-            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling())
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() > rollStaminaCost)
             {
+                stamina.DecreaseStamina(rollStaminaCost);
                 PlayerMovementState.HandleRollingTransition();
             }
 

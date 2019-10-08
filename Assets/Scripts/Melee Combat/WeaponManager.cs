@@ -62,4 +62,9 @@ public class WeaponManager : MonoBehaviour
     {
         return currentWeapon.GetComponent<Weapon>().GetAnimationConfig();
     }
+
+    public WeaponStaminaConfig GetWeaponStaminaConfig()
+    {
+        return currentWeapon.GetComponent<Weapon>().GetStaminaConfig();
+    }
 }
