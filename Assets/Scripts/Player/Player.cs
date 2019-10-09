@@ -86,6 +86,13 @@ public class Player : MonoBehaviour
                 UpdateInput();
                 PlayerMovementState.Update();
             }
+            else
+            {
+                if (OtherPlayer.PlayerMovementState is PlayerDeathState)
+                {
+                    RevivePrompt.gameObject.SetActive(false);
+                }
+            }
         }
     }
 
@@ -125,10 +132,10 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed)
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null)
         {
             float attackStamina = weaponManager.GetWeaponStaminaConfig().GetPrimaryAttackStamina();
-            if (currentWeapon != null && !currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina) 
+            if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina) 
             {
                 stamina.DecreaseStamina(attackStamina);
 				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
