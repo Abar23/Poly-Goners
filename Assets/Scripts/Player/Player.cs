@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private float timeToRevive = 3f;
     private float reviveDistance = 2.5f;
     private float rollStaminaCost = 20f;
+    private float jumpStaminaCost = 15f;
 
     private float meleeDropTimer;
     private float magicDropTimer;
@@ -307,7 +308,7 @@ public class Player : MonoBehaviour
             PlayerMovementState.HandleGroundedTransition();
             
             // Handle Roll Input
-            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() > rollStaminaCost)
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() >= rollStaminaCost)
             {
                 stamina.DecreaseStamina(rollStaminaCost);
                 PlayerMovementState.HandleRollingTransition();
@@ -315,8 +316,9 @@ public class Player : MonoBehaviour
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
-            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()))
+            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()) && stamina.CurrentStaminaValue() >= jumpStaminaCost)
             {
+                stamina.DecreaseStamina(jumpStaminaCost);
                 PlayerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
             }
