@@ -48563,7 +48563,7 @@ Transform:
   - {fileID: 3367600238642485371}
   - {fileID: 3367600238642516877}
   - {fileID: 3367600238642500777}
-  - {fileID: 5446982667598611269}
+  - {fileID: 6910074084814925785}
   m_Father: {fileID: 3367600238642503395}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -49027,6 +49027,7 @@ MonoBehaviour:
   NumberOfMagicSlots: 2
   CoinDisplay: {fileID: 0}
   MeleeIcon: {fileID: 0}
+  MagicIcon: {fileID: 0}
   PotionIcon: {fileID: 0}
   WeaponPrefabs:
   - {fileID: 6362949163971598739, guid: e10bb8d0c20133b40bbc3a54e3886268, type: 3}
@@ -121961,13 +121962,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!1001 &2217418637171827237
+--- !u!1001 &772306468356443833
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 3367600238642537647}
     m_Modifications:
+    - target: {fileID: 6024588926266259987, guid: 4987950f952a7ec4d9c92b235f85a6e7,
+        type: 3}
+      propertyPath: m_Name
+      value: Weapons
+      objectReference: {fileID: 0}
     - target: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122023,18 +122029,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6024588926266259987, guid: 4987950f952a7ec4d9c92b235f85a6e7,
-        type: 3}
-      propertyPath: m_Name
-      value: Weapon
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4987950f952a7ec4d9c92b235f85a6e7, type: 3}
---- !u!4 &5446982667598611269 stripped
+--- !u!4 &6910074084814925785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6148059321249423712, guid: 4987950f952a7ec4d9c92b235f85a6e7,
     type: 3}
-  m_PrefabInstance: {fileID: 2217418637171827237}
+  m_PrefabInstance: {fileID: 772306468356443833}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5837917221500090232
 PrefabInstance:
@@ -122043,6 +122044,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3367600238642508159}
     m_Modifications:
+    - target: {fileID: 71077137082143081, guid: f063724fad54b024d839044f3ea4bd18,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 71077137082143080, guid: f063724fad54b024d839044f3ea4bd18,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122148,11 +122154,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 71077137082143081, guid: f063724fad54b024d839044f3ea4bd18,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerCanvas
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f063724fad54b024d839044f3ea4bd18, type: 3}
 --- !u!224 &5906742008907245072 stripped
@@ -122186,6 +122187,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3367600238642508159}
     m_Modifications:
+    - target: {fileID: 5709765550978744211, guid: 32628d2bc8103ea44a93df4f97ea4473,
+        type: 3}
+      propertyPath: m_Name
+      value: MagicBox
+      objectReference: {fileID: 0}
     - target: {fileID: 5709765550978744208, guid: 32628d2bc8103ea44a93df4f97ea4473,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -122240,11 +122246,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5709765550978744211, guid: 32628d2bc8103ea44a93df4f97ea4473,
-        type: 3}
-      propertyPath: m_Name
-      value: MagicBox
       objectReference: {fileID: 0}
     - target: {fileID: 5709765550781560443, guid: 32628d2bc8103ea44a93df4f97ea4473,
         type: 3}
