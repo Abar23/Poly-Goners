@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private float elapsedTime;
     private Collider collider;
     public WeaponAnimationConfig weaponAnimationConfig;
+    public WeaponStaminaConfig weaponStaminaConfig;
 
     public void Start()
     {
@@ -54,5 +55,10 @@ public class Weapon : MonoBehaviour, IWeapon
     public WeaponAnimationConfig GetAnimationConfig()
     {
         return weaponAnimationConfig;
+    }
+
+    public WeaponStaminaConfig GetStaminaConfig()
+    {
+        return weaponStaminaConfig;
     }
 }
