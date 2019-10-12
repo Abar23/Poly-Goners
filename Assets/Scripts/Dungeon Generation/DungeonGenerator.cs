@@ -13,15 +13,12 @@ public class DungeonGenerator : MonoBehaviour
 
     private int dungeonGenerationState = 0;
 
-    // Demo Only
-    float timer;
-
     void Start()
     {
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
 
         // Randomly choose starting room
-        DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count - 1)];
+        DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count)];
         // Set dungeon tree root to the starting room
         this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int((lookUpTableDimensions - 1) / 2, (lookUpTableDimensions - 1) / 2));
         // Fill look up tabel position with starting room position
@@ -33,22 +30,13 @@ public class DungeonGenerator : MonoBehaviour
         this.nodeQueue = new Queue<DungeonNode>();
         // Add root node to queue to start generation
         this.nodeQueue.Enqueue(this.dungeonTree);
-
-        // Demo Only
-        this.timer = 0.0f;
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (dungeonGenerationState == 0 && this.timer >= 0.25f)
+        if (dungeonGenerationState == 0)
         {
             GenerateDungeon();
-        }
-
-        if (this.timer > 0.25f)
-        {
-            this.timer = 0.0f;
         }
     }
 
@@ -168,7 +156,7 @@ public class DungeonGenerator : MonoBehaviour
         float roomYPositionOffset)
     {
         // Get random room from list of rooms
-        DungeonRoom room = roomList[Random.Range(0, roomList.Count - 1)];
+        DungeonRoom room = roomList[Random.Range(0, roomList.Count)];
 
         // Create copy of the randomly chosen room
         DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), room.rotation);
