@@ -46,6 +46,11 @@ public class Inventory : MonoBehaviour
         MagicIcon.EnableIcon(currentMagicIndex.ToString());
     }
 
+    public int GetGold()
+    {
+        return gold;
+    }
+
     public void IncreaseGold(int num)
     {
         gold += num;

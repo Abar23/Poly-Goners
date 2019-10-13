@@ -12,6 +12,7 @@ public class ShopItem : MonoBehaviour
     public GameObject buyPrompt;
     public Text itemName;
     float promptActivationDistance = .75f;
+    public int price;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class ShopItem : MonoBehaviour
         player2 = GetComponentInParent<ShopManager>().player2;
         buyPrompt.SetActive(false);
         itemName.enabled = false;
+        price = 500;
     }
 
     void Update()
@@ -31,11 +33,23 @@ public class ShopItem : MonoBehaviour
         {
             buyPrompt.SetActive(true);
             itemName.enabled = true;
+
+            if (player1.GetComponent<Inventory>().GetGold() >= price && player1.GetComponent<Player>().CheckUseButtonPress())
+                BuyItem();
         }
         else
         {
             buyPrompt.SetActive(false);
             itemName.enabled = false;
         }
+    }
+
+    void BuyItem()
+    {
+        player1.GetComponent<Inventory>().DecreaseGold(price);
+        
+        // TODO: add to player's inventory
+
+        Destroy(this.gameObject);
     }
 }
