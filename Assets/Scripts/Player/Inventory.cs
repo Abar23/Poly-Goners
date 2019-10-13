@@ -52,6 +52,12 @@ public class Inventory : MonoBehaviour
         CoinDisplay.text = gold.ToString();
     }
 
+    public void DecreaseGold(int num)
+    {
+        gold -= num;
+        CoinDisplay.text = gold.ToString();
+    }
+
     public void UsePotion()
     {
         if (HasPotion())
