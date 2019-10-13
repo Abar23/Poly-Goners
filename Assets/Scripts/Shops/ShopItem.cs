@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopItem : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class ShopItem : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
     public GameObject buyPrompt;
+    public Text itemName;
     float promptActivationDistance = .75f;
 
     // Start is called before the first frame update
@@ -17,6 +19,7 @@ public class ShopItem : MonoBehaviour
         player1 = GetComponentInParent<ShopManager>().player1;
         player2 = GetComponentInParent<ShopManager>().player2;
         buyPrompt.SetActive(false);
+        itemName.enabled = false;
     }
 
     void Update()
@@ -27,10 +30,12 @@ public class ShopItem : MonoBehaviour
         if (distanceFromPlayer1 <= promptActivationDistance)
         {
             buyPrompt.SetActive(true);
+            itemName.enabled = true;
         }
         else
         {
             buyPrompt.SetActive(false);
+            itemName.enabled = false;
         }
     }
 }
