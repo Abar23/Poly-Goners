@@ -14,7 +14,6 @@ public class ShopItem : MonoBehaviour
     float promptActivationDistance = .75f;
     public int price;
 
-    // Start is called before the first frame update
     void Start()
     {
         player1 = GetComponentInParent<ShopManager>().player1;
@@ -62,6 +61,12 @@ public class ShopItem : MonoBehaviour
         player.GetComponent<Inventory>().DecreaseGold(price);
         
         // TODO: add to player's inventory
+        if (this.gameObject.tag == "ShopWeapon")
+        {
+            WeaponManager wm = player.GetComponentInChildren<WeaponManager>();
+            wm.EquipWeapon(this.name + " Pickup");
+            player.GetComponent<Inventory>().AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>());
+        }
 
         Destroy(this.gameObject);
     }
