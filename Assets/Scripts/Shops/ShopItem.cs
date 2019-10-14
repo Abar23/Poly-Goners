@@ -58,16 +58,17 @@ public class ShopItem : MonoBehaviour
 
     void BuyItem(GameObject player)
     {
-        player.GetComponent<Inventory>().DecreaseGold(price);
+        Inventory inv = player.GetComponent<Inventory>();
         
-        // TODO: add to player's inventory
-        if (this.gameObject.tag == "ShopWeapon")
+        // Buy melee weapon if inventory isn't full
+        if (this.gameObject.tag == "ShopWeapon" && !inv.IsMeleeFull())
         {
             WeaponManager wm = player.GetComponentInChildren<WeaponManager>();
             wm.EquipWeapon(this.name + " Pickup");
-            player.GetComponent<Inventory>().AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>());
-        }
+            inv.AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>());
 
-        Destroy(this.gameObject);
+            player.GetComponent<Inventory>().DecreaseGold(price);
+            Destroy(this.gameObject);
+        }
     }
 }
