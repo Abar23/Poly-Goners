@@ -1,345 +1,134 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static DungeonRoom;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    public int numberOfRooms; // Public room number constraints. Temporary, need to create dynamic way to do this
     public DungeonTemplate template;
-
-    private const int lookUpTableDimensions = 10;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
-    private Queue<DungeonNode> nodeQueue;
+    private IDungeonGenerationState dungeonGenerationState;
 
-    private int dungeonGenerationState = 0;
+    // Limit the size of the lookup table. We will never create a 100 room dungeon.
+    private const int lookUpTableDimensions = 20;
 
     void Start()
     {
+        /*---- Initial Data Setup ----*/
+        
+        // Init look up table for dungeon generation step
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
-
+        
         // Randomly choose starting room
         DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count)];
+        
         // Set dungeon tree root to the starting room
-        this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int((lookUpTableDimensions - 1) / 2, (lookUpTableDimensions - 1) / 2));
+        int centerTilePosition = (lookUpTableDimensions - 1) / 2;
+        this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int(centerTilePosition, centerTilePosition));
+        
         // Fill look up tabel position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
+        
         // Create starting room gameobject
-        Instantiate(startingRoom.prefab, Vector3.zero, Quaternion.AngleAxis(startingRoom.rotation, Vector3.up));
+        Instantiate(startingRoom.prefab, Vector3.zero, Quaternion.AngleAxis((float)startingRoom.roomRotation, Vector3.up));
 
-        // Queue used for BFS dungeon generation
-        this.nodeQueue = new Queue<DungeonNode>();
-        // Add root node to queue to start generation
-        this.nodeQueue.Enqueue(this.dungeonTree);
+        // Set inital state of the dungeon generator to the creation state
+        this.dungeonGenerationState = new DungeonCreationState(this.template, this.lookUpTable, this.dungeonTree, this.numberOfRooms - 1);
     }
 
     void Update()
     {
-        if (dungeonGenerationState == 0)
+        IDungeonGenerationState newState = this.dungeonGenerationState.Update();
+
+        if(newState != null)
         {
-            GenerateDungeon();
+            this.dungeonGenerationState = newState;
         }
     }
 
-    private void GenerateDungeon()
+    public static DungeonNode AddNewRoom(List<DungeonRoom> roomList,
+        Vector2Int lookUpTablePosition,
+        DungeonNode parentNode,
+        float roomXPositionOffset,
+        float roomYPositionOffset,
+        int numberOfRoomsLeftToPlace)
     {
-        DungeonNode node = this.nodeQueue.Dequeue();
-        List<Transform> dungeonRoomDoorways = node.DungeonRoom.GetDooorways();
+        DungeonNode newNode = null;
 
-        if(!IsDungeonNodeValid(node, node.ParentNode, dungeonRoomDoorways))
-        {
-            if(node.ParentNode != null)
-            {
-                node = ResolveInvalidNode(node, node.ParentNode);
+        // Get spawn chance value
+        float spawnProbability = Random.Range(0.0f, 1.0f);
 
-                if (node == null)
-                {
-                    dungeonRoomDoorways.Clear();
-                }
-                else
-                {
-                    dungeonRoomDoorways = node.DungeonRoom.GetDooorways();
-                }
-            }
-        }
-
-        foreach (Transform doorway in dungeonRoomDoorways)
-        {
-            Vector2Int nextPosition = new Vector2Int();
-
-            // Top entrance
-            if (doorway.forward == Vector3.forward)
-            {
-                nextPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y - 1);
-                if (!this.lookUpTable.IsPositionFilled(nextPosition))
-                {
-                    DungeonNode newNode = CreateNewNode(this.template.TopEntranceRooms,
-                        nextPosition,
-                        node,
-                        0.0f,
-                        this.template.tileDimension);
-
-                    node.TopNode = newNode;
-
-                    // Add the new node to the queue to continue BFS dungeon generation
-                    nodeQueue.Enqueue(newNode);
-                }
-            }
-
-            // Bottom entrance
-            else if (doorway.forward == Vector3.back)
-            {
-                nextPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y + 1);
-                if (!this.lookUpTable.IsPositionFilled(nextPosition))
-                {
-                    DungeonNode newNode = CreateNewNode(this.template.BottomEntranceRooms,
-                        nextPosition,
-                        node,
-                        0.0f,
-                        -this.template.tileDimension);
-
-                    node.BottomNode = newNode;
-
-                    // Add the new node to the queue to continue BFS dungeon generation
-                    nodeQueue.Enqueue(newNode);
-                }
-            }
-
-            // Right entrance
-            else if (doorway.forward == Vector3.right)
-            {
-                nextPosition.Set(node.lookUpPosition.x + 1, node.lookUpPosition.y);
-                if (!this.lookUpTable.IsPositionFilled(nextPosition))
-                {
-                    DungeonNode newNode = CreateNewNode(this.template.RightEntranceRooms,
-                        nextPosition,
-                        node,
-                        this.template.tileDimension,
-                        0.0f);
-
-                    node.RightNode = newNode;
-
-                    // Add the new node to the queue to continue BFS dungeon generation
-                    nodeQueue.Enqueue(newNode);
-                }
-            }
-
-            // Left entrance
-            else if (doorway.forward == Vector3.left)
-            {
-                nextPosition.Set(node.lookUpPosition.x - 1, node.lookUpPosition.y);
-                if (!this.lookUpTable.IsPositionFilled(nextPosition))
-                {
-                    DungeonNode newNode = CreateNewNode(this.template.LeftEntranceRooms,
-                        nextPosition,
-                        node,
-                        -this.template.tileDimension,
-                        0.0f);
-
-                    node.LeftNode = newNode;
-
-                    // Add the new node to the queue to continue BFS dungeon generation
-                    nodeQueue.Enqueue(newNode);
-                }
-            }
-        }
-
-        if (this.nodeQueue.Count == 0)
-        {
-            this.dungeonGenerationState++;
-        }
-    }
-
-    private DungeonNode CreateNewNode(List<DungeonRoom> roomList,
-        Vector2Int lookUpTablePosition, 
-        DungeonNode parentNode, 
-        float roomXPositionOffset, 
-        float roomYPositionOffset)
-    {
         // Get random room from list of rooms
-        DungeonRoom room = roomList[Random.Range(0, roomList.Count)];
+        List<DungeonRoom> validRoomsToChoose = new List<DungeonRoom>();
+        foreach(DungeonRoom potentialRoom in roomList)
+        {
+            if(potentialRoom.GetDooorways().Count - 1 <= numberOfRoomsLeftToPlace)
+            {
+                if(spawnProbability >= 1.0f - potentialRoom.spawnChance)
+                {
+                    validRoomsToChoose.Add(potentialRoom);
+                }
+            }
+        }
 
-        // Create copy of the randomly chosen room
-        DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), room.rotation);
+        if(validRoomsToChoose.Count > 0)
+        {
+            DungeonRoom room = validRoomsToChoose[Random.Range(0, validRoomsToChoose.Count)];
 
-        // Get the parent node position
-        Vector3 parentNodePosition = parentNode.GetPosition();
-        
-        // Set the new dungeon room to the proper position and rotation
-        newRoom.SetPosition(new Vector3(parentNodePosition.x + roomXPositionOffset, 0.0f, parentNodePosition.z + roomYPositionOffset));
-        newRoom.SetRotation(room.rotation);
+            // Create copy of the randomly chosen room
+            DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), room.roomRotation);
 
-        // Add the new dungeon node to the dungeon tree
-        DungeonNode newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
+            // Get the parent node position
+            Vector3 parentNodePosition = parentNode.GetPosition();
 
-        // Fill look up table position for the new dungeon room that was added
-        this.lookUpTable.fillPosition(lookUpTablePosition);
+            // Set the new dungeon room to the proper position and rotation
+            newRoom.SetPosition(new Vector3(parentNodePosition.x + roomXPositionOffset, 0.0f, parentNodePosition.z + roomYPositionOffset));
+            newRoom.RotateRoom();
+
+            // Add the new dungeon node to the dungeon tree
+            newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
+        }
 
         return newNode;
     }
 
-    private bool IsDungeonNodeValid(DungeonNode node, DungeonNode parentNode, List<Transform> doorways)
+    public static DungeonNode AddDeadEnd(List<DungeonRoom> deadEndRoomsList,
+        Vector2Int lookUpTablePosition,
+        DungeonNode parentNode,
+        float roomXPositionOffset,
+        float roomYPositionOffset,
+        RoomRotationAngle angleToRotateDeadEndRoom)
     {
-        bool isValid = true;
+        // Get spawn chance value
+        float spawnProbability = Random.Range(0.0f, 1.0f);
 
-        foreach (Transform doorway in doorways)
+        // Get random room from list of rooms
+        List<DungeonRoom> validDeadEndRoomsToChoose = new List<DungeonRoom>();
+        foreach (DungeonRoom potentialDeadEnd in deadEndRoomsList)
         {
-            Vector2Int checkPosition = new Vector2Int();
-            // Top entrance
-            if (doorway.forward == Vector3.forward)
+            if (spawnProbability >= 1.0f - potentialDeadEnd.spawnChance)
             {
-                checkPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y - 1);
-                if (parentNode != null)
-                {
-                    if (parentNode.lookUpPosition == checkPosition)
-                    {
-                        continue;
-                    }
-                }
-                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
-            }
-
-            // Bottom entrance
-            else if (doorway.forward == Vector3.back)
-            {
-                checkPosition.Set(node.lookUpPosition.x, node.lookUpPosition.y + 1);
-                if (parentNode != null)
-                {
-                    if (parentNode.lookUpPosition == checkPosition)
-                    {
-                        continue;
-                    }
-                }
-                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
-            }
-
-            // Right entrance
-            else if (doorway.forward == Vector3.right)
-            {
-                checkPosition.Set(node.lookUpPosition.x + 1, node.lookUpPosition.y);
-                if (parentNode != null)
-                {
-                    if (parentNode.lookUpPosition == checkPosition)
-                    {
-                        continue;
-                    }
-                }
-                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
-            }
-
-            // Left entrance
-            else if (doorway.forward == Vector3.left)
-            {
-                checkPosition.Set(node.lookUpPosition.x - 1, node.lookUpPosition.y);
-                if (parentNode != null)
-                {
-                    if (parentNode.lookUpPosition == checkPosition)
-                    {
-                        continue;
-                    }
-                }
-                isValid = !this.lookUpTable.IsPositionFilled(checkPosition);
-            }
-
-            if (!isValid)
-            {
-                break;
+                validDeadEndRoomsToChoose.Add(potentialDeadEnd);
             }
         }
-        return isValid;
-    }
 
-    public DungeonNode ResolveInvalidNode(DungeonNode invalidNode, DungeonNode parentNode)
-    {
-        DungeonNode newNode = null;
-        List<DungeonRoom> dungeonList = new List<DungeonRoom>();
-        Vector3 directon = (invalidNode.GetPosition() - parentNode.GetPosition()).normalized;
-        Vector2 connectionDirection = new Vector2(directon.x, directon.z);
-        
-        // Top entrance
-        if (connectionDirection == Vector2.up)
-        {
-            dungeonList = this.template.TopEntranceRooms;
-        }
-        // Bottom entrance
-        else if (connectionDirection == Vector2.down)
-        {
-            dungeonList = this.template.BottomEntranceRooms;
-        }
-        // Right entrance
-        else if (connectionDirection == Vector2.right)
-        {
-            dungeonList = this.template.RightEntranceRooms;
-        }
-        // Left entrance
-        else if (connectionDirection == Vector2.left)
-        {
-            dungeonList = this.template.LeftEntranceRooms;
-        }
+        // Get random room from list of rooms
+        DungeonRoom room = validDeadEndRoomsToChoose[Random.Range(0, validDeadEndRoomsToChoose.Count)];
 
-        List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
-        foreach(DungeonRoom room in dungeonList)
-        {
-            // Rotate Prefab
-            room.SetRotation(room.rotation);
-            DungeonNode potentialNode = new DungeonNode(room, invalidNode.lookUpPosition);
-            if (IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways()))
-            {
-                ValidNodeList.Add(room);
-            }
-            // Undo rotation on Prefab
-            room.SetRotation(0);
-        }
+        // Create copy of the randomly chosen room
+        DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), angleToRotateDeadEndRoom);
 
-        if (ValidNodeList.Count > 0)
-        {
-            invalidNode.ParentNode = null;
-            Destroy(invalidNode.DungeonRoom.prefab);
+        // Get the parent node position
+        Vector3 parentNodePosition = parentNode.GetPosition();
 
-            // Top entrance
-            if (connectionDirection == Vector2.up)
-            {
-                newNode = CreateNewNode(ValidNodeList,
-                    invalidNode.lookUpPosition,
-                    parentNode,
-                    0.0f,
-                    this.template.tileDimension);
+        // Set the new dungeon room to the proper position and rotation
+        newRoom.SetPosition(new Vector3(parentNodePosition.x + roomXPositionOffset, 0.0f, parentNodePosition.z + roomYPositionOffset));
+        newRoom.RotateRoom();
 
-                parentNode.TopNode = newNode;
-            }
-            // Bottom entrance
-            else if (connectionDirection == Vector2.down)
-            {
-                newNode = CreateNewNode(ValidNodeList,
-                    invalidNode.lookUpPosition,
-                    parentNode,
-                    0.0f,
-                    -this.template.tileDimension);
-
-                parentNode.BottomNode = newNode;
-            }
-            // Right entrance
-            else if (connectionDirection == Vector2.right)
-            {
-                newNode = CreateNewNode(ValidNodeList,
-                    invalidNode.lookUpPosition,
-                    parentNode,
-                    this.template.tileDimension,
-                    0.0f);
-
-                parentNode.RightNode = newNode;
-            }
-            // Left entrance
-            else if (connectionDirection == Vector2.left)
-            {
-                newNode = CreateNewNode(ValidNodeList,
-                    invalidNode.lookUpPosition,
-                    parentNode,
-                    -this.template.tileDimension,
-                    0.0f);
-
-                parentNode.LeftNode = newNode;
-            }
-        }
+        // Add the new dungeon node to the dungeon tree
+        DungeonNode newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
 
         return newNode;
     }

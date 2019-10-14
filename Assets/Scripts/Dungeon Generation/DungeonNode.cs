@@ -3,12 +3,12 @@
 public class DungeonNode
 {
     public DungeonRoom DungeonRoom { get; set; }
-    public Vector2Int lookUpPosition { get; set; }
     public DungeonNode LeftNode { get; set; }
     public DungeonNode RightNode { get; set; }
     public DungeonNode TopNode { get; set; }
     public DungeonNode BottomNode { get; set; }
     public DungeonNode ParentNode { get; set; }
+    public Vector2Int lookUpPosition { get; set; }
 
     public DungeonNode(DungeonRoom dungeonRoom, Vector2Int DungeonPosition, DungeonNode parentNode = null)
     {
