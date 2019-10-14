@@ -207,22 +207,27 @@ public class Inventory : MonoBehaviour
         {
             if (!HasPotion())
             {
-                potion = collectable;
-                potion.gameObject.SetActive(false);
-                PotionConfig config = potion.GetComponent<Collectable>().Config;
-                if (config is HealthPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigRed");
-                }
-                else if (config is MagicPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigBlue");
-                }
-                else if (config is StrengthPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigPurple");
-                }
+                AddPotionToInventory(collectable);
             }
+        }
+    }
+
+    public void AddPotionToInventory(Collectable p)
+    {
+        potion = p;
+        potion.gameObject.SetActive(false);
+        PotionConfig config = potion.GetComponent<Collectable>().Config;
+        if (config is HealthPotionConfig)
+        {
+            PotionIcon.EnableIcon("BigRed");
+        }
+        else if (config is MagicPotionConfig)
+        {
+            PotionIcon.EnableIcon("BigBlue");
+        }
+        else if (config is StrengthPotionConfig)
+        {
+            PotionIcon.EnableIcon("BigPurple");
         }
     }
 

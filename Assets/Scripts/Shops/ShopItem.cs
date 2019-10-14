@@ -68,7 +68,23 @@ public class ShopItem : MonoBehaviour
             inv.AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>());
 
             player.GetComponent<Inventory>().DecreaseGold(price);
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+        }
+
+        // Buy potion if player is not already holding a potion
+        else if (this.gameObject.tag == "ShopPotion" && !inv.HasPotion())
+        {
+            inv.AddPotionToInventory(this.gameObject.GetComponent<Collectable>());
+            
+            player.GetComponent<Inventory>().DecreaseGold(price);
+            //Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
+        }
+
+        else if (this.gameObject.tag == "ShopMagicBook")
+        {
+            // TODO: implement this once there are magic book drops
         }
     }
 }
