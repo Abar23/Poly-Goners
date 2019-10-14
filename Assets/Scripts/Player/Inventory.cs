@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour
     public IconManager MeleeIcon;
     public IconManager MagicIcon;
     public IconManager PotionIcon;
-    public List<GameObject> WeaponPrefabs;
 
     private Player player;
     private WeaponManager weaponManager;
@@ -20,7 +19,9 @@ public class Inventory : MonoBehaviour
     private bool isStrengthed = false;
 
     private Weapon[] meleeWeapons;
-    private Projectile[] magicAbilities;
+    private GameObject[] meleeDropables;
+    private string[] magicAbilities;
+    private GameObject[] magicDropables;
     private Collectable potion;
     private int gold;
 
@@ -40,7 +41,9 @@ public class Inventory : MonoBehaviour
         potion = null;
 
         meleeWeapons = new Weapon[NumberOfMeleeSlots];
-        magicAbilities = new Projectile[NumberOfMagicSlots];
+        magicAbilities = new string[NumberOfMagicSlots];
+        meleeDropables = new GameObject[NumberOfMeleeSlots];
+        magicDropables = new GameObject[NumberOfMagicSlots];
         currentMeleeIndex = 0;
         currentMagicIndex = 0;
         MagicIcon.EnableIcon(currentMagicIndex.ToString());
@@ -81,10 +84,23 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public bool MagicEquipped()
+    {
+        if (magicAbilities[currentMagicIndex] == null)
+            return false;
+        else
+            return true;
+    }
+
     public bool UseMagic()
     {
-        bool canFire = magicBox.FireMagic(currentMagicIndex);
-        return canFire;
+        if (magicAbilities[currentMagicIndex] != null)
+        {
+            bool canFire = magicBox.FireMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+            return canFire;
+        }
+        else
+            return false;
     }
 
     public void NextMeleeWeapon()
@@ -102,7 +118,7 @@ public class Inventory : MonoBehaviour
         else
         {
             weaponManager.EquipWeapon(meleeWeapons[currentMeleeIndex].gameObject.name + " Pickup");
-            MeleeIcon.EnableIcon(meleeWeapons[currentMeleeIndex].gameObject.name);
+            MeleeIcon.EnableIcon(meleeDropables[currentMeleeIndex].gameObject);
         }
 
         player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
@@ -110,12 +126,19 @@ public class Inventory : MonoBehaviour
 
     public void NextMagicWeapon()
     {
-        int totalNumberOfSpells = magicBox.GetNumberOfSpells();
-        currentMagicIndex = (currentMagicIndex - 1 + totalNumberOfSpells) % totalNumberOfSpells;
-        MagicIcon.EnableIcon(currentMagicIndex.ToString());
+        currentMagicIndex++;
+        if (currentMagicIndex == NumberOfMagicSlots)
+            currentMagicIndex = 0;
+
+        MagicIcon.DisableCurrentIcon();
+
+        if (magicAbilities[currentMagicIndex] != null)
+        {
+            MagicIcon.EnableIcon(magicDropables[currentMagicIndex]);
+        }
     }
 
-    public void AddMeleeWeapon(Weapon weapon)
+    public void AddMeleeWeapon(Weapon weapon, GameObject pickup)
     {
         bool added = false;
         for (int i = 0; i < NumberOfMeleeSlots && !added; i++)
@@ -123,8 +146,9 @@ public class Inventory : MonoBehaviour
             if (meleeWeapons[i] == null)
             {
                 meleeWeapons[i] = weapon;
+                meleeDropables[i] = pickup;
                 currentMeleeIndex = i;
-                MeleeIcon.EnableIcon(meleeWeapons[currentMeleeIndex].gameObject.name);
+                MeleeIcon.EnableIcon(meleeDropables[currentMeleeIndex]);
                 player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
                 added = true;
             }
@@ -135,22 +159,39 @@ public class Inventory : MonoBehaviour
     {
         weaponManager.UnequipCurrentWeapon();
         MeleeIcon.DisableCurrentIcon();
-        foreach (GameObject w in WeaponPrefabs)
-        {
-            if (meleeWeapons[currentMeleeIndex].gameObject.name + " Pickup" == w.name)
-            {
-                GameObject item = Instantiate(w, transform.position + transform.forward, Quaternion.identity);
-                item.name = w.name;
-            }
-        }
+        meleeDropables[currentMeleeIndex].transform.position = player.transform.position + player.transform.forward;
+        meleeDropables[currentMeleeIndex].SetActive(true);
 
         meleeWeapons[currentMeleeIndex] = null;
+        meleeDropables[currentMeleeIndex] = null;
         player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
+    }
+
+    public void AddMagicAbility(string magicName, GameObject pickup)
+    {
+        bool added = false;
+        for (int i = 0; i < NumberOfMagicSlots && !added; i++)
+        {
+            if (magicAbilities[i] == null)
+            {
+                magicAbilities[i] = magicName;
+                magicDropables[i] = pickup;
+                currentMagicIndex = i;
+                MagicIcon.EnableIcon(magicDropables[i]);
+                added = true;
+            }
+        }
     }
 
     public void DropMagic()
     {
+        MagicIcon.DisableCurrentIcon();
+        Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
+        magicDropables[currentMagicIndex].transform.position = newPos;
+        magicDropables[currentMagicIndex].SetActive(true);
 
+        magicAbilities[currentMagicIndex] = null;
+        magicDropables[currentMagicIndex] = null;
     }
 
     public void DropPotion()
@@ -173,6 +214,22 @@ public class Inventory : MonoBehaviour
                 full = false;
                 break;
             }                
+        }
+
+        return full;
+    }
+
+    public bool IsMagicFull()
+    {
+        bool full = true;
+
+        foreach (string p in magicAbilities)
+        {
+            if (p == null)
+            {
+                full = false;
+                break;
+            }
         }
 
         return full;

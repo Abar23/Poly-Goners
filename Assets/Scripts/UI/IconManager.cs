@@ -30,6 +30,13 @@ public class IconManager : MonoBehaviour
         }
     }
 
+    public void EnableIcon(GameObject itemWithIcon)
+    {
+        currentIcon = icons[0];
+        currentIcon.enabled = true;
+        currentIcon.sprite = itemWithIcon.GetComponent<ItemIcon>().icon;
+    }
+
     public void DisableCurrentIcon()
     {
         if (currentIcon != null)

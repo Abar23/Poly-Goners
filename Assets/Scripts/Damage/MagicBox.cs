@@ -25,6 +25,9 @@ public class MagicBox : MonoBehaviour
     private MagicPool pool;
     private int magicMax;
 
+    public Dictionary<string, int> magicAbilites { get; private set; }
+
+
     void Awake()
     {
         coolDowns = new float[m_Spells.Count];
@@ -39,6 +42,13 @@ public class MagicBox : MonoBehaviour
         }
         pool.Initialize(m_Spells);
         magicMax = m_MagicPoint;
+
+        magicAbilites = new Dictionary<string, int>();
+        magicAbilites.Add("Lightning Ball Pickup", 0);
+        magicAbilites.Add("Burning Fire Ball Pickup", 1);
+        magicAbilites.Add("Fast Fire Ball Pickup", 2);
+        magicAbilites.Add("Explosive Fire Ball Pickup", 3);
+        magicAbilites.Add("Poisonous Ball Pickup", 4);
     }
 
     void Update()
@@ -47,6 +57,11 @@ public class MagicBox : MonoBehaviour
         {
             coolDowns[i] = Mathf.Max(0, coolDowns[i] - Time.deltaTime);
         }
+    }
+
+    public int GetIndexFromName(string name)
+    {
+        return magicAbilites[name];
     }
 
     public bool FireMagic(int index)
