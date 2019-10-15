@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
     public IconManager MeleeIcon;
     public IconManager MagicIcon;
     public IconManager PotionIcon;
+    public Image StrengthIndicator;
 
     private Player player;
     private WeaponManager weaponManager;
@@ -36,6 +37,7 @@ public class Inventory : MonoBehaviour
 
     void Start()
     {
+        StrengthIndicator.gameObject.SetActive(false);
         player = GetComponent<Player>();
         weaponManager = GetComponentInChildren<WeaponManager>();
         potion = null;
@@ -76,6 +78,7 @@ public class Inventory : MonoBehaviour
                 {
                     damager.SetMultiplier(((StrengthPotionConfig)config).Multiplier);
                 }
+                StrengthIndicator.gameObject.SetActive(true);
                 Invoke("ResetMultiplier", config.EffectiveTime);
             }
 
@@ -286,6 +289,7 @@ public class Inventory : MonoBehaviour
     void ResetMultiplier()
     {
         Damager[] damagers = GetComponentsInChildren<Damager>();
+        StrengthIndicator.gameObject.SetActive(false);
         foreach (Damager damager in damagers)
         {
             damager.SetMultiplier(1f);
