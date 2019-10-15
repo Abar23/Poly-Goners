@@ -46,7 +46,7 @@ public class Inventory : MonoBehaviour
         magicDropables = new GameObject[NumberOfMagicSlots];
         currentMeleeIndex = 0;
         currentMagicIndex = 0;
-        MagicIcon.EnableIcon(currentMagicIndex.ToString());
+        MagicIcon.EnableIcon(magicDropables[currentMagicIndex]);
     }
 
     public void IncreaseGold(int num)
@@ -256,18 +256,7 @@ public class Inventory : MonoBehaviour
                 potion = collectable;
                 potion.gameObject.SetActive(false);
                 PotionConfig config = potion.GetComponent<Collectable>().Config;
-                if (config is HealthPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigRed");
-                }
-                else if (config is MagicPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigBlue");
-                }
-                else if (config is StrengthPotionConfig)
-                {
-                    PotionIcon.EnableIcon("BigPurple");
-                }
+                PotionIcon.EnableIcon(potion.gameObject);
             }
         }
     }
