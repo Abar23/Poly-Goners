@@ -61,8 +61,6 @@ public class DungeonCreationState : IDungeonGenerationState
             }
         }
 
-        Debug.Log(currentNode.DungeonRoom.prefab.transform.position);
-
         // Decrement number of rooms by the doorways of the current node. 
         // Those doorways will have rooms attached to them at some point.
         if (currentNode.ParentNode == null)
