@@ -31,6 +31,14 @@ public class Weapon : MonoBehaviour, IWeapon
         }
     }
 
+    public void LateUpdate()
+    {
+        if (!swingingWeapon && collider.enabled)
+        {
+            collider.enabled = false;
+        }
+    }
+
     public void SwingWeapon(float animationTime)
     {
         swingingWeapon = true;
