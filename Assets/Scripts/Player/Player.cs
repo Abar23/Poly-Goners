@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         {
             inventory.NextMagicWeapon();
         }
-        else if (currentWeapon != null && Controller.GetControllerActions().dPadLeft.IsPressed)
+        else if (inventory.MagicEquipped() && Controller.GetControllerActions().dPadLeft.IsPressed)
         {
             magicDropTimer += Time.deltaTime;
 
