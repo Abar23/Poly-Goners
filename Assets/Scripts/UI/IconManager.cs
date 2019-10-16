@@ -1,40 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class IconManager : MonoBehaviour
 {
-    public List<Image> icons;
-
-    private Image currentIcon;
+    public Image icon;
 
     private void Start()
     {
-        foreach (Image icon in icons)
-        {
-            icon.enabled = false;
-        }
+        icon.enabled = false;
     }
 
-    public void EnableIcon(string name)
+    public void EnableIcon(GameObject itemWithIcon)
     {
-        DisableCurrentIcon();
-        foreach (Image icon in icons)
-        {
-            if (name == icon.name)
-            {
-                icon.enabled = true;
-                currentIcon = icon;
-            }
-        }
+        icon.enabled = true;
+        icon.sprite = itemWithIcon.GetComponent<ItemIcon>().icon;
     }
 
     public void DisableCurrentIcon()
     {
-        if (currentIcon != null)
+        if (icon != null)
         {
-            currentIcon.enabled = false;
+            icon.enabled = false;
         }
     }
 

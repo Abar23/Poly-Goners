@@ -9,7 +9,7 @@ public class WeaponPickupEffect : MonoBehaviour
     float amplitude = .05f;
     Vector3 startPosition;
 
-    void Start()
+    void OnEnable()
     {
         startPosition = transform.position;
     }

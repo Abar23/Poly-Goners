@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
 
+    private Stamina stamina;
     private MagicBox magicBox;
     private Inventory inventory;
     private CharacterController character;
@@ -32,6 +33,8 @@ public class Player : MonoBehaviour
     private float reviveTimer;
     private float timeToRevive = 3f;
     private float reviveDistance = 2.5f;
+    private float rollStaminaCost = 20f;
+    private float jumpStaminaCost = 15f;
 
     private float meleeDropTimer;
     private float magicDropTimer;
@@ -60,6 +63,7 @@ public class Player : MonoBehaviour
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
+        stamina = GetComponent<Stamina>();
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animatorOverrideController;
         lookDir = transform.forward;
@@ -82,6 +86,13 @@ public class Player : MonoBehaviour
             {
                 UpdateInput();
                 PlayerMovementState.Update();
+            }
+            else
+            {
+                if (OtherPlayer.PlayerMovementState is PlayerDeathState)
+                {
+                    RevivePrompt.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -122,10 +133,12 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed)
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null)
         {
-            if (currentWeapon != null && !currentWeapon.CheckIfAttacking()) 
+            float attackStamina = weaponManager.GetWeaponStaminaConfig().GetPrimaryAttackStamina();
+            if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina) 
             {
+                stamina.DecreaseStamina(attackStamina);
 				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
 				animator.SetTrigger("PrimaryAttackTrigger");
 				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
@@ -183,7 +196,7 @@ public class Player : MonoBehaviour
         {
             inventory.NextMagicWeapon();
         }
-        else if (currentWeapon != null && Controller.GetControllerActions().dPadLeft.IsPressed)
+        else if (inventory.MagicEquipped() && Controller.GetControllerActions().dPadLeft.IsPressed)
         {
             magicDropTimer += Time.deltaTime;
 
@@ -295,15 +308,17 @@ public class Player : MonoBehaviour
             PlayerMovementState.HandleGroundedTransition();
             
             // Handle Roll Input
-            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling())
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() >= rollStaminaCost)
             {
+                stamina.DecreaseStamina(rollStaminaCost);
                 PlayerMovementState.HandleRollingTransition();
             }
 
             // Handle Jump Input
             verticalVelocity = -Gravity * Time.deltaTime;
-            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()))
+            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()) && stamina.CurrentStaminaValue() >= jumpStaminaCost)
             {
+                stamina.DecreaseStamina(jumpStaminaCost);
                 PlayerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
             }
