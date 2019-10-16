@@ -65,7 +65,7 @@ public class ShopItem : MonoBehaviour
         {
             WeaponManager wm = player.GetComponentInChildren<WeaponManager>();
             wm.EquipWeapon(this.name + " Pickup");
-            inv.AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>());
+            inv.AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>(), this.gameObject);
 
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
