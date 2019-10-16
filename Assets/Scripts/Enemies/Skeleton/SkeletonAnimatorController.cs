@@ -39,5 +39,15 @@ public class SkeletonAnimatorController : MonoBehaviour
     {
         m_Animator.SetBool("IsWalking", isWalking);
     }
+
+    public void MeleeAttack()
+    {
+        m_Animator.SetTrigger("Melee Attack");
+    }
+
+    public void RangedAttack()
+    {
+        m_Animator.SetTrigger("Ranged Attack");
+    }
     
 }
