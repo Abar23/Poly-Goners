@@ -48,7 +48,6 @@ public class Inventory : MonoBehaviour
         magicDropables = new GameObject[NumberOfMagicSlots];
         currentMeleeIndex = 0;
         currentMagicIndex = 0;
-        MagicIcon.EnableIcon(magicDropables[currentMagicIndex]);
     }
 
     public void IncreaseGold(int num)
