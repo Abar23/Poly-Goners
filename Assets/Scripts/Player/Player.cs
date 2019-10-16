@@ -361,4 +361,12 @@ public class Player : MonoBehaviour
             uEvent.Invoke();
         }
     }
+
+    public bool CheckUseButtonPress()
+    {
+        if (Controller.GetControllerActions().action3.WasPressed)
+            return true;
+        else
+            return false;
+    }
 }

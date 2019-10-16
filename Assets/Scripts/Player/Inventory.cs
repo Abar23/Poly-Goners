@@ -50,9 +50,20 @@ public class Inventory : MonoBehaviour
         currentMagicIndex = 0;
     }
 
+    public int GetGold()
+    {
+        return gold;
+    }
+
     public void IncreaseGold(int num)
     {
         gold += num;
+        CoinDisplay.text = gold.ToString();
+    }
+
+    public void DecreaseGold(int num)
+    {
+        gold -= num;
         CoinDisplay.text = gold.ToString();
     }
 
@@ -164,6 +175,18 @@ public class Inventory : MonoBehaviour
         meleeDropables[currentMeleeIndex].transform.position = player.transform.position + player.transform.forward;
         meleeDropables[currentMeleeIndex].SetActive(true);
 
+        if (meleeDropables[currentMeleeIndex].tag == "ShopWeapon")
+        {
+            meleeDropables[currentMeleeIndex].tag = "Untagged";
+            meleeDropables[currentMeleeIndex].AddComponent<WeaponPickup>();
+            meleeDropables[currentMeleeIndex].AddComponent<ItemPickupEffect>();
+            meleeDropables[currentMeleeIndex].AddComponent<BoxCollider>();
+            meleeDropables[currentMeleeIndex].GetComponent<BoxCollider>().isTrigger = true;
+            meleeDropables[currentMeleeIndex].GetComponent<ShopItem>().enabled = false;
+            meleeDropables[currentMeleeIndex].GetComponentInChildren<Canvas>().enabled = false;
+            meleeDropables[currentMeleeIndex].name = meleeDropables[currentMeleeIndex].name + " Pickup";
+        }    
+
         meleeWeapons[currentMeleeIndex] = null;
         meleeDropables[currentMeleeIndex] = null;
         player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
@@ -198,11 +221,11 @@ public class Inventory : MonoBehaviour
 
     public void DropPotion()
     {
-        GameObject p = Instantiate(potion.gameObject, transform.position + transform.forward * 2f, Quaternion.identity);
-        p.transform.localScale = new Vector3(2f, 2f, 2f);
-        p.SetActive(true);
+        potion.transform.position = transform.position + transform.forward * 2f;
+        potion.transform.localScale = new Vector3(2f, 2f, 2f);
+        potion.gameObject.SetActive(true);
         PotionIcon.DisableCurrentIcon();
-        Destroy(potion);
+        potion = null;
     }
 
     public bool IsMeleeFull()
@@ -255,12 +278,30 @@ public class Inventory : MonoBehaviour
         {
             if (!HasPotion())
             {
+                AddPotionToInventory(collectable);
                 potion = collectable;
                 potion.gameObject.SetActive(false);
                 PotionConfig config = potion.GetComponent<Collectable>().Config;
                 PotionIcon.EnableIcon(potion.gameObject);
             }
         }
+    }
+
+    public void AddPotionToInventory(Collectable p)
+    {
+        potion = p;
+        if (potion.tag == "ShopPotion")
+        {
+            potion.tag = "Untagged";
+            potion.GetComponent<ShopItem>().enabled = false;
+            potion.GetComponentInChildren<Canvas>().enabled = false;
+            potion.gameObject.AddComponent<MeshCollider>();
+            potion.gameObject.GetComponent<MeshCollider>().convex = true;
+            potion.gameObject.GetComponent<MeshCollider>().isTrigger = true;
+        }
+        potion.gameObject.SetActive(false);
+
+        PotionIcon.EnableIcon(p.gameObject);
     }
 
     IEnumerator HealthPotionEffect(Damageable damageable, HealthPotionConfig config)

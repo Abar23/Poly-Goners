@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponPickupEffect : MonoBehaviour
+public class ItemPickupEffect : MonoBehaviour
 {
     float rotationSpeed = 20f;
     float moveSpeed = 1f;

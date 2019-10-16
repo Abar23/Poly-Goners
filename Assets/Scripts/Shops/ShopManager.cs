@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+public class ShopManager : MonoBehaviour
 {
     private List<GameObject> shopInventory;
     private List<GameObject> activeShopItems;
     private List<GameObject> activeItemSlots = new List<GameObject>();
     const int maxNumberActiveItems = 4;
     int numberActiveItems;
+    public GameObject player1;
+    public GameObject player2;
     
     void Start()
     {   
