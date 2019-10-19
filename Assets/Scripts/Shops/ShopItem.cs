@@ -20,7 +20,7 @@ public class ShopItem : MonoBehaviour
         player2 = GetComponentInParent<ShopManager>().player2;
         buyPrompt.SetActive(false);
         itemName.enabled = false;
-        price = 500;
+        //price = 500;
     }
 
     void Update()
@@ -82,9 +82,13 @@ public class ShopItem : MonoBehaviour
             this.gameObject.SetActive(false);
         }
 
-        else if (this.gameObject.tag == "ShopMagicBook")
+        // Buy magic if player is not holding two magic types already
+        else if (this.gameObject.tag == "ShopMagicBook" && !inv.IsMagicFull())
         {
-            // TODO: implement this once there are magic book drops
+            GameObject magicPickup = Instantiate(this.gameObject.transform.GetChild(1).gameObject) as GameObject;
+            magicPickup.GetComponent<MagicPickup>().EquipMagic(player);
+            player.GetComponent<Inventory>().DecreaseGold(price);
+            this.gameObject.SetActive(false);
         }
     }
 }
