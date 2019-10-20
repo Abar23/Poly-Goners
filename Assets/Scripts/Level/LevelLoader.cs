@@ -10,8 +10,6 @@ public class LevelLoader : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("player in portal");
-
         if (level != null) {
             if (other.gameObject.tag == "Player") {
                 LevelFactory.LoadLevel(level);
