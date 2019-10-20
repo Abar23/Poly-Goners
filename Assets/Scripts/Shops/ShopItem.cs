@@ -13,6 +13,7 @@ public class ShopItem : MonoBehaviour
     //public Text itemName;
     private Text priceText;
     public GameObject textPanel;
+    private GameObject notEnoughGoldText;
     private Vector3 textPanelPosition;
     float promptActivationDistance = .75f;
     public int price;
@@ -27,6 +28,8 @@ public class ShopItem : MonoBehaviour
         priceText = textPanel.transform.GetChild(2).gameObject.GetComponent<Text>();
         priceText.text = "Price: " + price.ToString();
         textPanelPosition = textPanel.transform.position;
+        notEnoughGoldText = textPanel.transform.GetChild(6).gameObject;
+        notEnoughGoldText.SetActive(true);
     }
 
     void Update()
@@ -38,29 +41,40 @@ public class ShopItem : MonoBehaviour
         if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 <= promptActivationDistance)
         {
             buyPrompt.SetActive(true);
-            //itemName.enabled = true;
             textPanel.SetActive(true);
 
             // Check if Player 1 buys item
             if (distanceFromPlayer1 <= promptActivationDistance)
             {
-                if (player1.GetComponent<Inventory>().GetGold() >= price && player1.GetComponent<Player>().CheckUseButtonPress())
-                    BuyItem(player1);
+                if (player1.GetComponent<Player>().CheckUseButtonPress()) {
+                    if (player1.GetComponent<Inventory>().GetGold() >= price) {
+                        BuyItem(player1);
+                    }
+                    else {
+                        notEnoughGoldText.SetActive(true);
+                    }
+                }       
             }
 
             // Check if Player 2 buys item
             else if (distanceFromPlayer2 <= promptActivationDistance)
             {
-                if (player2.GetComponent<Inventory>().GetGold() >= price && player2.GetComponent<Player>().CheckUseButtonPress())
-                    BuyItem(player2);
+                if (player2.GetComponent<Player>().CheckUseButtonPress()) {
+                    if (player2.GetComponent<Inventory>().GetGold() >= price) {
+                        BuyItem(player2);
+                    }
+                    else {
+                        notEnoughGoldText.SetActive(true);
+                    }
+                }  
             }
         }
 
         else
         {
             buyPrompt.SetActive(false);
-            //itemName.enabled = false;
             textPanel.SetActive(false);
+            notEnoughGoldText.SetActive(false);
         }
     }
 
