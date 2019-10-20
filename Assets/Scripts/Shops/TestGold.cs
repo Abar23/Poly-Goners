@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class TestGold : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
 
     void Start()
     {
-        
+        this.player = PlayerManager.GetInstance().GetPlayerOneGameObject();
     }
 
     void OnTriggerEnter(Collider other)

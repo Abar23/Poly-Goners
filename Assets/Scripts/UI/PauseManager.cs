@@ -15,12 +15,26 @@ public class PauseManager : MonoBehaviour
         isGamePaused = false;
         //this.playerHud.SetActive(true);
         this.pauseMenu.SetActive(false);
-        cm = ControllerManager.GetInstance().GetComponent<ControllerManager>();
+        cm = ControllerManager.GetInstance();
     }
 
     void LateUpdate()
     {
-        if(cm.GetPlayerOneController().GetControllerActions().start.WasPressed)
+        bool isStartPressed = false;
+        IController playerOneController = cm.GetPlayerOneController();
+        IController playerTwoController = cm.GetPlayerTwoController();
+
+        if (playerOneController is Controller)
+        {
+            isStartPressed = playerOneController.GetControllerActions().start.WasPressed;
+        }
+
+        if(!isStartPressed && playerTwoController is Controller)
+        {
+            isStartPressed = playerTwoController.GetControllerActions().start.WasPressed;
+        }
+
+        if(isStartPressed)
         {
             if(!isGamePaused)
             {

@@ -10,17 +10,26 @@ public class ShopItem : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
     public GameObject buyPrompt;
-    public Text itemName;
+    //public Text itemName;
+    private Text priceText;
+    public GameObject textPanel;
+    private GameObject notEnoughGoldText;
+    private Vector3 textPanelPosition;
     float promptActivationDistance = .75f;
     public int price;
 
     void Start()
     {
-        player1 = GetComponentInParent<ShopManager>().player1;
-        player2 = GetComponentInParent<ShopManager>().player2;
+        player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
+        player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
         buyPrompt.SetActive(false);
-        itemName.enabled = false;
-        price = 500;
+        //itemName.enabled = false;
+        textPanel.SetActive(false);
+        priceText = textPanel.transform.GetChild(2).gameObject.GetComponent<Text>();
+        priceText.text = "Price: " + price.ToString();
+        textPanelPosition = textPanel.transform.position;
+        notEnoughGoldText = textPanel.transform.GetChild(6).gameObject;
+        notEnoughGoldText.SetActive(true);
     }
 
     void Update()
@@ -29,31 +38,48 @@ public class ShopItem : MonoBehaviour
         float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
 
 
-        if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 <= promptActivationDistance)
+        if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 < promptActivationDistance)
         {
             buyPrompt.SetActive(true);
-            itemName.enabled = true;
+            textPanel.SetActive(true);
 
             // Check if Player 1 buys item
             if (distanceFromPlayer1 <= promptActivationDistance)
             {
-                if (player1.GetComponent<Inventory>().GetGold() >= price && player1.GetComponent<Player>().CheckUseButtonPress())
-                    BuyItem(player1);
+                if (player1.GetComponent<Player>().CheckUseButtonPress()) {
+                    if (player1.GetComponent<Inventory>().GetGold() >= price) {
+                        BuyItem(player1);
+                    }
+                    else {
+                        notEnoughGoldText.SetActive(true);
+                    }
+                }       
             }
 
             // Check if Player 2 buys item
             else if (distanceFromPlayer2 <= promptActivationDistance)
             {
-                if (player2.GetComponent<Inventory>().GetGold() >= price && player2.GetComponent<Player>().CheckUseButtonPress())
-                    BuyItem(player2);
+                if (player2.GetComponent<Player>().CheckUseButtonPress()) {
+                    if (player2.GetComponent<Inventory>().GetGold() >= price) {
+                        BuyItem(player2);
+                    }
+                    else {
+                        notEnoughGoldText.SetActive(true);
+                    }
+                }  
             }
         }
 
         else
         {
             buyPrompt.SetActive(false);
-            itemName.enabled = false;
+            textPanel.SetActive(false);
+            notEnoughGoldText.SetActive(false);
         }
+    }
+
+    void LateUpdate() {
+        textPanel.transform.position = textPanelPosition;
     }
 
     void BuyItem(GameObject player)
@@ -69,7 +95,6 @@ public class ShopItem : MonoBehaviour
 
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
-            //Destroy(this.gameObject);
         }
 
         // Buy potion if player is not already holding a potion
@@ -78,13 +103,18 @@ public class ShopItem : MonoBehaviour
             inv.AddPotionToInventory(this.gameObject.GetComponent<Collectable>());
             
             player.GetComponent<Inventory>().DecreaseGold(price);
-            //Destroy(this.gameObject);
             this.gameObject.SetActive(false);
         }
 
-        else if (this.gameObject.tag == "ShopMagicBook")
+        // Buy magic if player is not holding two magic types already
+        else if (this.gameObject.tag == "ShopMagicBook" && !inv.IsMagicFull())
         {
-            // TODO: implement this once there are magic book drops
+            GameObject magicPickup = Instantiate(this.gameObject.transform.GetChild(1).gameObject) as GameObject;
+            // get rid of (count) from end of name so magic is properly added to inventory map
+            magicPickup.name = magicPickup.name.Substring(0, magicPickup.name.Length - 7);
+            magicPickup.GetComponent<MagicPickup>().EquipMagic(player);
+            player.GetComponent<Inventory>().DecreaseGold(price);
+            this.gameObject.SetActive(false);
         }
     }
 }

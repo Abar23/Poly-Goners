@@ -1,26 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : AbstractSingleton<PlayerManager>
 {
     private GameObject playerOne;
     private GameObject playerTwo;
     private GameObject playerTwoHud;
+    private int numberOfActivePlayers;
 
     private ControllerManager controllerManager;
 
     void Start()
     {
-        controllerManager = ControllerManager.GetInstance().GetComponent<ControllerManager>();
+        controllerManager = ControllerManager.GetInstance();
 
         playerOne = transform.GetChild(0).gameObject;
         playerTwo = transform.GetChild(1).gameObject;
         playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
 
         playerOne.SetActive(true);
+        this.numberOfActivePlayers = 1;
+
         playerTwo.SetActive(false);
         playerTwoHud.SetActive(false);
+
+        PositionPlayers();
     }
 
     void Update()
@@ -29,6 +32,42 @@ public class PlayerManager : MonoBehaviour
         {
             playerTwo.SetActive(true);
             playerTwoHud.SetActive(true);
+            this.numberOfActivePlayers++;
+        }
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        PositionPlayers();
+    }
+
+    public GameObject GetPlayerOneGameObject()
+    {
+        return this.playerOne;
+    }
+
+    public GameObject GetPlayerTwoGameObject()
+    {
+        return this.playerTwo;
+    }
+
+    public int GetNumberOfActivePlayers()
+    {
+        return this.numberOfActivePlayers;
+    }
+
+    public void PositionPlayers()
+    {
+        if (this.playerOne != null && this.playerTwo != null)
+        {
+            GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
+            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
+
+            this.playerOne.transform.position = playerOneSpawn.transform.position;
+            this.playerOne.transform.rotation = playerOneSpawn.transform.rotation;
+
+            this.playerTwo.transform.position = playerTwoSpawn.transform.position;
+            this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;
         }
     }
 }

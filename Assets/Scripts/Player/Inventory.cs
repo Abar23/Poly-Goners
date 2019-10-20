@@ -211,7 +211,8 @@ public class Inventory : MonoBehaviour
     public void DropMagic()
     {
         MagicIcon.DisableCurrentIcon();
-        Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
+        //Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
+        Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .75f, player.transform.position.z + player.transform.forward.z);
         magicDropables[currentMagicIndex].transform.position = newPos;
         magicDropables[currentMagicIndex].SetActive(true);
 
