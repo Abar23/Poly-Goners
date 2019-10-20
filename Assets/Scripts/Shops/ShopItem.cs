@@ -38,7 +38,7 @@ public class ShopItem : MonoBehaviour
         float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
 
 
-        if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 <= promptActivationDistance)
+        if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 < promptActivationDistance)
         {
             buyPrompt.SetActive(true);
             textPanel.SetActive(true);
