@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Image MagicDropFill;
     public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
+    public Collider EnemyTester;
 
     private Stamina stamina;
     private MagicBox magicBox;
@@ -82,14 +83,14 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            if (!(PlayerMovementState is PlayerDeathState))
+            if (!(PlayerMovementState is PlayerDeathState)) // this player is not dead
             {
                 UpdateInput();
                 PlayerMovementState.Update();
             }
-            else
+            else // this player is dead
             {
-                if (OtherPlayer.PlayerMovementState is PlayerDeathState)
+                if (OtherPlayer.PlayerMovementState is PlayerDeathState) // both players are dead
                 {
                     RevivePrompt.gameObject.SetActive(false);
                 }
@@ -275,9 +276,13 @@ public class Player : MonoBehaviour
                 }
             }
             else
-            {
+            { 
                 lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
             }
+        }
+        else
+        {
+            lookDir = (EnemyTester.gameObject.transform.position - transform.position).normalized;
         }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
