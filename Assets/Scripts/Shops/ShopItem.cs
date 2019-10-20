@@ -16,8 +16,8 @@ public class ShopItem : MonoBehaviour
 
     void Start()
     {
-        player1 = GetComponentInParent<ShopManager>().player1;
-        player2 = GetComponentInParent<ShopManager>().player2;
+        player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
+        player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
         buyPrompt.SetActive(false);
         itemName.enabled = false;
         price = 500;

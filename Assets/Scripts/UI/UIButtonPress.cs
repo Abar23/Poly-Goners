@@ -21,9 +21,9 @@ public class UIButtonPress : MonoBehaviour
     void Update()
     {
         if (PlayerNumber == 1)
-            controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerOneController();
+            controller = ControllerManager.GetInstance().GetPlayerOneController();
         else
-            controller = ControllerManager.GetInstance().GetComponent<ControllerManager>().GetPlayerTwoController();
+            controller = ControllerManager.GetInstance().GetPlayerTwoController();
 
         if (controller.GetControllerActions().LastInputType == BindingSourceType.DeviceBindingSource)
         {
