@@ -10,7 +10,10 @@ public class ShopItem : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
     public GameObject buyPrompt;
-    public Text itemName;
+    //public Text itemName;
+    private Text priceText;
+    public GameObject textPanel;
+    private Vector3 textPanelPosition;
     float promptActivationDistance = .75f;
     public int price;
 
@@ -19,8 +22,11 @@ public class ShopItem : MonoBehaviour
         player1 = GetComponentInParent<ShopManager>().player1;
         player2 = GetComponentInParent<ShopManager>().player2;
         buyPrompt.SetActive(false);
-        itemName.enabled = false;
-        //price = 500;
+        //itemName.enabled = false;
+        textPanel.SetActive(false);
+        priceText = textPanel.transform.GetChild(2).gameObject.GetComponent<Text>();
+        priceText.text = "Price: " + price.ToString();
+        textPanelPosition = textPanel.transform.position;
     }
 
     void Update()
@@ -32,7 +38,8 @@ public class ShopItem : MonoBehaviour
         if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 <= promptActivationDistance)
         {
             buyPrompt.SetActive(true);
-            itemName.enabled = true;
+            //itemName.enabled = true;
+            textPanel.SetActive(true);
 
             // Check if Player 1 buys item
             if (distanceFromPlayer1 <= promptActivationDistance)
@@ -52,8 +59,13 @@ public class ShopItem : MonoBehaviour
         else
         {
             buyPrompt.SetActive(false);
-            itemName.enabled = false;
+            //itemName.enabled = false;
+            textPanel.SetActive(false);
         }
+    }
+
+    void LateUpdate() {
+        textPanel.transform.position = textPanelPosition;
     }
 
     void BuyItem(GameObject player)
@@ -69,7 +81,6 @@ public class ShopItem : MonoBehaviour
 
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
-            //Destroy(this.gameObject);
         }
 
         // Buy potion if player is not already holding a potion
@@ -78,7 +89,6 @@ public class ShopItem : MonoBehaviour
             inv.AddPotionToInventory(this.gameObject.GetComponent<Collectable>());
             
             player.GetComponent<Inventory>().DecreaseGold(price);
-            //Destroy(this.gameObject);
             this.gameObject.SetActive(false);
         }
 
