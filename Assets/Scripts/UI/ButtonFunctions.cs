@@ -46,6 +46,11 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
         clickSource.PlayOneShot(clickSource.clip);
         yield return new WaitForSecondsRealtime(clickSource.clip.length);
         SceneManager.LoadScene(sceneIndex);
+
+        if (SceneManager.GetActiveScene().buildIndex > 1 && sceneIndex == 1)
+        {
+            Destroy(PlayerManager.GetInstance().gameObject);
+        }
     }
 
     public void LoadNextMenu()

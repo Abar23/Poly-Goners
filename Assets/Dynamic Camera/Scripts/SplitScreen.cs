@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
 
-public class SplitScreen : MonoBehaviour {
+public class SplitScreen : MonoBehaviour
+{
 
 	/*Reference both the transforms of the two players on screen.
 	Necessary to find out their current positions.*/
-	public Transform player1;
-	public Transform player2;
+	private Transform player1;
+	private Transform player2;
 
 	//The distance at which the splitscreen will be activated.
 	public float splitDistance = 5;
@@ -29,13 +28,12 @@ public class SplitScreen : MonoBehaviour {
 	private GameObject split;
 	private GameObject splitter;
 
-    //Reference to the controller manager to help reduce call chain length
-    ControllerManager controllerManager;
-
 	void Start () {
-        controllerManager = ControllerManager.GetInstance().GetComponent<ControllerManager>();
-		//Referencing camera1 and initalizing camera2.
-		camera1 = Camera.main.gameObject;
+        this.player1 = PlayerManager.GetInstance().GetPlayerOneGameObject().transform;
+        this.player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject().transform;
+
+        //Referencing camera1 and initalizing camera2.
+        camera1 = Camera.main.gameObject;
 		camera2 = new GameObject ();
 		camera2.AddComponent<Camera> ();
 		//Setting up the culling mask of camera2 to ignore the layer "TransparentFX" as to avoid rendering the split and splitter on both cameras.

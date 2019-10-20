@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using InControl;
+﻿using InControl;
 
-public class ControllerManager : AbstractSingleton<Component>
+public class ControllerManager : AbstractSingleton<ControllerManager>
 {
     private IController playerOneController;
     private IController playerTwoController;
