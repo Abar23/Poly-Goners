@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public Image MagicDropFill;
     public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
-    public Collider EnemyTester;
 
     private Stamina stamina;
     private MagicBox magicBox;
@@ -29,6 +28,7 @@ public class Player : MonoBehaviour
     private AnimatorOverrideController animatorOverrideController;
     private float verticalVelocity;
     private bool lockAim = false;
+    private bool setEnemy = false;
     private Vector3 lookDir;
 
     private float reviveTimer;
@@ -90,6 +90,7 @@ public class Player : MonoBehaviour
             }
             else // this player is dead
             {
+                Crosshair.SetActive(false);
                 if (OtherPlayer.PlayerMovementState is PlayerDeathState) // both players are dead
                 {
                     RevivePrompt.gameObject.SetActive(false);
@@ -262,11 +263,20 @@ public class Player : MonoBehaviour
         PlayerMovementState = state;
     }
 
+    float shortestDist = 100f;
+    Collider closestEnemy = new Collider();
     public void HandleRotation()
     {
         if (!lockAim)
         {
-            if(Controller.isUsingKeyboard())
+            shortestDist = 100f;
+            setEnemy = false;
+            if (closestEnemy != new Collider() && closestEnemy != null) // turn off target above enemy
+            {
+                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = false;
+            }
+
+            if (Controller.isUsingKeyboard())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -276,13 +286,50 @@ public class Player : MonoBehaviour
                 }
             }
             else
-            { 
+            {
                 lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
             }
         }
-        else
+        else if (!setEnemy) // find closest enemy in field of view
         {
-            lookDir = (EnemyTester.gameObject.transform.position - transform.position).normalized;
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7.5f);
+            foreach (Collider hit in hitColliders)
+            {
+                if (hit.gameObject.tag == "Enemy")
+                {
+                    float dist = Vector3.Distance(transform.position, hit.gameObject.transform.position);
+                    float angleToEnemy = Vector3.Angle(transform.forward, hit.gameObject.transform.position - transform.position);
+                    // check enemy is in front of player, 160 degree FOV
+                    if (angleToEnemy >= -80f && angleToEnemy <= 80f && dist < shortestDist)
+                    {
+                        shortestDist = dist;
+                        closestEnemy = hit;
+                    } 
+                }
+            }
+
+            if (shortestDist != 100f) // lock on to closest enemy
+            {
+                setEnemy = true;
+                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+            }
+            else
+            {
+                lockAim = false;
+            }
+        }
+        else // continue locking to same enemy
+        {
+            float dist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
+            if (closestEnemy != null && dist < 10f) // enemy is not dead and close enough to player
+            {
+                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                lockAim = false;
+            }                
         }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
@@ -290,7 +337,16 @@ public class Player : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir, Vector3.up), RotateSpeed * Time.deltaTime);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            Crosshair.SetActive(true);
+            
+            if (!lockAim)
+            {
+                Crosshair.SetActive(true);
+                Crosshair.transform.localPosition = new Vector3(0f, 0f, CrosshairDistance);
+            }
+            else
+            {
+                Crosshair.SetActive(false);
+            }
         }
         else if (moveDir.sqrMagnitude > 0.0f)
         {
@@ -298,8 +354,6 @@ public class Player : MonoBehaviour
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             Crosshair.SetActive(false);
         }
-
-        Crosshair.transform.localPosition = new Vector3(0f, 0f, CrosshairDistance);
     }
 
 
