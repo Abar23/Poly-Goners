@@ -48,7 +48,7 @@ public class Skeleton : MonoBehaviour
         {
             for (int i = 0; i < m_Players.Count; i++)
             {
-                if (m_Scanner.Detect(transform, m_Players[i].transform))
+                if (m_Scanner.Detect(transform, m_Players[i].transform) && !m_Players[i].IsDead())
                 {
                     followingIndex = i;
                     StartCoroutine(ReachForPlayer());
@@ -81,22 +81,27 @@ public class Skeleton : MonoBehaviour
                 yield return new WaitForEndOfFrame();
             }
         }
+        else
+        {
+            StartCoroutine(ScanForPlayer());
+        }
     }
 
     void RefinePlayerIndex()
     {
         if (m_Players[followingIndex].IsDead())
         {
-            int new_index = -1;
-            if (followingIndex == 0 && !m_Players[1].IsDead() && m_Players[1].isActiveAndEnabled)
-            {
-                new_index = 1;
-            }
-            else if (followingIndex == 1 && !m_Players[0].IsDead())
-            {
-                new_index = 0;
-            }
-            followingIndex = new_index;
+            //int new_index = -1;
+            //if (followingIndex == 0 && !m_Players[1].IsDead() && m_Players[1].isActiveAndEnabled)
+            //{
+            //    new_index = 1;
+            //}
+            //else if (followingIndex == 1 && !m_Players[0].IsDead())
+            //{
+            //    new_index = 0;
+            //}
+            //followingIndex = new_index;
+            followingIndex = -1;
         }
     }
 
