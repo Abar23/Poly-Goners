@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     private bool meleeDropped = false;
     private bool magicDropped = false;
 
+    private bool isAlive = true;
+
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
@@ -368,5 +370,15 @@ public class Player : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void OnDeath()
+    {
+        isAlive = false;
+    }
+
+    public bool IsDead()
+    {
+        return !isAlive;
     }
 }
