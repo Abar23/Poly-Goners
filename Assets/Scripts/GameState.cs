@@ -18,7 +18,6 @@ public class GameState : MonoBehaviour
 
     void Update() {
         if (!gameOverMenuDisplayed && CheckIfAllPlayersDead()) {
-            Debug.Log("Game over");
             GetComponentInChildren<GameOverMenuManager>().DisplayGameOverMenu();
             gameOverMenuDisplayed = true;
         }
@@ -41,6 +40,16 @@ public class GameState : MonoBehaviour
         }
 
         return allPlayersDead;
+    }
+
+    public void RevivePlayers() {
+        playerManager.GetPlayerOneGameObject().GetComponent<Player>().PlayerMovementState.HandleGroundedTransition();
+        playerManager.GetPlayerOneGameObject().GetComponent<Damageable>().ResetHealthToFull();
+
+        if (playerManager.GetNumberOfActivePlayers() == 2) {
+            playerManager.GetPlayerTwoGameObject().GetComponent<Player>().PlayerMovementState.HandleGroundedTransition();
+            playerManager.GetPlayerTwoGameObject().GetComponent<Damageable>().ResetHealthToFull();
+        }
     }
 }
 
