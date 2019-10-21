@@ -44,6 +44,8 @@ public class Player : MonoBehaviour
     private bool meleeDropped = false;
     private bool magicDropped = false;
 
+    private bool isAlive = true;
+
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
@@ -274,6 +276,7 @@ public class Player : MonoBehaviour
             if (closestEnemy != new Collider() && closestEnemy != null) // turn off target above enemy
             {
                 closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = false;
+                closestEnemy = null;
             }
 
             if (Controller.isUsingKeyboard())
@@ -320,11 +323,14 @@ public class Player : MonoBehaviour
         }
         else // continue locking to same enemy
         {
-            float dist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
-            if (closestEnemy != null && dist < 10f) // enemy is not dead and close enough to player
+            if (closestEnemy != null) // enemy is not dead
             {
-                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
-                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
+                float dist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
+                if (dist < 10f) // enemy is within range of player
+                {
+                    lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+                    closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
+                }
             }
             else
             {
@@ -427,5 +433,15 @@ public class Player : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void OnDeath()
+    {
+        isAlive = false;
+    }
+
+    public bool IsDead()
+    {
+        return !isAlive;
     }
 }
