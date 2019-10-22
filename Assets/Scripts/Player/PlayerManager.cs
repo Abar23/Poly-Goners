@@ -6,13 +6,14 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     private GameObject playerTwo;
     private GameObject playerTwoHud;
     private int numberOfActivePlayers;
+    private bool wasSceneLoaded;
 
     private ControllerManager controllerManager;
 
     void Start()
     {
         controllerManager = ControllerManager.GetInstance();
-
+        this.wasSceneLoaded = false;
         playerOne = transform.GetChild(0).gameObject;
         playerTwo = transform.GetChild(1).gameObject;
         playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
@@ -33,6 +34,15 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
             playerTwo.SetActive(true);
             playerTwoHud.SetActive(true);
             this.numberOfActivePlayers++;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (this.wasSceneLoaded == true)
+        {
+            PositionPlayers();
+            this.wasSceneLoaded = false;
         }
     }
 
@@ -58,7 +68,7 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
 
     public void PositionPlayers()
     {
-        if (this.playerOne != null && this.playerTwo != null)
+        if(this.playerOne != null && this.playerTwo != null)
         {
             GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
             GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
@@ -68,6 +78,7 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
 
             this.playerTwo.transform.position = playerTwoSpawn.transform.position;
             this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;
+            this.wasSceneLoaded = false;
         }
     }
 }
