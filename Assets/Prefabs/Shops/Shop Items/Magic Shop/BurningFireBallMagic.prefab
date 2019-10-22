@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 916758906958308732}
   - component: {fileID: 3826495796122278131}
   - component: {fileID: 9190994680363814408}
+  - component: {fileID: 1858338686396787038}
   m_Layer: 0
   m_Name: BurningFireBallMagic
   m_TagString: ShopMagicBook
@@ -28,11 +29,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916758906956026876}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4100808991461448736}
-  - {fileID: 792866180093981179}
+  - {fileID: 4109584006121385436}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 916758906956026876}
-  m_Mesh: {fileID: 4300000, guid: cc48831463d432a4bbced5b9fc67f10c, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
 --- !u!23 &916758906958308732
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa8eda4ec55ee1a4e99ca991c5828dbf, type: 2}
+  - {fileID: 2100000, guid: adafb9637cefe7940ba39c328baced0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +110,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &1858338686396787038
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 916758906956026876}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
 --- !u!1001 &1224130326733880293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,11 +135,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShopItemCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4810330659679866218, guid: e9b120ecdc6267243996243bd6401a7d,
-        type: 3}
-      propertyPath: m_Text
-      value: Burning Fireball
       objectReference: {fileID: 0}
     - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
         type: 3}
@@ -226,6 +236,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4810330659679866218, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Text
+      value: Burning Fireball
+      objectReference: {fileID: 0}
     - target: {fileID: 14258735529042929, guid: e9b120ecdc6267243996243bd6401a7d,
         type: 3}
       propertyPath: m_Text
@@ -251,83 +266,78 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1224130326733880293}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &2862555472162386155
+--- !u!1001 &4114362634156985884
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 916758906956339394}
     m_Modifications:
-    - target: {fileID: 3222612085531394334, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
-      propertyPath: m_Name
-      value: Burning Fire Ball Pickup
-      objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394334, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.8660254
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 60
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
-        type: 3}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173342265669808, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
+      propertyPath: m_Name
+      value: Burning Fire Ball Pickup
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f1d65812f28b6d24b84b640395a22180, type: 3}
---- !u!4 &792866180093981179 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: 94b71dbe7c75f5c46b056c1ceb10909e, type: 3}
+--- !u!4 &4109584006121385436 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 3222612085531394320, guid: f1d65812f28b6d24b84b640395a22180,
+  m_CorrespondingSourceObject: {fileID: 4798153273156544, guid: 94b71dbe7c75f5c46b056c1ceb10909e,
     type: 3}
-  m_PrefabInstance: {fileID: 2862555472162386155}
+  m_PrefabInstance: {fileID: 4114362634156985884}
   m_PrefabAsset: {fileID: 0}

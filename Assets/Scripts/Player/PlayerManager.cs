@@ -6,16 +6,35 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     private GameObject playerTwo;
     private GameObject playerTwoHud;
     private int numberOfActivePlayers;
+    private bool hasRetrievedChildren = false;
+    private bool wasSceneLoaded;
 
     private ControllerManager controllerManager;
+
+    protected override void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this as PlayerManager;
+            DontDestroyOnLoad(this.gameObject);
+            if(!this.hasRetrievedChildren)
+            {
+                playerOne = transform.GetChild(0).gameObject;
+                playerTwo = transform.GetChild(1).gameObject;
+                playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+                this.hasRetrievedChildren = true;
+            }
+        }
+        else if (instance != this as PlayerManager)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     void Start()
     {
         controllerManager = ControllerManager.GetInstance();
-
-        playerOne = transform.GetChild(0).gameObject;
-        playerTwo = transform.GetChild(1).gameObject;
-        playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+        this.wasSceneLoaded = false;
 
         playerOne.SetActive(true);
         this.numberOfActivePlayers = 1;
@@ -33,6 +52,15 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
             playerTwo.SetActive(true);
             playerTwoHud.SetActive(true);
             this.numberOfActivePlayers++;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (this.wasSceneLoaded == true)
+        {
+            PositionPlayers();
+            this.wasSceneLoaded = false;
         }
     }
 

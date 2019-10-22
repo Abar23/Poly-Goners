@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private AnimatorOverrideController animatorOverrideController;
     private float verticalVelocity;
     private bool lockAim = false;
+    private bool setEnemy = false;
     private Vector3 lookDir;
 
     private float reviveTimer;
@@ -42,6 +43,8 @@ public class Player : MonoBehaviour
     private float timeToDrop = 2f;
     private bool meleeDropped = false;
     private bool magicDropped = false;
+
+    private bool isAlive = true;
 
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
@@ -82,14 +85,15 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            if (!(PlayerMovementState is PlayerDeathState))
+            if (!(PlayerMovementState is PlayerDeathState)) // this player is not dead
             {
                 UpdateInput();
                 PlayerMovementState.Update();
             }
-            else
+            else // this player is dead
             {
-                if (OtherPlayer.PlayerMovementState is PlayerDeathState)
+                Crosshair.SetActive(false);
+                if (OtherPlayer.PlayerMovementState is PlayerDeathState) // both players are dead
                 {
                     RevivePrompt.gameObject.SetActive(false);
                 }
@@ -261,11 +265,23 @@ public class Player : MonoBehaviour
         PlayerMovementState = state;
     }
 
+    float shortestDist = 100f;
+    Collider closestEnemy = new Collider();
+    float lastDist = 0f;
     public void HandleRotation()
     {
         if (!lockAim)
         {
-            if(Controller.isUsingKeyboard())
+            lastDist = 0f;
+            shortestDist = 100f;
+            setEnemy = false;
+            if (closestEnemy != new Collider() && closestEnemy != null) // turn off target above enemy
+            {
+                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = false;
+                closestEnemy = null;
+            }
+
+            if (Controller.isUsingKeyboard())
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -279,13 +295,63 @@ public class Player : MonoBehaviour
                 lookDir = Vector3.right * Controller.GetControllerActions().look.X + Vector3.forward * Controller.GetControllerActions().look.Y;
             }
         }
+        else if (!setEnemy) // find closest enemy in field of view
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, 7.5f);
+            foreach (Collider hit in hitColliders)
+            {
+                if (hit.gameObject.tag == "Enemy")
+                {
+                    float dist = Vector3.Distance(transform.position, hit.gameObject.transform.position);
+                    float angleToEnemy = Vector3.Angle(transform.forward, hit.gameObject.transform.position - transform.position);
+                    // check enemy is in front of player, 160 degree FOV
+                    if (angleToEnemy >= -80f && angleToEnemy <= 80f && dist < shortestDist)
+                    {
+                        shortestDist = dist;
+                        closestEnemy = hit;
+                    } 
+                }
+            }
+
+            if (shortestDist != 100f) // lock on to closest enemy
+            {
+                setEnemy = true;
+                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+            }
+            else
+            {
+                lockAim = false;
+            }
+        }
+        else // continue locking to same enemy
+        {
+            if (closestEnemy != null && lastDist < 10f) // enemy is not dead and within the range of the player
+            {
+                lastDist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
+                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
+            }
+            else
+            {
+                lockAim = false;
+            }                
+        }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
         if (lookDir.sqrMagnitude > 0.0f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir, Vector3.up), RotateSpeed * Time.deltaTime);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            Crosshair.SetActive(true);
+            
+            if (!lockAim)
+            {
+                Crosshair.SetActive(true);
+                Crosshair.transform.localPosition = new Vector3(0f, 0f, CrosshairDistance);
+            }
+            else
+            {
+                Crosshair.SetActive(false);
+            }
         }
         else if (moveDir.sqrMagnitude > 0.0f)
         {
@@ -293,8 +359,6 @@ public class Player : MonoBehaviour
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             Crosshair.SetActive(false);
         }
-
-        Crosshair.transform.localPosition = new Vector3(0f, 0f, CrosshairDistance);
     }
 
 
@@ -368,5 +432,15 @@ public class Player : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    public void OnDeath()
+    {
+        isAlive = false;
+    }
+
+    public bool IsDead()
+    {
+        return !isAlive;
     }
 }
