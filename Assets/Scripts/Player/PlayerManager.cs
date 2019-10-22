@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : AbstractSingleton<PlayerManager>
 {
@@ -7,13 +6,14 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     private GameObject playerTwo;
     private GameObject playerTwoHud;
     private int numberOfActivePlayers;
+    private bool wasSceneLoaded;
 
     private ControllerManager controllerManager;
 
     void Start()
     {
         controllerManager = ControllerManager.GetInstance();
-
+        this.wasSceneLoaded = false;
         playerOne = transform.GetChild(0).gameObject;
         playerTwo = transform.GetChild(1).gameObject;
         playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
@@ -24,7 +24,7 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         playerTwo.SetActive(false);
         playerTwoHud.SetActive(false);
 
-        PositionPlayers(SceneManager.GetActiveScene(), 0);
+        PositionPlayers();
     }
 
     void Update()
@@ -37,14 +37,18 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         }
     }
 
-    private void OnEnable()
+    private void FixedUpdate()
     {
-        SceneManager.sceneLoaded += PositionPlayers;
+        if (this.wasSceneLoaded == true)
+        {
+            PositionPlayers();
+            this.wasSceneLoaded = false;
+        }
     }
 
-    private void OnDisable()
+    void OnLevelWasLoaded(int level)
     {
-        SceneManager.sceneLoaded -= PositionPlayers;
+        PositionPlayers();
     }
 
     public GameObject GetPlayerOneGameObject()
@@ -62,20 +66,15 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         return this.numberOfActivePlayers;
     }
 
-    public void PositionPlayers(Scene scene, LoadSceneMode mode)
+    public void PositionPlayers()
     {
-        if (this.playerOne != null)
+        if (this.playerOne != null && this.playerTwo != null)
         {
             GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
+            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
 
             this.playerOne.transform.position = playerOneSpawn.transform.position;
             this.playerOne.transform.rotation = playerOneSpawn.transform.rotation;
-
-        }
-
-        if (this.playerTwo != null)
-        {
-            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
 
             this.playerTwo.transform.position = playerTwoSpawn.transform.position;
             this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;

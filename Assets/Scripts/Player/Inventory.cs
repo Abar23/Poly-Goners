@@ -158,6 +158,7 @@ public class Inventory : MonoBehaviour
         {
             if (meleeWeapons[i] == null)
             {
+                DontDestroyOnLoad(pickup);
                 meleeWeapons[i] = weapon;
                 meleeDropables[i] = pickup;
                 currentMeleeIndex = i;
@@ -172,7 +173,6 @@ public class Inventory : MonoBehaviour
     {
         weaponManager.UnequipCurrentWeapon();
         MeleeIcon.DisableCurrentIcon();
-        meleeDropables[currentMeleeIndex].transform.position = player.transform.position + player.transform.forward;
         meleeDropables[currentMeleeIndex].SetActive(true);
 
         if (meleeDropables[currentMeleeIndex].tag == "ShopWeapon")
@@ -185,7 +185,11 @@ public class Inventory : MonoBehaviour
             meleeDropables[currentMeleeIndex].GetComponent<ShopItem>().enabled = false;
             meleeDropables[currentMeleeIndex].GetComponentInChildren<Canvas>().enabled = false;
             meleeDropables[currentMeleeIndex].name = meleeDropables[currentMeleeIndex].name + " Pickup";
-        }    
+        }
+
+        GameObject newMelee = Instantiate(meleeDropables[currentMeleeIndex], player.transform.position + player.transform.forward, Quaternion.identity);
+        newMelee.name = meleeDropables[currentMeleeIndex].name;
+        Destroy(meleeDropables[currentMeleeIndex]);
 
         meleeWeapons[currentMeleeIndex] = null;
         meleeDropables[currentMeleeIndex] = null;
@@ -199,6 +203,7 @@ public class Inventory : MonoBehaviour
         {
             if (magicAbilities[i] == null)
             {
+                DontDestroyOnLoad(pickup);
                 magicAbilities[i] = magicName;
                 magicDropables[i] = pickup;
                 currentMagicIndex = i;
@@ -213,8 +218,10 @@ public class Inventory : MonoBehaviour
         MagicIcon.DisableCurrentIcon();
         //Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
         Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .75f, player.transform.position.z + player.transform.forward.z);
-        magicDropables[currentMagicIndex].transform.position = newPos;
         magicDropables[currentMagicIndex].SetActive(true);
+        GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(60, 0, 0));
+        newMagic.name = magicDropables[currentMagicIndex].name;
+        Destroy(magicDropables[currentMagicIndex]);
 
         magicAbilities[currentMagicIndex] = null;
         magicDropables[currentMagicIndex] = null;
@@ -222,9 +229,11 @@ public class Inventory : MonoBehaviour
 
     public void DropPotion()
     {
-        potion.transform.position = transform.position + transform.forward * 2f;
         potion.transform.localScale = new Vector3(2f, 2f, 2f);
         potion.gameObject.SetActive(true);
+        GameObject newPotion = Instantiate(potion.gameObject, transform.position + transform.forward * 2f, Quaternion.identity);
+        newPotion.name = potion.name;
+        Destroy(potion);
         PotionIcon.DisableCurrentIcon();
         potion = null;
     }
@@ -291,6 +300,7 @@ public class Inventory : MonoBehaviour
     public void AddPotionToInventory(Collectable p)
     {
         potion = p;
+        DontDestroyOnLoad(potion);
         if (potion.tag == "ShopPotion")
         {
             potion.tag = "Untagged";
