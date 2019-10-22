@@ -6,17 +6,35 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     private GameObject playerTwo;
     private GameObject playerTwoHud;
     private int numberOfActivePlayers;
+    private bool hasRetrievedChildren = false;
     private bool wasSceneLoaded;
 
     private ControllerManager controllerManager;
+
+    protected override void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this as PlayerManager;
+            DontDestroyOnLoad(this.gameObject);
+            if(!this.hasRetrievedChildren)
+            {
+                playerOne = transform.GetChild(0).gameObject;
+                playerTwo = transform.GetChild(1).gameObject;
+                playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
+                this.hasRetrievedChildren = true;
+            }
+        }
+        else if (instance != this as PlayerManager)
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     void Start()
     {
         controllerManager = ControllerManager.GetInstance();
         this.wasSceneLoaded = false;
-        playerOne = transform.GetChild(0).gameObject;
-        playerTwo = transform.GetChild(1).gameObject;
-        playerTwoHud = transform.GetChild(2).gameObject.transform.GetChild(1).gameObject;
 
         playerOne.SetActive(true);
         this.numberOfActivePlayers = 1;
@@ -68,7 +86,7 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
 
     public void PositionPlayers()
     {
-        if(this.playerOne != null && this.playerTwo != null)
+        if (this.playerOne != null && this.playerTwo != null)
         {
             GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
             GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
@@ -78,7 +96,6 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
 
             this.playerTwo.transform.position = playerTwoSpawn.transform.position;
             this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;
-            this.wasSceneLoaded = false;
         }
     }
 }

@@ -27,8 +27,6 @@ public class RangedSkeleton : MonoBehaviour
         m_Controller = GetComponent<SkeletonAnimatorController>();
         m_Players = new List<Player>();
 
-        GameObject player = PlayerManager.GetInstance().GetPlayerOneGameObject();
-
         m_Players.Add(PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>());
         m_Players.Add(PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>());
 

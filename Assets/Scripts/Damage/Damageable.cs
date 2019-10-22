@@ -42,6 +42,11 @@ public class Damageable : MonoBehaviour
         health = Config.MaxHealth / 4;
     }
 
+    public void ResetHealthToFull() 
+    {
+        health = Config.StartingHealth;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         Damager damager = other.GetComponent<Damager>();
