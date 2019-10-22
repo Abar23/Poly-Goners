@@ -21,16 +21,17 @@ public class RangedSkeleton : MonoBehaviour
     private MagicBox m_MagicBox;
     
 
-    void Awake()
+    void Start()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_Controller = GetComponent<SkeletonAnimatorController>();
         m_Players = new List<Player>();
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject ob in objects)
-        {
-            m_Players.Add(ob.GetComponent<Player>());
-        }
+
+        GameObject player = PlayerManager.GetInstance().GetPlayerOneGameObject();
+
+        m_Players.Add(PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>());
+        m_Players.Add(PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>());
+
         RoomController room = gameObject.GetComponentInParent<RoomController>();
         Damageable damageable = gameObject.GetComponent<Damageable>();
         if (damageable != null && room != null)
@@ -39,10 +40,7 @@ public class RangedSkeleton : MonoBehaviour
             damageable.OnDeath.AddListener(room.RemoveEnemy);
         }
         m_MagicBox = gameObject.GetComponentInChildren<MagicBox>();
-    }
 
-    void Start()
-    {
         StartCoroutine(ScanForPlayer());
     }
 

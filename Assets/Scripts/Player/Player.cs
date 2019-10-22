@@ -267,10 +267,12 @@ public class Player : MonoBehaviour
 
     float shortestDist = 100f;
     Collider closestEnemy = new Collider();
+    float lastDist = 0f;
     public void HandleRotation()
     {
         if (!lockAim)
         {
+            lastDist = 0f;
             shortestDist = 100f;
             setEnemy = false;
             if (closestEnemy != new Collider() && closestEnemy != null) // turn off target above enemy
@@ -323,14 +325,11 @@ public class Player : MonoBehaviour
         }
         else // continue locking to same enemy
         {
-            if (closestEnemy != null) // enemy is not dead
+            if (closestEnemy != null && lastDist < 10f) // enemy is not dead and within the range of the player
             {
-                float dist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
-                if (dist < 10f) // enemy is within range of player
-                {
-                    lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
-                    closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
-                }
+                lastDist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
+                lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
+                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
             }
             else
             {

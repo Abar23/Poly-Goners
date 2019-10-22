@@ -15,18 +15,16 @@ public class Skeleton : MonoBehaviour
     private SkeletonAnimatorController m_Controller;
     private const float k_ScanInterval = 0.5f;
     private int followingIndex;
-    
 
-    void Awake()
+
+    void Start()
     {
         m_Agent = GetComponent<NavMeshAgent>();
         m_Controller = GetComponent<SkeletonAnimatorController>();
         m_Players = new List<Player>();
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject ob in objects)
-        {
-            m_Players.Add(ob.GetComponent<Player>());
-        }
+        m_Players.Add(PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>());
+        m_Players.Add(PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>());
+
         RoomController room = gameObject.GetComponentInParent<RoomController>();
         Damageable damageable = gameObject.GetComponent<Damageable>();
         if (damageable != null && room != null)
@@ -34,10 +32,8 @@ public class Skeleton : MonoBehaviour
             room.RegisterEnemy();
             damageable.OnDeath.AddListener(room.RemoveEnemy);
         }
-    }
 
-    void Start()
-    {
+
         StartCoroutine(ScanForPlayer());
     }
 

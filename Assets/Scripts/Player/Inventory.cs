@@ -219,7 +219,7 @@ public class Inventory : MonoBehaviour
         //Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
         Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .75f, player.transform.position.z + player.transform.forward.z);
         magicDropables[currentMagicIndex].SetActive(true);
-        GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.identity);
+        GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(60, 0, 0));
         newMagic.name = magicDropables[currentMagicIndex].name;
         Destroy(magicDropables[currentMagicIndex]);
 
