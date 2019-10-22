@@ -40,11 +40,13 @@ public class Damageable : MonoBehaviour
     public void RevivePlayer()
     {
         health = Config.MaxHealth / 4;
+        this.isDead = false;
     }
 
     public void ResetHealthToFull() 
     {
         health = Config.StartingHealth;
+        this.isDead = false;
     }
 
     void OnTriggerEnter(Collider other)

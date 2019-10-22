@@ -43,12 +43,17 @@ public class GameState : MonoBehaviour
     }
 
     public void RevivePlayers() {
-        playerManager.GetPlayerOneGameObject().GetComponent<Player>().PlayerMovementState.HandleGroundedTransition();
-        playerManager.GetPlayerOneGameObject().GetComponent<Damageable>().ResetHealthToFull();
+        Player playerOne = playerManager.GetPlayerOneGameObject().GetComponent<Player>();
+        Player playerTwo = playerManager.GetPlayerTwoGameObject().GetComponent<Player>();
+
+        playerOne.PlayerMovementState.HandleGroundedTransition();
+        playerOne.OnRevive();
+        playerOne.GetComponent<Damageable>().ResetHealthToFull();
 
         if (playerManager.GetNumberOfActivePlayers() == 2) {
-            playerManager.GetPlayerTwoGameObject().GetComponent<Player>().PlayerMovementState.HandleGroundedTransition();
-            playerManager.GetPlayerTwoGameObject().GetComponent<Damageable>().ResetHealthToFull();
+            playerTwo.PlayerMovementState.HandleGroundedTransition();
+            playerTwo.OnRevive();
+            playerTwo.GetComponent<Damageable>().ResetHealthToFull();
         }
     }
 }

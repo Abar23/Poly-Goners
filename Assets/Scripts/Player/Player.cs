@@ -439,6 +439,11 @@ public class Player : MonoBehaviour
         isAlive = false;
     }
 
+    public void OnRevive()
+    {
+        isAlive = true;
+    }
+
     public bool IsDead()
     {
         return !isAlive;
