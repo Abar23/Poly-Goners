@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3227098147905750689}
   - component: {fileID: 4066822080619949064}
   - component: {fileID: 1678540035059755905}
+  - component: {fileID: 8106910135593677043}
   m_Layer: 0
   m_Name: FastFireBallMagic
   m_TagString: ShopMagicBook
@@ -43,7 +44,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3227098147903287329}
-  m_Mesh: {fileID: 4300000, guid: cc48831463d432a4bbced5b9fc67f10c, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
 --- !u!23 &3227098147905750689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa8eda4ec55ee1a4e99ca991c5828dbf, type: 2}
+  - {fileID: 2100000, guid: aae8ad3bb2843d744a652a09d7fa68d0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,6 +110,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &8106910135593677043
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3227098147903287329}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
 --- !u!1001 &4282175656168740839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,10 +273,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3227098147903535903}
     m_Modifications:
-    - target: {fileID: 1173342265669808, guid: 0e2e6ca363690db48b05ca72e367686f, type: 3}
-      propertyPath: m_Name
-      value: Fast Fire Ball Pickup
-      objectReference: {fileID: 0}
     - target: {fileID: 4798153273156544, guid: 0e2e6ca363690db48b05ca72e367686f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -305,6 +316,10 @@ PrefabInstance:
     - target: {fileID: 4798153273156544, guid: 0e2e6ca363690db48b05ca72e367686f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173342265669808, guid: 0e2e6ca363690db48b05ca72e367686f, type: 3}
+      propertyPath: m_Name
+      value: Fast Fire Ball Pickup
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e2e6ca363690db48b05ca72e367686f, type: 3}
