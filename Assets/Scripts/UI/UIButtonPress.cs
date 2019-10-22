@@ -25,20 +25,23 @@ public class UIButtonPress : MonoBehaviour
         else
             controller = ControllerManager.GetInstance().GetPlayerTwoController();
 
-        if (controller.GetControllerActions().LastInputType == BindingSourceType.DeviceBindingSource)
+        if(controller is Controller)
         {
-            if (controller.GetInputDevice().Name == "PlayStation 4 Controller")
+            if (controller.GetControllerActions().LastInputType == BindingSourceType.DeviceBindingSource)
             {
-                CheckInput(ButtonDefaultSpritePS4, ButtonPressedSpritePS4);
+                if (controller.GetInputDevice().Name == "PlayStation 4 Controller")
+                {
+                    CheckInput(ButtonDefaultSpritePS4, ButtonPressedSpritePS4);
+                }
+                else
+                {
+                    CheckInput(ButtonDefaultSpriteXbox, ButtonPressedSpriteXbox);
+                }
             }
-            else
+            else if (controller.GetControllerActions().LastInputType == BindingSourceType.KeyBindingSource)
             {
-                CheckInput(ButtonDefaultSpriteXbox, ButtonPressedSpriteXbox);
+                CheckInput(ButtonDefaultSpritePC, ButtonPressedSpritePC);
             }
-        }
-        else if (controller.GetControllerActions().LastInputType == BindingSourceType.KeyBindingSource)
-        {
-            CheckInput(ButtonDefaultSpritePC, ButtonPressedSpritePC);
         }
     }
 
