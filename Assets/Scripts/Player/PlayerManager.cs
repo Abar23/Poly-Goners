@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : AbstractSingleton<PlayerManager>
 {
@@ -23,7 +24,7 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         playerTwo.SetActive(false);
         playerTwoHud.SetActive(false);
 
-        PositionPlayers();
+        PositionPlayers(SceneManager.GetActiveScene(), 0);
     }
 
     void Update()
@@ -36,9 +37,14 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         }
     }
 
-    void OnLevelWasLoaded(int level)
+    private void OnEnable()
     {
-        PositionPlayers();
+        SceneManager.sceneLoaded += PositionPlayers;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= PositionPlayers;
     }
 
     public GameObject GetPlayerOneGameObject()
@@ -56,15 +62,20 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
         return this.numberOfActivePlayers;
     }
 
-    public void PositionPlayers()
+    public void PositionPlayers(Scene scene, LoadSceneMode mode)
     {
-        if (this.playerOne != null && this.playerTwo != null)
+        if (this.playerOne != null)
         {
             GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
-            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
 
             this.playerOne.transform.position = playerOneSpawn.transform.position;
             this.playerOne.transform.rotation = playerOneSpawn.transform.rotation;
+
+        }
+
+        if (this.playerTwo != null)
+        {
+            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
 
             this.playerTwo.transform.position = playerTwoSpawn.transform.position;
             this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;
