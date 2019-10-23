@@ -43,4 +43,9 @@ public class Stamina : MonoBehaviour
         if (currentStamina < 0)
             currentStamina = 0;
     }
+
+    public void ResetStaminaToFull()
+    {
+        currentStamina = MaxStamina;
+    }
 }

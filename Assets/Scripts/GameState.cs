@@ -49,11 +49,17 @@ public class GameState : MonoBehaviour
         playerOne.PlayerMovementState.HandleGroundedTransition();
         playerOne.OnRevive();
         playerOne.GetComponent<Damageable>().ResetHealthToFull();
+        playerOne.GetComponentInChildren<MagicBox>().ResetMagicToFull();
+        playerOne.GetComponent<Stamina>().ResetStaminaToFull();
+        playerOne.GetComponent<Inventory>().OnDeath();
 
         if (playerManager.GetNumberOfActivePlayers() == 2) {
             playerTwo.PlayerMovementState.HandleGroundedTransition();
             playerTwo.OnRevive();
             playerTwo.GetComponent<Damageable>().ResetHealthToFull();
+            playerTwo.GetComponentInChildren<MagicBox>().ResetMagicToFull();
+            playerTwo.GetComponent<Stamina>().ResetStaminaToFull();
+            playerTwo.GetComponent<Inventory>().OnDeath();
         }
     }
 }

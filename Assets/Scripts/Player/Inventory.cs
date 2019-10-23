@@ -275,6 +275,32 @@ public class Inventory : MonoBehaviour
         return (potion != null);
     }
 
+    public void OnDeath()
+    {
+        gold /= 2;
+        CoinDisplay.text = gold.ToString();
+
+        for (int i = 0; i < NumberOfMagicSlots; i++)
+        {
+            magicAbilities[i] = null;
+            magicDropables[i] = null;
+        }
+
+        for (int i = 0; i < NumberOfMeleeSlots; i++)
+        {
+            meleeWeapons[i] = null;
+            meleeDropables[i] = null;
+        }
+
+        potion = null;
+
+        MeleeIcon.DisableCurrentIcon();
+        MagicIcon.DisableCurrentIcon();
+        PotionIcon.DisableCurrentIcon();
+        weaponManager.UnequipCurrentWeapon();
+        player.ChangeCurrentWeapon(meleeWeapons[currentMeleeIndex]);
+    }
+
     void OnTriggerStay(Collider other)
     {
         GameObject obj = other.gameObject;
