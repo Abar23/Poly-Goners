@@ -24,19 +24,24 @@ public class GameState : MonoBehaviour
     }
 
     private bool CheckIfAllPlayersDead() {
-        int numberPlayers = playerManager.GetNumberOfActivePlayers();
         bool allPlayersDead = false;
+        int numberPlayers = playerManager.GetNumberOfActivePlayers();
+        Player playerOne = playerManager.GetPlayerOneGameObject().GetComponent<Player>();
+        Player playerTwo = playerManager.GetPlayerTwoGameObject().GetComponent<Player>();
 
-        if (numberPlayers == 1 && playerManager.GetPlayerOneGameObject().GetComponent<Player>().PlayerMovementState is PlayerDeathState) {
-            playerOneDead = true;
-            allPlayersDead = true;
-        }
-
-        if (numberPlayers == 2 && playerManager.GetPlayerTwoGameObject().GetComponent<Player>().PlayerMovementState is PlayerDeathState) {
-            playerTwoDead = true;
-
-            if (playerOneDead)
+        if (numberPlayers == 1)
+        {
+            if(playerOne.IsDead())
+            {
                 allPlayersDead = true;
+            }
+        }
+        else if (numberPlayers == 2)
+        {
+            if(playerOne.IsDead() && playerTwo.IsDead())
+            {
+                allPlayersDead = true;
+            }
         }
 
         return allPlayersDead;

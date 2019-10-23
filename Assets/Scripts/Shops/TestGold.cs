@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class TestGold : MonoBehaviour
 {
-    private GameObject player;
-
-    void Start()
-    {
-        this.player = PlayerManager.GetInstance().GetPlayerOneGameObject();
-    }
-
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
+        GameObject playerOne = PlayerManager.GetInstance().GetPlayerOneGameObject();
+        GameObject playerTwo = PlayerManager.GetInstance().GetPlayerTwoGameObject();
+
+        if (other.gameObject == playerOne)
         {
-            player.GetComponent<Inventory>().IncreaseGold(10000);
+            playerOne.GetComponent<Inventory>().IncreaseGold(10000);
+        }
+        else if(other.gameObject == playerTwo)
+        {
+            playerTwo.GetComponent<Inventory>().IncreaseGold(10000);
         }
     }
 }
