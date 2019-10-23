@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using static DungeonRoom;
+using UnityEngine.Events;
 
 public class DungeonGenerator : MonoBehaviour
 {
     public int numberOfRooms; // Public room number constraints. Temporary, need to create dynamic way to do this
     public DungeonTemplate template;
+    [SerializeField] private UnityEvent OnGenerationFinished;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
@@ -45,6 +47,15 @@ public class DungeonGenerator : MonoBehaviour
         if(newState != null)
         {
             this.dungeonGenerationState = newState;
+        }
+
+        if (this.dungeonGenerationState is FinishedDungeonState)
+        {
+            if (OnGenerationFinished != null)
+            {
+                OnGenerationFinished.Invoke();
+                OnGenerationFinished = null;
+            }
         }
     }
 
