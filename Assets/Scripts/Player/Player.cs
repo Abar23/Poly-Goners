@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
         HandleRotation();
 
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
-        
+
         // Check if able to revive the other player
         if (dist < reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
         {
@@ -122,6 +122,7 @@ public class Player : MonoBehaviour
                 {
                     OtherPlayer.PlayerMovementState.HandleGroundedTransition();
                     OtherPlayer.GetComponent<Damageable>().RevivePlayer();
+                    OtherPlayer.OnRevive();
                 }
             }
             else
@@ -140,12 +141,12 @@ public class Player : MonoBehaviour
         if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null)
         {
             float attackStamina = weaponManager.GetWeaponStaminaConfig().GetPrimaryAttackStamina();
-            if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina) 
+            if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina)
             {
                 stamina.DecreaseStamina(attackStamina);
-				animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
-				animator.SetTrigger("PrimaryAttackTrigger");
-				currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
+                animator.SetTrigger("PrimaryAttackTrigger");
+                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
                 TriggerEvent(OnMeleeAttack);
             }
         }
@@ -254,7 +255,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeCurrentWeapon(IWeapon weapon) 
+    public void ChangeCurrentWeapon(IWeapon weapon)
     {
         currentWeapon = weapon;
         meleeDropped = false;
@@ -309,7 +310,7 @@ public class Player : MonoBehaviour
                     {
                         shortestDist = dist;
                         closestEnemy = hit;
-                    } 
+                    }
                 }
             }
 
@@ -334,7 +335,7 @@ public class Player : MonoBehaviour
             else
             {
                 lockAim = false;
-            }                
+            }
         }
 
         Vector3 moveDir = Vector3.right * Controller.GetControllerActions().move.X + Vector3.forward * Controller.GetControllerActions().move.Y;
@@ -342,7 +343,7 @@ public class Player : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir, Vector3.up), RotateSpeed * Time.deltaTime);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            
+
             if (!lockAim)
             {
                 Crosshair.SetActive(true);
@@ -370,7 +371,7 @@ public class Player : MonoBehaviour
         {
             MoveDir *= MoveSpeed;
             PlayerMovementState.HandleGroundedTransition();
-            
+
             // Handle Roll Input
             if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() >= rollStaminaCost)
             {
@@ -437,11 +438,13 @@ public class Player : MonoBehaviour
     public void OnDeath()
     {
         isAlive = false;
+        this.character.enabled = false;
     }
 
     public void OnRevive()
     {
         isAlive = true;
+        this.character.enabled = true;
     }
 
     public bool IsDead()
