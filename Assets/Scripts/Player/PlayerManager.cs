@@ -41,8 +41,6 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
 
         playerTwo.SetActive(false);
         playerTwoHud.SetActive(false);
-
-        PositionPlayers();
     }
 
     void Update()
@@ -53,20 +51,6 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
             playerTwoHud.SetActive(true);
             this.numberOfActivePlayers++;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (this.wasSceneLoaded == true)
-        {
-            PositionPlayers();
-            this.wasSceneLoaded = false;
-        }
-    }
-
-    void OnLevelWasLoaded(int level)
-    {
-        PositionPlayers();
     }
 
     public GameObject GetPlayerOneGameObject()
@@ -82,20 +66,5 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     public int GetNumberOfActivePlayers()
     {
         return this.numberOfActivePlayers;
-    }
-
-    public void PositionPlayers()
-    {
-        if (this.playerOne != null && this.playerTwo != null)
-        {
-            GameObject playerOneSpawn = GameObject.Find("Player1Spawn");
-            GameObject playerTwoSpawn = GameObject.Find("Player2Spawn");
-
-            this.playerOne.transform.position = playerOneSpawn.transform.position;
-            this.playerOne.transform.rotation = playerOneSpawn.transform.rotation;
-
-            this.playerTwo.transform.position = playerTwoSpawn.transform.position;
-            this.playerTwo.transform.rotation = playerTwoSpawn.transform.rotation;
-        }
     }
 }
