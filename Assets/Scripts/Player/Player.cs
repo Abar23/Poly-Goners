@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     private bool lockAim = false;
     private bool setEnemy = false;
     private Vector3 lookDir;
+    private bool isPaused;
 
     private float reviveTimer;
     private float timeToRevive = 3f;
@@ -85,7 +86,7 @@ public class Player : MonoBehaviour
 
         if (!(Controller is NullController))
         {
-            if (!(PlayerMovementState is PlayerDeathState)) // this player is not dead
+            if (!(PlayerMovementState is PlayerDeathState) && !isPaused) // this player is not dead
             {
                 UpdateInput();
                 PlayerMovementState.Update();
@@ -160,7 +161,7 @@ public class Player : MonoBehaviour
         }
 
         // Use Potion
-        if (Controller.GetControllerActions().action4.WasPressed)
+        if (Controller.GetControllerActions().action4.WasPressed && inventory.HasPotion())
         {
             animator.SetTrigger("DrinkPotion");
             inventory.UsePotion();
@@ -272,12 +273,18 @@ public class Player : MonoBehaviour
     {
         if (!lockAim)
         {
+            Crosshair.SetActive(false);
             lastDist = 0f;
             shortestDist = 100f;
             setEnemy = false;
             if (closestEnemy != new Collider() && closestEnemy != null) // turn off target above enemy
             {
-                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = false;
+                Component[] icons = closestEnemy.gameObject.GetComponentsInChildren<DisableOnStart>();
+                foreach (Component c in icons)
+                {
+                    if ((PlayerNumber == 1 && c.gameObject.name == "Player1Target") || (PlayerNumber == 2 && c.gameObject.name == "Player2Target"))
+                        c.gameObject.GetComponent<Image>().enabled = false;
+                }
                 closestEnemy = null;
             }
 
@@ -329,7 +336,12 @@ public class Player : MonoBehaviour
             {
                 lastDist = Vector3.Distance(transform.position, closestEnemy.gameObject.transform.position);
                 lookDir = (closestEnemy.gameObject.transform.position - transform.position).normalized;
-                closestEnemy.gameObject.GetComponentInChildren<DisableOnStart>().gameObject.GetComponent<Image>().enabled = true;
+                Component[] icons = closestEnemy.gameObject.GetComponentsInChildren<DisableOnStart>();
+                foreach (Component c in icons)
+                {
+                    if ((PlayerNumber == 1 && c.gameObject.name == "Player1Target") || (PlayerNumber == 2 && c.gameObject.name == "Player2Target"))
+                        c.gameObject.GetComponent<Image>().enabled = true;
+                }
             }
             else
             {
@@ -447,5 +459,10 @@ public class Player : MonoBehaviour
     public bool IsDead()
     {
         return !isAlive;
+    }
+
+    public void SetIsPaused(bool paused)
+    {
+        isPaused = paused;
     }
 }

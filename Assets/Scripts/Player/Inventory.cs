@@ -11,7 +11,6 @@ public class Inventory : MonoBehaviour
     public IconManager MeleeIcon;
     public IconManager MagicIcon;
     public IconManager PotionIcon;
-    public Image StrengthIndicator;
 
     private Player player;
     private WeaponManager weaponManager;
@@ -28,6 +27,12 @@ public class Inventory : MonoBehaviour
 
     private int currentMeleeIndex;
     private int currentMagicIndex;
+
+    public Image StrengthIndicator;
+    public Image StrengthTimerCircle;
+    private bool strengthPotionUsed = false;
+    private float potionTime;
+    private float remainingTime;
 
     void Awake()
     {
@@ -48,6 +53,15 @@ public class Inventory : MonoBehaviour
         magicDropables = new GameObject[NumberOfMagicSlots];
         currentMeleeIndex = 0;
         currentMagicIndex = 0;
+    }
+
+    private void Update()
+    {
+        if (strengthPotionUsed)
+        {
+            StrengthTimerCircle.fillAmount = remainingTime / potionTime;
+            remainingTime -= Time.deltaTime;
+        }
     }
 
     public int GetGold()
@@ -89,6 +103,9 @@ public class Inventory : MonoBehaviour
                     damager.SetMultiplier(((StrengthPotionConfig)config).Multiplier);
                 }
                 StrengthIndicator.gameObject.SetActive(true);
+                potionTime = config.EffectiveTime;
+                remainingTime = config.EffectiveTime;
+                strengthPotionUsed = true;
                 Invoke("ResetMultiplier", config.EffectiveTime);
             }
 
@@ -367,6 +384,7 @@ public class Inventory : MonoBehaviour
     {
         Damager[] damagers = GetComponentsInChildren<Damager>();
         StrengthIndicator.gameObject.SetActive(false);
+        strengthPotionUsed = false;
         foreach (Damager damager in damagers)
         {
             damager.SetMultiplier(1f);
