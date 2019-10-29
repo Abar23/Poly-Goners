@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,7 +108,7 @@ public class Inventory : MonoBehaviour
                 Invoke("ResetMultiplier", config.EffectiveTime);
             }
 
-            Destroy(potion);
+            Destroy(potion.gameObject);
             PotionIcon.DisableCurrentIcon();
         }
     }
@@ -192,18 +191,6 @@ public class Inventory : MonoBehaviour
         MeleeIcon.DisableCurrentIcon();
         meleeDropables[currentMeleeIndex].SetActive(true);
 
-        if (meleeDropables[currentMeleeIndex].tag == "ShopWeapon")
-        {
-            meleeDropables[currentMeleeIndex].tag = "Untagged";
-            meleeDropables[currentMeleeIndex].AddComponent<WeaponPickup>();
-            meleeDropables[currentMeleeIndex].AddComponent<ItemPickupEffect>();
-            meleeDropables[currentMeleeIndex].AddComponent<BoxCollider>();
-            meleeDropables[currentMeleeIndex].GetComponent<BoxCollider>().isTrigger = true;
-            meleeDropables[currentMeleeIndex].GetComponent<ShopItem>().enabled = false;
-            meleeDropables[currentMeleeIndex].GetComponentInChildren<Canvas>().enabled = false;
-            meleeDropables[currentMeleeIndex].name = meleeDropables[currentMeleeIndex].name + " Pickup";
-        }
-
         GameObject newMelee = Instantiate(meleeDropables[currentMeleeIndex], player.transform.position + player.transform.forward, Quaternion.identity);
         newMelee.name = meleeDropables[currentMeleeIndex].name;
         Destroy(meleeDropables[currentMeleeIndex]);
@@ -233,7 +220,6 @@ public class Inventory : MonoBehaviour
     public void DropMagic()
     {
         MagicIcon.DisableCurrentIcon();
-        //Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, -2f, player.transform.position.z + player.transform.forward.z);
         Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .75f, player.transform.position.z + player.transform.forward.z);
         magicDropables[currentMagicIndex].SetActive(true);
         GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(60, 0, 0));
@@ -250,7 +236,7 @@ public class Inventory : MonoBehaviour
         potion.gameObject.SetActive(true);
         GameObject newPotion = Instantiate(potion.gameObject, transform.position + transform.forward * 2f, Quaternion.identity);
         newPotion.name = potion.name;
-        Destroy(potion);
+        Destroy(potion.gameObject);
         PotionIcon.DisableCurrentIcon();
         potion = null;
     }
@@ -331,11 +317,10 @@ public class Inventory : MonoBehaviour
         {
             if (!HasPotion())
             {
-                AddPotionToInventory(collectable);
-                potion = collectable;
-                potion.gameObject.SetActive(false);
-                PotionConfig config = potion.GetComponent<Collectable>().Config;
-                PotionIcon.EnableIcon(potion.gameObject);
+                GameObject newPotion = Instantiate(obj);
+                newPotion.name = newPotion.name.Substring(0, newPotion.name.Length - 7); // remove (clone) from name
+                AddPotionToInventory(newPotion.GetComponent<Collectable>());
+                Destroy(obj);
             }
         }
     }
@@ -343,18 +328,8 @@ public class Inventory : MonoBehaviour
     public void AddPotionToInventory(Collectable p)
     {
         potion = p;
-        DontDestroyOnLoad(potion);
-        if (potion.tag == "ShopPotion")
-        {
-            potion.tag = "Untagged";
-            potion.GetComponent<ShopItem>().enabled = false;
-            potion.GetComponentInChildren<Canvas>().enabled = false;
-            potion.gameObject.AddComponent<MeshCollider>();
-            potion.gameObject.GetComponent<MeshCollider>().convex = true;
-            potion.gameObject.GetComponent<MeshCollider>().isTrigger = true;
-        }
+        DontDestroyOnLoad(potion.gameObject);
         potion.gameObject.SetActive(false);
-
         PotionIcon.EnableIcon(p.gameObject);
     }
 
@@ -389,5 +364,18 @@ public class Inventory : MonoBehaviour
         {
             damager.SetMultiplier(1f);
         }
+    }
+
+    public static void DontDestroyChildOnLoad(GameObject child)
+    {
+        Transform parentTransform = child.transform;
+
+        // If this object doesn't have a parent then its the root transform.
+        while (parentTransform.parent != null)
+        {
+            // Keep going up the chain.
+            parentTransform = parentTransform.parent;
+        }
+        GameObject.DontDestroyOnLoad(parentTransform.gameObject);
     }
 }

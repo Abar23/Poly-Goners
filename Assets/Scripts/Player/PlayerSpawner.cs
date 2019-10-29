@@ -11,6 +11,8 @@ public class PlayerSpawner : MonoBehaviour
         {
             GameObject playerOne = PlayerManager.GetInstance().GetPlayerOneGameObject();
             GameObject playerTwo = PlayerManager.GetInstance().GetPlayerTwoGameObject();
+            playerOne.GetComponent<Player>().SetIsPaused(false);
+            playerTwo.GetComponent<Player>().SetIsPaused(false);
 
             if (this.isPlayerOne)
             {

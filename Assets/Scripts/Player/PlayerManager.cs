@@ -7,7 +7,6 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     private GameObject playerTwoHud;
     private int numberOfActivePlayers;
     private bool hasRetrievedChildren = false;
-    private bool wasSceneLoaded;
 
     private ControllerManager controllerManager;
 
@@ -34,7 +33,6 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
     void Start()
     {
         controllerManager = ControllerManager.GetInstance();
-        this.wasSceneLoaded = false;
 
         playerOne.SetActive(true);
         this.numberOfActivePlayers = 1;

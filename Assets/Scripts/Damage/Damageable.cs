@@ -17,14 +17,34 @@ public class Damageable : MonoBehaviour
     private int health;
     private bool isDead = false;
 
+    private Text damageText;
+    private int damageAmount = 0;
+    private float elapsedTime = 2f;
+    private float timeToShow = 2f;
+
     void Awake()
     {
         health = Config.StartingHealth;
+        damageText = HealthBar.gameObject.GetComponentInChildren<Text>();
     }
 
     void Update()
     {
         HealthBar.value = health / (float)Config.MaxHealth;
+
+        if (damageText != null)
+        {
+            if (elapsedTime < timeToShow)
+            {
+                elapsedTime += Time.deltaTime;
+                damageText.enabled = true;
+            }
+            else
+            {
+                damageText.enabled = false;
+                damageAmount = 0;
+            }
+        }
     }
 
     public int GetHealth()
@@ -82,6 +102,12 @@ public class Damageable : MonoBehaviour
         if (config is OneTimeDamagerConfig)
         {
             health -= (int)(config.Damage * multiplier);
+            if (damageText != null)
+            {
+                damageAmount += (int)(config.Damage * multiplier);
+                elapsedTime = 0f;
+                damageText.text = damageAmount.ToString();
+            }
             TriggerEvent(OnHit);
             CheckHealth();
         }
@@ -96,6 +122,12 @@ public class Damageable : MonoBehaviour
         for (int i = 0; i < config.DamageIteration; i++)
         {
             health -= (int)(Mathf.Max(0, (config.Damage - i * config.DamageDecay)) * multiplier);
+            if (damageText != null)
+            {
+                damageAmount += (int)(Mathf.Max(0, (config.Damage - i * config.DamageDecay)) * multiplier);
+                elapsedTime = 0f;
+                damageText.text = damageAmount.ToString();
+            }
             CheckHealth();
             yield return new WaitForSeconds(config.DamageInterval);
         }
