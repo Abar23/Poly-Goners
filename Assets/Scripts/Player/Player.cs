@@ -469,6 +469,7 @@ public class Player : MonoBehaviour
 
     public void OnDeath()
     {
+        character.enabled = false;
         PlayerMovementState.HandleDeathTransition();
         isAlive = false;
         Crosshair.SetActive(false);
@@ -480,6 +481,7 @@ public class Player : MonoBehaviour
 
     public void OnRevive()
     {
+        character.enabled = true;
         isAlive = true;
         if (permaDead && !gameObject.activeSelf)
         {
