@@ -106,7 +106,7 @@ public class Damageable : MonoBehaviour
             {
                 damageAmount += (int)(config.Damage * multiplier);
                 elapsedTime = 0f;
-                damageText.text = damageAmount.ToString();
+                damageText.text = "-" + damageAmount.ToString();
             }
             TriggerEvent(OnHit);
             CheckHealth();
@@ -126,7 +126,7 @@ public class Damageable : MonoBehaviour
             {
                 damageAmount += (int)(Mathf.Max(0, (config.Damage - i * config.DamageDecay)) * multiplier);
                 elapsedTime = 0f;
-                damageText.text = damageAmount.ToString();
+                damageText.text = "-" + damageAmount.ToString();
             }
             CheckHealth();
             yield return new WaitForSeconds(config.DamageInterval);

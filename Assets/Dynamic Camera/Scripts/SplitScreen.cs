@@ -76,7 +76,7 @@ public class SplitScreen : MonoBehaviour
             this.player1 = player1GameObject.transform;
             this.player2 = player2GameObject.transform;
 
-            if (player2.gameObject.activeSelf)
+            if (player1.gameObject.activeSelf && player2.gameObject.activeSelf)
             {
                 //Gets the z axis distance between the two players and just the standard distance.
                 float zDistance = player1.position.z - player2.transform.position.z;
@@ -147,8 +147,12 @@ public class SplitScreen : MonoBehaviour
                 Quaternion newRot = Quaternion.LookRotation(midPoint - camera1.transform.position);
                 camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 10);
             }
-            else
+            else if (player1.gameObject.activeSelf && !player2.gameObject.activeSelf)
             {
+                if (splitter.activeSelf)
+                    splitter.SetActive(false);
+                camera2.SetActive(false);
+
                 /*Lerps the first cameras position and rotation to that first players posisiton since it is the only active player on the screen.*/
                 camera1.transform.position = Vector3.Lerp(camera1.transform.position, player1.position + new Vector3(cameraX, cameraY, cameraZ), Time.deltaTime * 10);
                 Quaternion newRot = Quaternion.LookRotation(player1.position - camera1.transform.position);
@@ -161,6 +165,17 @@ public class SplitScreen : MonoBehaviour
                 //    if (h.collider.transform.gameObject.name != "Player 1")
                 //        h.collider.transform.gameObject.GetComponent<MeshRenderer>().enabled = false;
                 //}
+            }
+            else if (player2.gameObject.activeSelf && !player1.gameObject.activeSelf)
+            {
+                if (splitter.activeSelf)
+                    splitter.SetActive(false);
+                camera2.SetActive(false);
+
+                /*Lerps the first cameras position and rotation to that first players posisiton since it is the only active player on the screen.*/
+                camera1.transform.position = Vector3.Lerp(camera1.transform.position, player2.position + new Vector3(cameraX, cameraY, cameraZ), Time.deltaTime * 10);
+                Quaternion newRot = Quaternion.LookRotation(player2.position - camera1.transform.position);
+                camera1.transform.rotation = Quaternion.Lerp(camera1.transform.rotation, newRot, Time.deltaTime * 10);
             }
         }
     }

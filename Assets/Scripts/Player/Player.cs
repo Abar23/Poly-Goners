@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
@@ -47,6 +48,13 @@ public class Player : MonoBehaviour
 
     private bool isAlive = true;
 
+    public GameObject DeathTimer;
+    public Image DeathTimerFill;
+    private bool permaDead = false;
+    private bool isReviving = false;
+    private float timeToDie = 60f;
+    private float deathTimeRemaining;
+
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
@@ -64,6 +72,7 @@ public class Player : MonoBehaviour
     {
         PlayerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
         RevivePrompt.SetActive(false);
+        DeathTimer.SetActive(false);
         character = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
@@ -75,6 +84,7 @@ public class Player : MonoBehaviour
         meleeDropTimer = 0f;
         magicDropTimer = 0f;
         potionDropTimer = 0f;
+        deathTimeRemaining = timeToDie;
     }
 
     private void Update()
@@ -93,10 +103,23 @@ public class Player : MonoBehaviour
             }
             else // this player is dead
             {
-                Crosshair.SetActive(false);
+                if (!permaDead && !isReviving)
+                {
+                    DeathTimerFill.fillAmount = deathTimeRemaining / timeToDie;
+                    deathTimeRemaining -= Time.deltaTime;
+
+                    if (deathTimeRemaining <= 0)
+                    {
+                        permaDead = true;
+                        StartCoroutine(DisablePlayer());
+                    }
+                        
+                }
+                
                 if (OtherPlayer.PlayerMovementState is PlayerDeathState) // both players are dead
                 {
                     RevivePrompt.gameObject.SetActive(false);
+                    DeathTimer.gameObject.SetActive(false);
                 }
             }
         }
@@ -110,28 +133,31 @@ public class Player : MonoBehaviour
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
         
         // Check if able to revive the other player
-        if (dist < reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
+        if (dist < reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState && !OtherPlayer.IsPermaDead())
         {
             OtherPlayer.RevivePrompt.gameObject.SetActive(true);
             OtherPlayer.RevivePromptFill.fillAmount = reviveTimer / timeToRevive;
 
             if (Controller.GetControllerActions().action3.IsPressed)
             {
+                isReviving = true;
                 reviveTimer += Time.deltaTime;
 
                 if (reviveTimer > timeToRevive)
                 {
                     OtherPlayer.PlayerMovementState.HandleGroundedTransition();
                     OtherPlayer.GetComponent<Damageable>().RevivePlayer();
+                    OtherPlayer.OnRevive();
                 }
             }
             else
             {
+                isReviving = false;
                 if (reviveTimer > 0f)
                     reviveTimer -= Time.deltaTime * 2f;
             }
         }
-        else if (dist >= reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState)
+        else if (dist >= reviveDistance && OtherPlayer.PlayerMovementState is PlayerDeathState && !OtherPlayer.IsPermaDead())
         {
             OtherPlayer.RevivePrompt.gameObject.SetActive(false);
             reviveTimer = 0f;
@@ -409,11 +435,6 @@ public class Player : MonoBehaviour
         character.Move(MoveDir * Time.deltaTime);
     }
 
-    public void HandleDeath()
-    {
-        PlayerMovementState.HandleDeathTransition();
-    }
-
     private bool IsRolling()
     {
         return animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Forward") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Roll Back")
@@ -448,12 +469,27 @@ public class Player : MonoBehaviour
 
     public void OnDeath()
     {
+        PlayerMovementState.HandleDeathTransition();
         isAlive = false;
+        Crosshair.SetActive(false);
+        if (OtherPlayer.isActiveAndEnabled)
+        {
+            DeathTimer.SetActive(true);
+        }
     }
 
     public void OnRevive()
     {
         isAlive = true;
+        if (permaDead && !gameObject.activeSelf)
+        {
+            permaDead = false;
+            gameObject.SetActive(true);
+        }
+
+        deathTimeRemaining = timeToDie;
+        reviveTimer = 0;
+        DeathTimer.SetActive(false);
     }
 
     public bool IsDead()
@@ -461,8 +497,19 @@ public class Player : MonoBehaviour
         return !isAlive;
     }
 
+    public bool IsPermaDead()
+    {
+        return permaDead;
+    }
+
     public void SetIsPaused(bool paused)
     {
         isPaused = paused;
+    }
+
+    IEnumerator DisablePlayer()
+    {
+        yield return new WaitForSeconds(5);
+        this.gameObject.SetActive(false);
     }
 }
