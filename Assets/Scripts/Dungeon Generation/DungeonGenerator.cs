@@ -40,9 +40,6 @@ public class DungeonGenerator : MonoBehaviour
         
         // Fill look up table position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
-        
-        // Create starting room gameobject
-        Instantiate(this.dungeonTree.DungeonRoom.prefab, Vector3.zero, Quaternion.AngleAxis((float)this.dungeonTree.DungeonRoom.roomRotation, Vector3.up));
 
         // Set inital state of the dungeon generator to the creation state
         this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate, this.lookUpTable, this.dungeonTree, this.numberOfRooms - 1);
