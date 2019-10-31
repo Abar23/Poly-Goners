@@ -89,9 +89,10 @@ public class ShopItem : MonoBehaviour
         // Buy melee weapon if inventory isn't full
         if (this.gameObject.tag == "ShopWeapon" && !inv.IsMeleeFull())
         {
-            WeaponManager wm = player.GetComponentInChildren<WeaponManager>();
-            wm.EquipWeapon(this.name + " Pickup");
-            inv.AddMeleeWeapon(wm.weaponPickups[this.gameObject.name + " Pickup"].GetComponent<Weapon>(), this.gameObject);
+            GameObject weaponPickup = Instantiate(this.gameObject.transform.GetChild(0).gameObject) as GameObject;
+            // get rid of (clone) from end of name so weapon is properly added to inventory map
+            weaponPickup.name = weaponPickup.name.Substring(0, weaponPickup.name.Length - 7);
+            weaponPickup.GetComponent<WeaponPickup>().EquipWeapon(player);
 
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
@@ -100,7 +101,8 @@ public class ShopItem : MonoBehaviour
         // Buy potion if player is not already holding a potion
         else if (this.gameObject.tag == "ShopPotion" && !inv.HasPotion())
         {
-            inv.AddPotionToInventory(this.gameObject.GetComponent<Collectable>());
+            GameObject potionPickup = Instantiate(this.gameObject.transform.GetChild(0).gameObject) as GameObject;
+            inv.AddPotionToInventory(potionPickup.GetComponent<Collectable>());
             
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
@@ -110,9 +112,10 @@ public class ShopItem : MonoBehaviour
         else if (this.gameObject.tag == "ShopMagicBook" && !inv.IsMagicFull())
         {
             GameObject magicPickup = Instantiate(this.gameObject.transform.GetChild(1).gameObject) as GameObject;
-            // get rid of (count) from end of name so magic is properly added to inventory map
+            // get rid of (clone) from end of name so magic is properly added to inventory map
             magicPickup.name = magicPickup.name.Substring(0, magicPickup.name.Length - 7);
             magicPickup.GetComponent<MagicPickup>().EquipMagic(player);
+
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
         }
