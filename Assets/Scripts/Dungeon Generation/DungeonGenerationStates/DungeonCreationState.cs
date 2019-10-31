@@ -100,7 +100,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             this.template.tileDimension,
-                            ZERO_DEGREES);
+                            DO_NOT_ROTATE);
                     }
 
                     if(newNode != null)
@@ -139,7 +139,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             -this.template.tileDimension,
-                            ONE_HUNDRED_EIGHTY_DEGREES);
+                            TURN_AROUND);
                     }
 
                     if (newNode != null)
@@ -178,7 +178,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             this.template.tileDimension,
                             0.0f,
-                            NINETY_DEGREES);
+                            TURN_LEFT);
                     }
 
                     if (newNode != null)
@@ -217,7 +217,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             -this.template.tileDimension,
                             0.0f,
-                            TWO_HUNDRED_SEVENTY_DEGREES);
+                            TURN_RIGHT);
                     }
 
                     if (newNode != null)
@@ -355,7 +355,7 @@ public class DungeonCreationState : IDungeonGenerationState
             }
 
             // Undo rotation on Prefab
-            room.SetRotation(ZERO_DEGREES);
+            room.SetRotation(DO_NOT_ROTATE);
         }
 
         invalidNode.ParentNode = null;
@@ -426,7 +426,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     this.template.tileDimension,
-                    ZERO_DEGREES);
+                    DO_NOT_ROTATE);
 
                 parentNode.TopNode = newNode;
             }
@@ -438,7 +438,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     -this.template.tileDimension,
-                    ONE_HUNDRED_EIGHTY_DEGREES);
+                    TURN_AROUND);
 
                 parentNode.BottomNode = newNode;
             }
@@ -450,7 +450,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     this.template.tileDimension,
                     0.0f,
-                    NINETY_DEGREES);
+                    TURN_LEFT);
 
                 parentNode.RightNode = newNode;
             }
@@ -462,7 +462,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     -this.template.tileDimension,
                     0.0f,
-                    TWO_HUNDRED_SEVENTY_DEGREES);
+                    TURN_RIGHT);
 
                 parentNode.LeftNode = newNode;
             }

@@ -6,38 +6,46 @@ using UnityEngine.Events;
 public class DungeonGenerator : MonoBehaviour
 {
     public int numberOfRooms; // Public room number constraints. Temporary, need to create dynamic way to do this
-    public DungeonTemplate template;
+
+    public List<DungeonTemplate> dungeonTemplates;
+    private DungeonTemplate chosenTemplate;
     [SerializeField] private UnityEvent OnGenerationFinished;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
     private IDungeonGenerationState dungeonGenerationState;
 
-    // Limit the size of the lookup table. We will never create a 100 room dungeon.
+    // Limit the size of the lookup table. We will never create a 400 room dungeon.
     private const int lookUpTableDimensions = 20;
 
     void Start()
     {
         /*---- Initial Data Setup ----*/
-        
+
+        // Choose random template from the list of templates given to the dungeon generator
+        this.chosenTemplate = this.dungeonTemplates[Random.Range(0, this.dungeonTemplates.Count)];
+
         // Init look up table for dungeon generation step
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
         
-        // Randomly choose starting room
-        DungeonRoom startingRoom = this.template.StartRooms[Random.Range(0, this.template.StartRooms.Count)];
-        
         // Set dungeon tree root to the starting room
         int centerTilePosition = (lookUpTableDimensions - 1) / 2;
-        this.dungeonTree = new DungeonNode(startingRoom, new Vector2Int(centerTilePosition, centerTilePosition));
+
+        // Create inital node from the start room list
+        this.dungeonTree = AddNewRoom(this.chosenTemplate.StartRooms,
+            new Vector2Int(centerTilePosition, centerTilePosition),
+            null,
+            0, 0,
+            this.numberOfRooms);
         
-        // Fill look up tabel position with starting room position
+        // Fill look up table position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
         
         // Create starting room gameobject
-        Instantiate(startingRoom.prefab, Vector3.zero, Quaternion.AngleAxis((float)startingRoom.roomRotation, Vector3.up));
+        Instantiate(this.dungeonTree.DungeonRoom.prefab, Vector3.zero, Quaternion.AngleAxis((float)this.dungeonTree.DungeonRoom.roomRotation, Vector3.up));
 
         // Set inital state of the dungeon generator to the creation state
-        this.dungeonGenerationState = new DungeonCreationState(this.template, this.lookUpTable, this.dungeonTree, this.numberOfRooms - 1);
+        this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate, this.lookUpTable, this.dungeonTree, this.numberOfRooms - 1);
     }
 
     void Update()
@@ -91,11 +99,19 @@ public class DungeonGenerator : MonoBehaviour
             // Create copy of the randomly chosen room
             DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), room.roomRotation);
 
-            // Get the parent node position
-            Vector3 parentNodePosition = parentNode.GetPosition();
-
             // Set the new dungeon room to the proper position and rotation
-            newRoom.SetPosition(new Vector3(parentNodePosition.x + roomXPositionOffset, 0.0f, parentNodePosition.z + roomYPositionOffset));
+            if(parentNode != null)
+            {
+                // Get the parent node position
+                Vector3 parentNodePosition = parentNode.GetPosition();
+
+                newRoom.SetPosition(new Vector3(parentNodePosition.x + roomXPositionOffset, 0.0f, parentNodePosition.z + roomYPositionOffset));
+            }
+            else
+            {
+                newRoom.SetPosition(new Vector3(roomXPositionOffset, 0.0f, roomYPositionOffset));
+            }
+
             newRoom.RotateRoom();
 
             // Add the new dungeon node to the dungeon tree

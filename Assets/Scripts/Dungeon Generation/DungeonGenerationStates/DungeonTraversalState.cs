@@ -106,13 +106,13 @@ public class DungeonTraversalState : IDungeonGenerationState
     private void AddSpecialDeadEndRoom(DungeonNode nodeToReplace)
     {
         DungeonNode newNode = null;
-        List<DungeonRoom> roomList = new List<DungeonRoom>();
+        List<DungeonRoom> roomList;
         Vector3 directon = (nodeToReplace.GetPosition() - nodeToReplace.ParentNode.GetPosition()).normalized;
         Vector2 connectionDirection = new Vector2(directon.x, directon.z);
 
         if(this.numberOfEndRoomsSet == 1)
         {
-            roomList.Add(this.template.GoalRoom);
+            roomList = this.template.GoalRooms;
         }
         else if(this.numberOfEndRoomsSet == 2)
         {
@@ -131,7 +131,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 0.0f,
                 this.template.tileDimension,
-                ZERO_DEGREES);
+                DO_NOT_ROTATE);
 
             nodeToReplace.ParentNode.TopNode = newNode;
         }
@@ -143,7 +143,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 0.0f,
                 -this.template.tileDimension,
-                ONE_HUNDRED_EIGHTY_DEGREES);
+                TURN_AROUND);
 
             nodeToReplace.ParentNode.BottomNode = newNode;
         }
@@ -155,7 +155,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 this.template.tileDimension,
                 0.0f,
-                NINETY_DEGREES);
+                TURN_LEFT);
 
             nodeToReplace.ParentNode.RightNode = newNode;
         }
@@ -167,7 +167,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 -this.template.tileDimension,
                 0.0f,
-                TWO_HUNDRED_SEVENTY_DEGREES);
+                TURN_RIGHT);
 
             nodeToReplace.ParentNode.LeftNode = newNode;
         }
