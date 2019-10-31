@@ -1,29 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
     private PlayerManager playerManager;
-    private bool playerOneDead;
-    private bool playerTwoDead;
     private bool gameOverMenuDisplayed;
 
-    void Start() {
+    void Start()
+    {
         playerManager = PlayerManager.GetInstance();
-        playerOneDead = false;
-        playerTwoDead = false;
         gameOverMenuDisplayed = false;
     }
 
-    void Update() {
-        if (!gameOverMenuDisplayed && CheckIfAllPlayersDead()) {
+    void Update()
+    {
+        if (!gameOverMenuDisplayed && CheckIfAllPlayersDead())
+        {
             GetComponentInChildren<GameOverMenuManager>().DisplayGameOverMenu();
             gameOverMenuDisplayed = true;
         }
     }
 
-    private bool CheckIfAllPlayersDead() {
+    private bool CheckIfAllPlayersDead()
+    {
         bool allPlayersDead = false;
         int numberPlayers = playerManager.GetNumberOfActivePlayers();
         Player playerOne = playerManager.GetPlayerOneGameObject().GetComponent<Player>();
@@ -47,7 +45,8 @@ public class GameState : MonoBehaviour
         return allPlayersDead;
     }
 
-    public void RevivePlayers() {
+    public void RevivePlayers()
+    {
         Player playerOne = playerManager.GetPlayerOneGameObject().GetComponent<Player>();
         Player playerTwo = playerManager.GetPlayerTwoGameObject().GetComponent<Player>();
 
@@ -58,7 +57,8 @@ public class GameState : MonoBehaviour
         playerOne.GetComponent<Stamina>().ResetStaminaToFull();
         playerOne.GetComponent<Inventory>().OnDeath();
 
-        if (playerManager.GetNumberOfActivePlayers() == 2) {
+        if (playerManager.GetNumberOfActivePlayers() == 2)
+        {
             playerTwo.PlayerMovementState.HandleGroundedTransition();
             playerTwo.OnRevive();
             playerTwo.GetComponent<Damageable>().ResetHealthToFull();
