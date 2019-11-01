@@ -5,7 +5,12 @@ using UnityEngine.Events;
 
 public class DungeonGenerator : MonoBehaviour
 {
-    public int numberOfRooms; // Public room number constraints. Temporary, need to create dynamic way to do this
+    [Range(5, 40)]
+    public int minNumberOfRooms;
+    [Range(6, 40)]
+    public int maxNumberOfRooms;
+
+    private int numberOfRoomsToGenerate;
 
     public List<DungeonTemplate> dungeonTemplates;
     private DungeonTemplate chosenTemplate;
@@ -22,6 +27,12 @@ public class DungeonGenerator : MonoBehaviour
     {
         /*---- Initial Data Setup ----*/
 
+        // Get number of rooms to generate based upon the number of completions
+        DungeonCompletionTracker tracker = DungeonCompletionTracker.GetInstance();
+        int numberOfCompletions = tracker.GetNumberOfCompletedDungeons();
+        int numberOfCompeletionsToMaxSize = tracker.numberOfCompletionsToMaxDungeonSize;
+        this.numberOfRoomsToGenerate = mapRange(numberOfCompletions, 0, numberOfCompeletionsToMaxSize, this.minNumberOfRooms, this.maxNumberOfRooms);
+
         // Choose random template from the list of templates given to the dungeon generator
         this.chosenTemplate = this.dungeonTemplates[Random.Range(0, this.dungeonTemplates.Count)];
 
@@ -36,13 +47,13 @@ public class DungeonGenerator : MonoBehaviour
             new Vector2Int(centerTilePosition, centerTilePosition),
             null,
             0, 0,
-            this.numberOfRooms);
+            this.numberOfRoomsToGenerate);
         
         // Fill look up table position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
 
         // Set inital state of the dungeon generator to the creation state
-        this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate, this.lookUpTable, this.dungeonTree, this.numberOfRooms - 1);
+        this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate, this.lookUpTable, this.dungeonTree, this.numberOfRoomsToGenerate - 1);
     }
 
     void Update()
@@ -155,5 +166,10 @@ public class DungeonGenerator : MonoBehaviour
         DungeonNode newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
 
         return newNode;
+    }
+
+    private int mapRange(float s, float a1, float a2, float b1, float b2)
+    {
+        return (int)(b1 + (s - a1) * (b2 - b1) / (a2 - a1));
     }
 }
