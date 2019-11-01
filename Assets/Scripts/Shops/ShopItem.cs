@@ -112,7 +112,7 @@ public class ShopItem : MonoBehaviour
             GameObject magicPickup = Instantiate(this.gameObject.transform.GetChild(1).gameObject) as GameObject;
             // get rid of (count) from end of name so magic is properly added to inventory map
             magicPickup.name = magicPickup.name.Substring(0, magicPickup.name.Length - 7);
-            magicPickup.GetComponent<MagicPickup>().EquipMagic(player);
+            magicPickup.GetComponentInChildren<MagicPickup>().EquipMagic(player);
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
         }
