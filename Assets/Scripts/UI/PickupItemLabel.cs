@@ -23,10 +23,8 @@ public class PickupItemLabel : MonoBehaviour
     }
 
     void Update() {
-        Debug.Log(textPanel.transform.position);
-
-        if (textPanel.transform.position.y < 2.5f) {
-            textPanel.transform.position = new Vector3(textPanel.transform.position.x, 2.5f, textPanel.transform.position.z);
+        if (textPanel.transform.position.y < player1.transform.position.y) {
+            textPanel.transform.position = new Vector3(textPanel.transform.position.x, player1.transform.position.y + 1f, textPanel.transform.position.z);
         }
 
         float distanceFromPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
