@@ -312,13 +312,17 @@ public class Inventory : MonoBehaviour
         }
         else if (collectable.CollectableType == Collectable.Type.Potion)
         {
-            if (!HasPotion())
+            if (!HasPotion() && player.CheckUseButtonPress())
             {
                 AddPotionToInventory(collectable);
                 potion = collectable;
                 potion.gameObject.SetActive(false);
                 PotionConfig config = potion.GetComponent<Collectable>().Config;
                 PotionIcon.EnableIcon(potion.gameObject);
+            }
+            else if (HasPotion() && player.CheckUseButtonPress()) 
+            {
+                collectable.gameObject.GetComponent<PickupItemLabel>().ShowInventoryFullText();
             }
         }
     }
