@@ -7,6 +7,7 @@ public class WeaponManager : MonoBehaviour
     private GameObject axe;
     private GameObject dagger;
     private GameObject spear;
+    private GameObject gemHammer;
     private GameObject currentWeapon;
 
     public Dictionary<string, GameObject> weaponPickups { get; private set; }
@@ -27,6 +28,9 @@ public class WeaponManager : MonoBehaviour
 
         spear = this.gameObject.transform.GetChild(3).gameObject;
         weaponPickups.Add("Spear Pickup", spear);
+
+        gemHammer = this.gameObject.transform.GetChild(4).gameObject;
+        weaponPickups.Add("Gem Hammer Pickup", gemHammer);
     }
 
     public void EquipWeapon(string weaponPickupType)
@@ -56,6 +60,11 @@ public class WeaponManager : MonoBehaviour
             currentWeapon = null;
         }
             
+    }
+
+    public GameObject GetCurrentWeapon()
+    {
+        return currentWeapon;
     }
 
     public WeaponAnimationConfig GetWeaponAnimationConfig()

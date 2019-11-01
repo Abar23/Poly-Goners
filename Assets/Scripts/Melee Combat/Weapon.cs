@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private bool ableToHitEnemy = false;
     private float swingTime;
     private float elapsedTime;
-    private Collider collider;
+    private new Collider collider;
     public WeaponAnimationConfig weaponAnimationConfig;
     public WeaponStaminaConfig weaponStaminaConfig;
 

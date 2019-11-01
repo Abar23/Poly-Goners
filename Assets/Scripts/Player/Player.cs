@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public Image MagicDropFill;
     public Image PotionDropFill;
     public UnityEvent OnMeleeAttack;
+    public AnimationClip DefaultClip;
 
     private Stamina stamina;
     private MagicBox magicBox;
@@ -62,6 +63,8 @@ public class Player : MonoBehaviour
     private IWeapon currentWeapon;
     private WeaponManager weaponManager;
 
+    private int previousLayer = -1;
+
     private void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
@@ -85,6 +88,7 @@ public class Player : MonoBehaviour
         magicDropTimer = 0f;
         potionDropTimer = 0f;
         deathTimeRemaining = timeToDie;
+        animatorOverrideController["WEAPON_CARRY"] = DefaultClip;
     }
 
     private void Update()
@@ -100,6 +104,27 @@ public class Player : MonoBehaviour
             {
                 UpdateInput();
                 PlayerMovementState.Update();
+
+                if (currentWeapon != null)
+                {
+                    int currentLayer = weaponManager.GetWeaponAnimationConfig().GetAnimationLayer();
+                    if (currentLayer != previousLayer)
+                    {
+                        if (previousLayer != -1)
+                            animator.SetLayerWeight(previousLayer, 0);
+                        previousLayer = currentLayer;
+                    }
+                    else
+                    {
+                        animator.SetLayerWeight(currentLayer, 1);
+                    }
+                }
+                else if (previousLayer != -1)
+                {
+                    animator.SetLayerWeight(previousLayer, 0);
+                }
+
+                    
             }
             else // this player is dead
             {
