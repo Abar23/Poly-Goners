@@ -8,12 +8,14 @@ public class MagicPickup : MonoBehaviour
     private GameObject player1;
     private GameObject player2;
 
-    void Start() {
+    void Start() 
+    {
         player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
         player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
     }
 
-    void Update() {
+    void Update() 
+    {
         float distanceFromPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
         float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
 
@@ -22,9 +24,15 @@ public class MagicPickup : MonoBehaviour
             // Check if Player 1 picks up item
             if (distanceFromPlayer1 <= pickupDistance)
             {
-                if (player1.GetComponent<Player>().CheckUseButtonPress()) {
-                    if (!player1.GetComponent<Inventory>().IsMagicFull()) {
+                if (player1.GetComponent<Player>().CheckUseButtonPress()) 
+                {
+                    if (!player1.GetComponent<Inventory>().IsMagicFull()) 
+                    {
                         EquipMagic(player1);
+                    }
+                    else 
+                    {
+                        this.GetComponent<PickupItemLabel>().ShowInventoryFullText();
                     }
                 }       
             }
@@ -32,16 +40,23 @@ public class MagicPickup : MonoBehaviour
             // Check if Player 2 picks up item
             else if (distanceFromPlayer2 <= pickupDistance)
             {
-                if (player2.GetComponent<Player>().CheckUseButtonPress()) {
-                    if (!player2.GetComponent<Inventory>().IsMagicFull()) {
+                if (player2.GetComponent<Player>().CheckUseButtonPress()) 
+                {
+                    if (!player2.GetComponent<Inventory>().IsMagicFull()) 
+                    {
                         EquipMagic(player2);
+                    }
+                    else 
+                    {
+                        this.GetComponent<PickupItemLabel>().ShowInventoryFullText();
                     }
                 }  
             }
         }
     }
 
-    public void EquipMagic(GameObject player) {
+    public void EquipMagic(GameObject player) 
+    {
         Inventory inv = player.GetComponent<Inventory>();
         if (!inv.IsMagicFull())
         {

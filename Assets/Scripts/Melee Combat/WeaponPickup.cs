@@ -30,6 +30,9 @@ public class WeaponPickup : MonoBehaviour
                     {
                         EquipWeapon(player1);
                     }
+                    else {
+                        this.GetComponent<PickupItemLabel>().ShowInventoryFullText();
+                    }
                 }       
             }
 
