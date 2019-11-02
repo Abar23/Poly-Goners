@@ -1,5 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!222 &2051904895875957412
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929969160613985537}
+  m_CullTransparentMesh: 0
 --- !u!54 &1087683807
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -143,7 +151,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  HealthBar: {fileID: 7048892995544028216}
+  HealthBar: {fileID: 8358163816939473239}
 --- !u!114 &1079879930986647481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +216,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5163735424227084642}
     m_Modifications:
+    - target: {fileID: 7048892996021791507, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthBarCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7048892996021791507, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7048892996021791506, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -313,16 +331,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 7048892996021791507, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
-        type: 3}
-      propertyPath: m_Name
-      value: HealthBarCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 7048892996021791507, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7048892996228136386, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
         type: 3}
       propertyPath: m_Layer
@@ -343,15 +351,37 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5616924530675952851, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5616924530675952851, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4020060358049492083, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8808849001317372038, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d, type: 3}
---- !u!114 &7048892995544028216 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7048892996228136384, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+--- !u!1 &7929969160613985537 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7929969160224527609, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
     type: 3}
   m_PrefabInstance: {fileID: 1758374392}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &8358163816939473239 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8358163816550097071, guid: ffa4ca6dbf2bead45a2a1a7f31bb937d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1758374392}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7929969160613985537}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}

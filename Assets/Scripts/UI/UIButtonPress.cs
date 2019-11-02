@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using InControl;
 
@@ -18,7 +16,7 @@ public class UIButtonPress : MonoBehaviour
 
     private IController controller;
 
-    void Update()
+    void LateUpdate()
     {
         if (PlayerNumber == 1)
             controller = ControllerManager.GetInstance().GetPlayerOneController();
@@ -79,6 +77,10 @@ public class UIButtonPress : MonoBehaviour
             {
                 ButtonIcon.sprite = regular;
             }
+        }
+        else if (Action == "none")
+        {
+            ButtonIcon.sprite = regular;
         }
 
     }

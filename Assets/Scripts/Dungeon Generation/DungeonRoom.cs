@@ -6,10 +6,10 @@ public class DungeonRoom
 {
     public enum RoomRotationAngle
     {
-        ZERO_DEGREES = 0,
-        NINETY_DEGREES = 90,
-        ONE_HUNDRED_EIGHTY_DEGREES = 180,
-        TWO_HUNDRED_SEVENTY_DEGREES = 270
+        DO_NOT_ROTATE = 0,
+        TURN_LEFT = 90,
+        TURN_RIGHT = 270,
+        TURN_AROUND = 180
     }
 
     [SerializeField]

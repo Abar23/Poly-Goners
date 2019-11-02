@@ -94,7 +94,7 @@ public class ControllerActions : PlayerActionSet
 
         actions.action1.AddDefaultBinding(Key.Space);
         actions.action2.AddDefaultBinding(Key.LeftControl);
-        actions.action3.AddDefaultBinding(Key.Key3); // Not used
+        actions.action3.AddDefaultBinding(Key.R);
         actions.action4.AddDefaultBinding(Key.Key4); // Not used
 
         actions.dPadUp.AddDefaultBinding(Key.UpArrow); 
