@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4798153273156544}
+  - component: {fileID: 4147549729000470624}
+  - component: {fileID: 4062495572812758932}
+  - component: {fileID: 76196460559002545}
   m_Layer: 0
   m_Name: Fast Fire Ball Pickup
   m_TagString: Untagged
@@ -32,6 +35,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4147549729000470624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173342265669808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4183b923d4f0fbc44a8a9a3031a341b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textPanel: {fileID: 7182466144247137471}
+  inventoryFullText: {fileID: 8426479652004494604}
+--- !u!114 &4062495572812758932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173342265669808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fb7369dcada5e45ba7886f2ad6ea00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: e98d74a05aa5ba54f92973aeac26db2d, type: 3}
+--- !u!114 &76196460559002545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173342265669808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b73049117b695cb4194405d46f48b319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5152580610047006691
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,12 +86,9 @@ GameObject:
   - component: {fileID: 5522933052370347489}
   - component: {fileID: 3765622845785283316}
   - component: {fileID: 1607993042267025761}
-  - component: {fileID: 5053023396299864218}
   - component: {fileID: 6553102925736947411}
-  - component: {fileID: 7738261537297070416}
-  - component: {fileID: 7482641089453315826}
   m_Layer: 0
-  m_Name: Fast Fire Ball Pickup
+  m_Name: Fast Fire Ball Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -128,19 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5053023396299864218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5152580610047006691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80fb7369dcada5e45ba7886f2ad6ea00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: e98d74a05aa5ba54f92973aeac26db2d, type: 3}
 --- !u!64 &6553102925736947411
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -155,32 +181,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
---- !u!114 &7738261537297070416
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5152580610047006691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b73049117b695cb4194405d46f48b319, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7482641089453315826
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5152580610047006691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4183b923d4f0fbc44a8a9a3031a341b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textPanel: {fileID: 7182466144247137471}
-  inventoryFullText: {fileID: 8426479652004494604}
 --- !u!1001 &5753815335353582628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,15 +398,15 @@ PrefabInstance:
       propertyPath: m_Text
       value: Fast Fire Ball
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_Text
-      value: Casts a fast, low-damage fire spell that hits a single enemy.
-      objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 15 damage on hit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_Text
+      value: Casts a fast, low-damage fire spell that hits a single enemy.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}
