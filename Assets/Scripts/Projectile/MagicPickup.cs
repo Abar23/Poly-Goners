@@ -1,18 +1,62 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class MagicPickup : MonoBehaviour
 {
     private MagicBox magicBox;
+    private float pickupDistance = .75f;
+    private GameObject player1;
+    private GameObject player2;
 
-    void OnTriggerEnter(Collider other)
+    void Start() 
     {
-        if (other.gameObject.tag == "Player")
+        player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
+        player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
+    }
+
+    void Update() 
+    {
+        float distanceFromPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
+        float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
+
+        if (distanceFromPlayer1 <= pickupDistance || distanceFromPlayer2 < pickupDistance)
         {
-            EquipMagic(other.gameObject);
+            // Check if Player 1 picks up item
+            if (distanceFromPlayer1 <= pickupDistance)
+            {
+                if (player1.GetComponent<Player>().CheckUseButtonPress()) 
+                {
+                    if (!player1.GetComponent<Inventory>().IsMagicFull()) 
+                    {
+                        EquipMagic(player1);
+                    }
+                    else 
+                    {
+                        this.GetComponent<PickupItemLabel>().ShowInventoryFullText();
+                    }
+                }       
+            }
+
+            // Check if Player 2 picks up item
+            else if (distanceFromPlayer2 <= pickupDistance)
+            {
+                if (player2.GetComponent<Player>().CheckUseButtonPress()) 
+                {
+                    if (!player2.GetComponent<Inventory>().IsMagicFull()) 
+                    {
+                        EquipMagic(player2);
+                    }
+                    else 
+                    {
+                        this.GetComponent<PickupItemLabel>().ShowInventoryFullText();
+                    }
+                }  
+            }
         }
     }
 
-    public void EquipMagic(GameObject player) {
+    public void EquipMagic(GameObject player) 
+    {
         Inventory inv = player.GetComponent<Inventory>();
         if (!inv.IsMagicFull())
         {
@@ -20,7 +64,7 @@ public class MagicPickup : MonoBehaviour
             if (magicBox != null)
             {
                 inv.AddMagicAbility(this.gameObject.name, this.gameObject);
-                this.gameObject.SetActive(false);
+                this.transform.root.gameObject.SetActive(false);
             }
         }
     }
