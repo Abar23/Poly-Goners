@@ -19,7 +19,6 @@ public class Player : MonoBehaviour
     public Image MeleeDropFill;
     public Image MagicDropFill;
     public Image PotionDropFill;
-    public UnityEvent OnMeleeAttack;
 
     private Stamina stamina;
     private MagicBox magicBox;
@@ -55,12 +54,18 @@ public class Player : MonoBehaviour
     private float timeToDie = 60f;
     private float deathTimeRemaining;
 
+    private Vector3 lastGroundedPosition;
+
     public Vector3 MoveDir { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
 
     private IWeapon currentWeapon;
     private WeaponManager weaponManager;
+
+    private int previousLayer = -1;
+
+    public UnityEvent OnMeleeAttack;
 
     private void Awake()
     {
@@ -85,6 +90,16 @@ public class Player : MonoBehaviour
         magicDropTimer = 0f;
         potionDropTimer = 0f;
         deathTimeRemaining = timeToDie;
+    }
+
+    private void FixedUpdate()
+    {
+        if (transform.position.y < -7.5f)
+        {
+            GetComponent<Damageable>().TakeFallDamage();
+            transform.localPosition = lastGroundedPosition;
+            verticalVelocity = 0f;
+        }
     }
 
     private void Update()
@@ -113,9 +128,9 @@ public class Player : MonoBehaviour
                         permaDead = true;
                         StartCoroutine(DisablePlayer());
                     }
-                        
+
                 }
-                
+
                 if (OtherPlayer.PlayerMovementState is PlayerDeathState) // both players are dead
                 {
                     RevivePrompt.gameObject.SetActive(false);
@@ -424,6 +439,9 @@ public class Player : MonoBehaviour
                 PlayerMovementState.HandleJumpingTransition();
                 verticalVelocity = JumpSpeed;
             }
+
+            lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            lastGroundedPosition -= (transform.forward / 2);
         }
         else
         {
