@@ -167,8 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b73049117b695cb4194405d46f48b319, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textPanel: {fileID: 7960164815887637103}
-  inventoryFullText: {fileID: 8729611909879145436}
 --- !u!114 &4681123613601154657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,7 +401,13 @@ PrefabInstance:
     - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: A large fireball that burns enemies.
+      value: A large fireball that burns enemies, dealing damage over time.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_Text
+      value: Deals 30 damage on hit, then burns enemies for -5 from the previous damage
+        it dealt for 5 seconds.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}
