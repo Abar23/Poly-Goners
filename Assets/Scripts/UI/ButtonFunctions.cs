@@ -132,4 +132,9 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         SaveSystem.shouldLevelBeLoaded = status;
     }
+
+    public void RemovePlayer2()
+    {
+        PlayerManager.GetInstance().RemovePlayer2();
+    }
 }

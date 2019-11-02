@@ -10,7 +10,7 @@ public class Stamina : MonoBehaviour
 
     private float currentStamina;
     private float elapsedTime = 0f;
-    private float timeToRecharge = 1.75f;
+    private float timeToRecharge = 1.5f;
 
     private void Start()
     {

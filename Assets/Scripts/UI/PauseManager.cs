@@ -9,6 +9,8 @@ public class PauseManager : MonoBehaviour
     public static bool isGamePaused;
 
     private ControllerManager cm;
+    private Player player1;
+    private Player player2;
 
     void Start()
     {
@@ -16,6 +18,8 @@ public class PauseManager : MonoBehaviour
         //this.playerHud.SetActive(true);
         this.pauseMenu.SetActive(false);
         cm = ControllerManager.GetInstance();
+        player1 = PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>();
+        player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>();
     }
 
     void LateUpdate()
@@ -39,6 +43,8 @@ public class PauseManager : MonoBehaviour
             if(!isGamePaused)
             {
                 isGamePaused = true;
+                player1.SetIsPaused(true);
+                player2.SetIsPaused(true);
                 //this.playerHud.SetActive(false);
                 this.pauseMenu.SetActive(true);
                 Time.timeScale = 0.0f;
@@ -46,6 +52,8 @@ public class PauseManager : MonoBehaviour
             else
             {
                 isGamePaused = false;
+                player1.SetIsPaused(false);
+                player2.SetIsPaused(false);
                 //this.playerHud.SetActive(true);
                 this.pauseMenu.SetActive(false);
                 Time.timeScale = 1.0f;
