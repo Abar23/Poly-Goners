@@ -35,7 +35,6 @@ public class PickupItemLabel : MonoBehaviour
         if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 < promptActivationDistance)
         {
             textPanel.SetActive(true);
-            Debug.Log("player close");
 
             // Check if Player 1 buys item
             if (distanceFromPlayer1 <= promptActivationDistance)

@@ -228,8 +228,6 @@ public class Inventory : MonoBehaviour
 
         magicAbilities[currentMagicIndex] = null;
         magicDropables[currentMagicIndex] = null;
-
-        Debug.Log(newMagic);
     }
 
     public void DropPotion()
