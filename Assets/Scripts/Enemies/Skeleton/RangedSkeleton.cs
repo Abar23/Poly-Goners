@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(SkeletonAnimatorController))]
-public class RangedSkeleton : MonoBehaviour
+public class RangedSkeleton : MonoBehaviour, ISkeleton
 {
 
     [SerializeField] private TargetScanner m_Scanner;
@@ -34,11 +34,16 @@ public class RangedSkeleton : MonoBehaviour
         Damageable damageable = gameObject.GetComponent<Damageable>();
         if (damageable != null && room != null)
         {
-            room.RegisterEnemy();
-            damageable.OnDeath.AddListener(room.RemoveEnemy);
+            room.RegisterEnemy(this);
+            damageable.OnDeath.AddListener(delegate { room.RemoveEnemy(this); });
+            gameObject.SetActive(false);
         }
         m_MagicBox = gameObject.GetComponentInChildren<MagicBox>();
+    }
 
+    public void Spawn()
+    {
+        gameObject.SetActive(true);
         StartCoroutine(ScanForPlayer());
     }
 

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 6745581156216319550}
   - component: {fileID: 1994443068950261053}
   - component: {fileID: 4822905823272618109}
+  - component: {fileID: 8411466435769695724}
   m_Layer: 0
   m_Name: Props_PotionSmall_Blue
   m_TagString: Untagged
@@ -33,8 +34,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7022836849486356737}
+  m_Children: [{fileID: 7022836849486356737}]
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -155,6 +155,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textPanel: {fileID: 7939225927823730961}
   inventoryFullText: {fileID: 8750541993258979490}
+--- !u!114 &8411466435769695724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645247040696762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2eb40db9411094aa5727deef0d2f92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BlinkInterval: 0.07
+  m_DisableTimer: 30
 --- !u!1001 &7705888532236913612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,6 +176,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4027607600193846}
     m_Modifications:
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6340037879104066781, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Name

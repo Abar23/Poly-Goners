@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour
         public GameObject Object;
         public int Count;
         public float SpawnInterval;
+        [Range(0, 1)]
+        public float SpawnChance;
     }
 
     [SerializeField] private List<Item> m_Items;
