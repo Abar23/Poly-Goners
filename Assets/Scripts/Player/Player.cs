@@ -67,6 +67,8 @@ public class Player : MonoBehaviour
 
     public UnityEvent OnMeleeAttack;
 
+    [SerializeField] private AudioSource m_ReviveSFX;
+
     private void Awake()
     {
         magicBox = GetComponentInChildren<MagicBox>();
@@ -510,6 +512,7 @@ public class Player : MonoBehaviour
         deathTimeRemaining = timeToDie;
         reviveTimer = 0;
         DeathTimer.SetActive(false);
+        m_ReviveSFX.Play();
     }
 
     public bool IsDead()
