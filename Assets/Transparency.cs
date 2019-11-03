@@ -3,26 +3,45 @@ using UnityEngine;
 
 public class Transparency : MonoBehaviour
 {
+    private bool isTransparent = false;
     private Shader oldShader = null;
     private Texture objectTexture = null;
-    private MeshRenderer renderer;
+    private Renderer renderer = null;
     private float transparency = 1.0f;
 
-    void Start()
+    void OnEnable()
     {
-        this.renderer = this.GetComponent<MeshRenderer>();
+        this.renderer = this.GetComponent<Renderer>();
         this.objectTexture = this.renderer.material.GetTexture("_MainTex");
         this.oldShader = this.renderer.material.shader;
     }
 
-    void Update()
+    public void TurnOnTransparency()
     {
+        if (!this.isTransparent)
+        {
+            StartCoroutine("MakeTransparent");
+            this.isTransparent = true;
+        }
+    }
 
+    public void TurnOffTransparency()
+    {
+        if (this.isTransparent)
+        {
+            StartCoroutine("MakeNonTransparent");
+            this.isTransparent = false;
+        }
     }
 
     IEnumerator MakeTransparent()
     {
-        while(this.transparency > 0.3f)
+        StopCoroutine("MakeNonTransparent");
+        this.renderer.material.shader = Shader.Find("Custom/TransparencyShader");
+        this.renderer.material.SetTexture("_MainTex", this.objectTexture);
+        this.renderer.material.SetFloat("_Alpha", 1.0f);
+
+        while (this.transparency > 0.3f)
         {
             yield return new WaitForSeconds(0.1f);
             this.transparency -= 0.05f;
@@ -32,6 +51,7 @@ public class Transparency : MonoBehaviour
 
     IEnumerator MakeNonTransparent()
     {
+        StopCoroutine("MakeTransparent");
         while (this.transparency < 1.0f)
         {
             yield return new WaitForSeconds(0.1f);
