@@ -220,9 +220,9 @@ public class Inventory : MonoBehaviour
     public void DropMagic()
     {
         MagicIcon.DisableCurrentIcon();
-        Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .75f, player.transform.position.z + player.transform.forward.z);
+        Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .5f, player.transform.position.z + player.transform.forward.z);
         magicDropables[currentMagicIndex].SetActive(true);
-        GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(60, 0, 0));
+        GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(0, 0, 0));
         newMagic.name = magicDropables[currentMagicIndex].name;
         Destroy(magicDropables[currentMagicIndex]);
 
@@ -315,12 +315,16 @@ public class Inventory : MonoBehaviour
         }
         else if (collectable.CollectableType == Collectable.Type.Potion)
         {
-            if (!HasPotion())
+            if (!HasPotion() && player.CheckUseButtonPress())
             {
                 GameObject newPotion = Instantiate(obj);
                 newPotion.name = newPotion.name.Substring(0, newPotion.name.Length - 7); // remove (clone) from name
                 AddPotionToInventory(newPotion.GetComponent<Collectable>());
                 Destroy(obj);
+            }
+            else if (HasPotion() && player.CheckUseButtonPress()) 
+            {
+                collectable.gameObject.GetComponent<PickupItemLabel>().ShowInventoryFullText();
             }
         }
     }

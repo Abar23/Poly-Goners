@@ -63,7 +63,7 @@ public class Damageable : MonoBehaviour
         this.isDead = false;
     }
 
-    public void ResetHealthToFull() 
+    public void ResetHealthToFull()
     {
         health = Config.StartingHealth;
         this.isDead = false;
@@ -71,6 +71,9 @@ public class Damageable : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+            return;
+
         Damager damager = other.GetComponent<Damager>();
         if (damager == null)
             return;
@@ -82,8 +85,12 @@ public class Damageable : MonoBehaviour
         }
     }
 
+
     void OnCollisionEnter(Collision collision)
     {
+        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+            return;
+
         Damager damager = collision.collider.GetComponent<Damager>();
         if (damager == null)
             return;
@@ -114,6 +121,18 @@ public class Damageable : MonoBehaviour
         else if (config is ContinuousDamagerConfig)
         {
             StartCoroutine(TakeContinuousDamage((ContinuousDamagerConfig)config, multiplier));
+        }
+    }
+
+    public void TakeFallDamage()
+    {
+        if (!GetComponent<MeshBlink>().IsInvincible())
+        {
+            if (health <= 0)
+                return;
+            health -= Config.MaxHealth / 10;
+            TriggerEvent(OnHit);
+            CheckHealth();
         }
     }
 

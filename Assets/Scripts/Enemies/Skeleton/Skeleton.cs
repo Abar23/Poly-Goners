@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(SkeletonAnimatorController))]
-public class Skeleton : MonoBehaviour
+public class Skeleton : MonoBehaviour, ISkeleton
 {
 
     [SerializeField] private TargetScanner m_Scanner;
@@ -29,11 +29,15 @@ public class Skeleton : MonoBehaviour
         Damageable damageable = gameObject.GetComponent<Damageable>();
         if (damageable != null && room != null)
         {
-            room.RegisterEnemy();
-            damageable.OnDeath.AddListener(room.RemoveEnemy);
+            room.RegisterEnemy(this);
+            damageable.OnDeath.AddListener(delegate { room.RemoveEnemy(this); });
+            gameObject.SetActive(false);
         }
+    }
 
-
+    public void Spawn()
+    {
+        gameObject.SetActive(true);
         StartCoroutine(ScanForPlayer());
     }
 
