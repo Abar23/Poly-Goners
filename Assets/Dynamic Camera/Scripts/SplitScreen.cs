@@ -229,7 +229,10 @@ public class SplitScreen : MonoBehaviour
 
         if (player1GameObject != null && player2GameObject != null)
         {
-            if (player1.gameObject.activeSelf && player2.gameObject.activeSelf)
+            this.player1 = player1GameObject.transform;
+            this.player2 = player2GameObject.transform;
+
+            if (player1GameObject.gameObject.activeSelf && player2GameObject.gameObject.activeSelf)
             {
                 //Gets the z axis distance between the two players and just the standard distance.
                 float zDistance = player1.position.z - player2.transform.position.z;
@@ -248,13 +251,13 @@ public class SplitScreen : MonoBehaviour
                     );
                 }
             }
-            else if (player1.gameObject.activeSelf && !player2.gameObject.activeSelf)
+            else if (player1GameObject.gameObject.activeSelf && !player2GameObject.gameObject.activeSelf)
             {
                 raycastedWalls = SetWallsTransparent(FindObjectBetweenCamperaAndPlayer(this.player1, this.camera1),
                     null
                 );
             }
-            else if (player2.gameObject.activeSelf && !player1.gameObject.activeSelf)
+            else if (player2GameObject.gameObject.activeSelf && !player1GameObject.gameObject.activeSelf)
             {
                 raycastedWalls = SetWallsTransparent(FindObjectBetweenCamperaAndPlayer(this.player2, this.camera1),
                     null
