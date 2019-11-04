@@ -33,6 +33,8 @@ public class Inventory : MonoBehaviour
     private float potionTime;
     private float remainingTime;
 
+    [SerializeField] private AudioSource m_PotionSFX;
+
     void Awake()
     {
         damageable = GetComponent<Damageable>();
@@ -107,7 +109,7 @@ public class Inventory : MonoBehaviour
                 strengthPotionUsed = true;
                 Invoke("ResetMultiplier", config.EffectiveTime);
             }
-
+            m_PotionSFX.Play();
             Destroy(potion.gameObject);
             PotionIcon.DisableCurrentIcon();
         }

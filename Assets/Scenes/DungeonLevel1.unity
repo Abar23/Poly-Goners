@@ -1278,6 +1278,11 @@ PrefabInstance:
       propertyPath: m_ClearFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7969767915472172381, guid: 1be4ce8b9f8bbfe4f974910e14673234,
+        type: 3}
+      propertyPath: m_Name
+      value: Split Screen Camera
+      objectReference: {fileID: 0}
     - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1891,12 +1896,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 885556400603339294, guid: 1b582c925da3a824fbbf07e93bf63564,
+    - target: {fileID: 1318882686454627048, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 885556400603339294, guid: 1b582c925da3a824fbbf07e93bf63564,
+    - target: {fileID: 1318882686454627048, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1921,12 +1926,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1318882686454627048, guid: 1b582c925da3a824fbbf07e93bf63564,
+    - target: {fileID: 885556400603339294, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1318882686454627048, guid: 1b582c925da3a824fbbf07e93bf63564,
+    - target: {fileID: 885556400603339294, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3477,16 +3482,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2282685697157682595, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2282876174144240921, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5678441661464063461, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -3500,6 +3495,52 @@ PrefabInstance:
     - target: {fileID: 5678441661464063461, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
         type: 3}
       propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282685697157682595, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282876174144240921, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+    - target: {fileID: 5678441661464063461, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1094746678}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OpenAllDoors
+      objectReference: {fileID: 0}
+    - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
+      propertyPath: OnClearRoom.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2305018825871841869, guid: 08bfc84711549d24e95ac1ce4e0dc57f,
+        type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1365001062, guid: 08bfc84711549d24e95ac1ce4e0dc57f, type: 3}
