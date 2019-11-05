@@ -442,7 +442,7 @@ public class Player : MonoBehaviour
                 verticalVelocity = JumpSpeed;
             }
 
-            lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            lastGroundedPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
             lastGroundedPosition -= (transform.forward / 2);
         }
         else
