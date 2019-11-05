@@ -32,7 +32,7 @@ public class DungeonRoom
 
     public void RotateRoom()
     {
-        this.prefab.transform.rotation = Quaternion.AngleAxis((float)this.roomRotation, Vector3.up);
+        this.prefab.transform.rotation = Quaternion.AngleAxis((float)this.roomRotation + this.prefab.transform.rotation.eulerAngles.y, Vector3.up);
     }
 
     public void SetRotation(RoomRotationAngle angle)
