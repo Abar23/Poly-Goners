@@ -15,6 +15,7 @@ public class DungeonGenerator : MonoBehaviour
     public List<DungeonTemplate> dungeonTemplates;
     private DungeonTemplate chosenTemplate;
     [SerializeField] private UnityEvent OnGenerationFinished;
+    [SerializeField] private Animator m_Animator;
 
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
@@ -23,8 +24,17 @@ public class DungeonGenerator : MonoBehaviour
     // Limit the size of the lookup table. We will never create a 400 room dungeon.
     private const int lookUpTableDimensions = 20;
 
+    void Awake()
+    {
+        if (m_Animator != null)
+        {
+            m_Animator.SetTrigger("Load");
+        }
+    }
+
     void Start()
     {
+        
         /*---- Initial Data Setup ----*/
 
         // Get number of rooms to generate based upon the number of completions
@@ -71,6 +81,11 @@ public class DungeonGenerator : MonoBehaviour
             {
                 OnGenerationFinished.Invoke();
                 OnGenerationFinished = null;
+                if (m_Animator != null)
+                {
+                    m_Animator.SetTrigger("Enter");
+                }
+                Destroy(gameObject);
             }
         }
     }
