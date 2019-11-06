@@ -15,7 +15,8 @@ public class DungeonReloader : MonoBehaviour
         {
             DungeonCompletionTracker.GetInstance().IncreaseNumberOfCompletedDungeons();
             OnReload.Invoke();
-            StartCoroutine(ReloadScene());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //StartCoroutine(ReloadScene());
         }
     }
 
