@@ -444,7 +444,6 @@ public class Player : MonoBehaviour
 
             lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             lastGroundedPosition -= (transform.forward / 2);
-            Debug.Log("Last grounded Position: " + lastGroundedPosition);
         }
         else
         {

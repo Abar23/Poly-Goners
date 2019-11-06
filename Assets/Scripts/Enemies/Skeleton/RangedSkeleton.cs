@@ -39,6 +39,10 @@ public class RangedSkeleton : MonoBehaviour, ISkeleton
             gameObject.SetActive(false);
         }
         m_MagicBox = gameObject.GetComponentInChildren<MagicBox>();
+        if (gameObject.activeSelf)
+        {
+            Spawn();
+        }
     }
 
     public void Spawn()
@@ -153,7 +157,19 @@ public class RangedSkeleton : MonoBehaviour, ISkeleton
 
     IEnumerator FireMagicAfterFrames(int index, float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float time_elapse = 0f;
+        while (true)
+        {
+            Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
+            Quaternion quaternion = Quaternion.LookRotation(direction);
+            transform.rotation = quaternion;
+            time_elapse += Time.deltaTime;
+            if (time_elapse >= delay)
+            {
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
         m_MagicBox.FireMagic(index);
     }
 
