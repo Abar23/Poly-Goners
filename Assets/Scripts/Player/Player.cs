@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
         if (transform.position.y < -7.5f)
         {
             GetComponent<Damageable>().TakeFallDamage();
-            transform.localPosition = lastGroundedPosition;
+            transform.position = lastGroundedPosition;
             verticalVelocity = 0f;
         }
     }
@@ -442,8 +442,9 @@ public class Player : MonoBehaviour
                 verticalVelocity = JumpSpeed;
             }
 
-            lastGroundedPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+            lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             lastGroundedPosition -= (transform.forward / 2);
+            Debug.Log("Last grounded Position: " + lastGroundedPosition);
         }
         else
         {

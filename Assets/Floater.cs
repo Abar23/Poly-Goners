@@ -32,4 +32,17 @@ public class Floater : MonoBehaviour
 
         transform.position = tempPos;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == 9)
+            collision.collider.transform.SetParent(transform);
+    }
+
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.gameObject.layer == 9)
+            collision.collider.transform.SetParent(null);
+    }
 }
