@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4293065197826906}
   - component: {fileID: 33950775229022824}
   - component: {fileID: 23402472464970492}
-  - component: {fileID: -5001192022355866890}
   - component: {fileID: 7909667083185732009}
   - component: {fileID: 4557471752330903922}
   - component: {fileID: 3711823740958552977}
   - component: {fileID: 7464704279337187996}
   - component: {fileID: 1678887309594628354}
+  - component: {fileID: -730987806703475278}
   m_Layer: 0
   m_Name: Props_PotionSmall_Purple
   m_TagString: Untagged
@@ -34,7 +34,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: [{fileID: 7182294422509705416}]
+  m_Children:
+  - {fileID: 7182294422509705416}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,19 +85,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1792871503357756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80fb7369dcada5e45ba7886f2ad6ea00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 4cd4165268c35ea40be521b856ef96c2, type: 3}
 --- !u!54 &7909667083185732009
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -169,6 +157,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BlinkInterval: 0.07
   m_DisableTimer: 30
+--- !u!114 &-730987806703475278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792871503357756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fb7369dcada5e45ba7886f2ad6ea00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 4cd4165268c35ea40be521b856ef96c2, type: 3}
 --- !u!1001 &7505902526158434821
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,11 +177,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4293065197826906}
     m_Modifications:
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6340037879104066781, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Name
@@ -296,20 +292,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Small Strength Potion
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_Text
-      value: A potion that increases strength for a short amount of time.
-      objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Multiplies all damage dealt by 1.2 for 30 seconds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_Text
+      value: A potion that increases strength for a short amount of time.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}

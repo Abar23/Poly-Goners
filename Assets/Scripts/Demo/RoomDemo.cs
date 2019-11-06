@@ -7,8 +7,8 @@ public class RoomDemo : MonoBehaviour
     [SerializeField] List<GameObject> m_Rooms;
     [SerializeField] float m_RotationSpeed;
     private int index;
-    private float k_PresentTime = 12f;
-    private float k_BlankTime = 2f;
+    private float k_PresentTime = 6f;
+    private float k_BlankTime = 0.5f;
 
     void Start()
     {
