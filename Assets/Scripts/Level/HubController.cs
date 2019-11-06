@@ -12,4 +12,9 @@ public class HubController : MonoBehaviour
         m_Animator.SetTrigger("Enter");
     }
 
+    public void PlayExitAnim()
+    {
+        m_Animator.SetTrigger("Exit");
+    }
+
 }
