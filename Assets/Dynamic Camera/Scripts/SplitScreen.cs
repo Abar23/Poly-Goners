@@ -27,7 +27,7 @@ public class SplitScreen : MonoBehaviour
     public float yOffsetWhenPlayersAreSeparated = 3.0f;
     public float secondarySplitDistance = 5.0f;
 
-    public LayerMask raycastLayerMask;
+    private LayerMask raycastLayerMask;
 
     //The two cameras, both of which are initalized/referenced in the start function.
     private GameObject camera1;
@@ -44,6 +44,7 @@ public class SplitScreen : MonoBehaviour
 
     void Start()
     {
+        this.raycastLayerMask = LayerMask.GetMask("CameraBlocker");
         this.setOfWalls = new HashSet<GameObject>();
         //Referencing camera1 and initalizing camera2.
         camera1 = Camera.main.gameObject;
