@@ -6,6 +6,7 @@ public class HubController : MonoBehaviour
 {
 
     [SerializeField] private Animator m_Animator;
+    bool hasSetEnterTrigger = false;
 
     void Awake()
     {
