@@ -442,8 +442,12 @@ public class Player : MonoBehaviour
                 verticalVelocity = JumpSpeed;
             }
 
-            lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-            lastGroundedPosition -= (transform.forward / 2);
+            if (!IsRolling())
+            {
+                lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                lastGroundedPosition -= (transform.forward / 2);
+            }
+            
         }
         else
         {
