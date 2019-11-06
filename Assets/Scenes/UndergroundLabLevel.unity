@@ -332,7 +332,7 @@ PrefabInstance:
     - target: {fileID: 8198477611665152973, guid: 9fa9f3cca34e51849889b891405b2de8,
         type: 3}
       propertyPath: numberOfCompletionsToMaxDungeonSize
-      value: 1
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fa9f3cca34e51849889b891405b2de8, type: 3}
@@ -790,24 +790,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f5a3d6adab9d44f90013170b6b3b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumberOfRooms: 5
+  minNumberOfRooms: 20
   maxNumberOfRooms: 24
   dungeonTemplates:
   - {fileID: 1400569173}
   OnGenerationFinished:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 393752408}
-        m_MethodName: BakeNavMesh
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!4 &1959234282
