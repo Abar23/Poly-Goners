@@ -52,7 +52,7 @@ public class Spawner : MonoBehaviour
     {
         for (int j = 0; j < m_Items[i].Count; j++)
         {
-            if (UnityEngine.Random.Range(0f, 1f) >= m_Items[i].SpawnChance)
+            if (UnityEngine.Random.Range(0f, 1f) < m_Items[i].SpawnChance)
             {
                 GameObject newObj = GameObject.Instantiate(m_Items[i].Object, transform);
                 newObj.SetActive(true);
