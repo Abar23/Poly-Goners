@@ -52,11 +52,14 @@ public class Spawner : MonoBehaviour
     {
         for (int j = 0; j < m_Items[i].Count; j++)
         {
-            GameObject newObj = GameObject.Instantiate(m_Items[i].Object, transform);
-            newObj.SetActive(true);
-            Rigidbody rigidbody = newObj.GetComponent<Rigidbody>();
-            StartCoroutine(CoinMovement(rigidbody, RandomForce()));
-            yield return new WaitForSeconds(m_Items[i].SpawnInterval);
+            if (UnityEngine.Random.Range(0f, 1f) < m_Items[i].SpawnChance)
+            {
+                GameObject newObj = GameObject.Instantiate(m_Items[i].Object, transform);
+                newObj.SetActive(true);
+                Rigidbody rigidbody = newObj.GetComponent<Rigidbody>();
+                StartCoroutine(CoinMovement(rigidbody, RandomForce()));
+                yield return new WaitForSeconds(m_Items[i].SpawnInterval);
+            }
         }
     }
 
