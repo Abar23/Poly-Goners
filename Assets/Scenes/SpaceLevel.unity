@@ -125,7 +125,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3562894751133706296, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
@@ -155,17 +155,17 @@ PrefabInstance:
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
@@ -175,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
@@ -229,12 +229,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b582c925da3a824fbbf07e93bf63564, type: 3}
---- !u!4 &114216825 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3562894751133706298, guid: 1b582c925da3a824fbbf07e93bf63564,
-    type: 3}
-  m_PrefabInstance: {fileID: 114216824}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &153983437
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,15 +258,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f5a3d6adab9d44f90013170b6b3b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumberOfRooms: 25
+  minNumberOfRooms: 30
   maxNumberOfRooms: 40
   dungeonTemplates:
-  - {fileID: 808488377}
+  - {fileID: 1330256438}
   OnGenerationFinished:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_Animator: {fileID: 0}
 --- !u!4 &153983439
 Transform:
   m_ObjectHideFlags: 0
@@ -284,176 +279,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1389921771}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &808488376
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 808488378}
-  - component: {fileID: 808488377}
-  m_Layer: 0
-  m_Name: DungeonTemplate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &808488377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808488376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4efb835ded06398408056415f8d8d56d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileDimension: 30
-  GoalRooms:
-  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  StartRooms:
-  - prefab: {fileID: 7660222662836398787, guid: 7c5653e732d96d248af7a3f42f707fc8,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  TopEntranceRooms:
-  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 180
-  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  BottomEntranceRooms:
-  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
-    spawnChance: 1
-    roomRotation: 180
-  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 180
-  LeftEntranceRooms:
-  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 90
-  RightEntranceRooms:
-  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
-    spawnChance: 1
-    roomRotation: 180
-  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 0
-  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 270
-  DeadEndRooms:
-  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 180
-  Shops:
-  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
-      type: 3}
-    spawnChance: 1
-    roomRotation: 180
---- !u!4 &808488378
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808488376}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1389921771}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815500084
 GameObject:
@@ -483,8 +310,8 @@ Transform:
   m_LocalPosition: {x: 26.27, y: -15.89, z: -37.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1389921771}
-  m_RootOrder: 9
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!108 &815500086
 Light:
@@ -551,7 +378,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 7969767915472172381, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
@@ -596,7 +423,7 @@ PrefabInstance:
     - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
@@ -613,6 +440,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7969767915472172391, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
       propertyPath: raycastLayerMask.m_Bits
@@ -625,18 +462,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1be4ce8b9f8bbfe4f974910e14673234, type: 3}
---- !u!4 &815534128 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
-    type: 3}
-  m_PrefabInstance: {fileID: 815534127}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1056144805
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 8198477611665152972, guid: 9fa9f3cca34e51849889b891405b2de8,
         type: 3}
@@ -681,7 +512,7 @@ PrefabInstance:
     - target: {fileID: 8198477611665152970, guid: 9fa9f3cca34e51849889b891405b2de8,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8198477611665152970, guid: 9fa9f3cca34e51849889b891405b2de8,
         type: 3}
@@ -705,13 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fa9f3cca34e51849889b891405b2de8, type: 3}
---- !u!4 &1056144806 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8198477611665152970, guid: 9fa9f3cca34e51849889b891405b2de8,
-    type: 3}
-  m_PrefabInstance: {fileID: 1056144805}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1389921770
+--- !u!1 &1330256436
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -719,44 +544,368 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1389921771}
+  - component: {fileID: 1330256437}
+  - component: {fileID: 1330256438}
   m_Layer: 0
-  m_Name: Stuff
+  m_Name: DungeonTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1389921771
+--- !u!4 &1330256437
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1389921770}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1330256436}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2130147401}
-  - {fileID: 808488378}
-  - {fileID: 153983439}
-  - {fileID: 114216825}
-  - {fileID: 1392364916}
-  - {fileID: 815534128}
-  - {fileID: 1856792894}
-  - {fileID: 1689309824}
-  - {fileID: 1056144806}
-  - {fileID: 815500085}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1330256438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330256436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efb835ded06398408056415f8d8d56d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileDimension: 30
+  GoalRooms:
+  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  StartRooms:
+  - prefab: {fileID: 7660222662836398787, guid: 7c5653e732d96d248af7a3f42f707fc8,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  TopEntranceRooms:
+  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 5953337830853054804, guid: bb2cca821226f5a42968965450e6a2fa,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 3910053485851360797, guid: 6741ea5bdec1b6c4e80d3c10757f3c68,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 90
+  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  BottomEntranceRooms:
+  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 5953337830853054804, guid: bb2cca821226f5a42968965450e6a2fa,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 3910053485851360797, guid: 6741ea5bdec1b6c4e80d3c10757f3c68,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 90
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 90
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  LeftEntranceRooms:
+  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 5953337830853054804, guid: bb2cca821226f5a42968965450e6a2fa,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 90
+  - prefab: {fileID: 3910053485851360797, guid: 6741ea5bdec1b6c4e80d3c10757f3c68,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  RightEntranceRooms:
+  - prefab: {fileID: 7257770097969477620, guid: dd5e67076936f1b40974c108b0d40f5a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 591320064985260716, guid: 09e0433cdea170243b37095ad2d96e1e, type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 4281867484495646676, guid: 64849c7dec5cc894493f1c7c9755d694,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2767581938077690755, guid: ae5490e4c4bde8945ba90c8dc4034b10,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 7237259942145370421, guid: e2ae44ce1d883b741b5c7fe7b1d1aa13,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 5953337830853054804, guid: bb2cca821226f5a42968965450e6a2fa,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 270
+  - prefab: {fileID: 3910053485851360797, guid: 6741ea5bdec1b6c4e80d3c10757f3c68,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 270
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 90
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 4558139154381821934, guid: 326c038469f794e4c8f10ecc6e691896,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 2952418019072155354, guid: bf1eb0d6eee7a8e408b9272f2e406a8e,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 759191804149467206, guid: b3cd9b5d08bdd024eb6991eaa8e633f7, type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 0
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 180
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 0.5
+    roomRotation: 180
+  - prefab: {fileID: 8002678573952810866, guid: edb22dcca019de64e9b20de0184cd24a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  - prefab: {fileID: 9187831730698200817, guid: fc3c5cd69d64e194e9c51718ee91d46a,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 90
+  DeadEndRooms:
+  - prefab: {fileID: 7926079165887141518, guid: be6d6acc090660445b4ddf5971109d18,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
+  Shops:
+  - prefab: {fileID: 1618654475887882017, guid: 23b81ef2b7073f44bad9c4b9ac03139b,
+      type: 3}
+    spawnChance: 1
+    roomRotation: 0
 --- !u!1001 &1392364915
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3810957379649604311, guid: 6fa2e443b4007ba49b0e8d58463f5469,
         type: 3}
@@ -806,7 +955,7 @@ PrefabInstance:
     - target: {fileID: 3810957379649604298, guid: 6fa2e443b4007ba49b0e8d58463f5469,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3810957379649604298, guid: 6fa2e443b4007ba49b0e8d58463f5469,
         type: 3}
@@ -825,12 +974,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fa2e443b4007ba49b0e8d58463f5469, type: 3}
---- !u!4 &1392364916 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3810957379649604298, guid: 6fa2e443b4007ba49b0e8d58463f5469,
-    type: 3}
-  m_PrefabInstance: {fileID: 1392364915}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1428841559 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3977645449219475011, guid: 1b582c925da3a824fbbf07e93bf63564,
@@ -857,7 +1000,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4156554883799513944, guid: 5219961f6362bc445a7cb7a8184573ac,
         type: 3}
@@ -907,7 +1050,7 @@ PrefabInstance:
     - target: {fileID: 4271732051976491112, guid: 5219961f6362bc445a7cb7a8184573ac,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4271732051976491112, guid: 5219961f6362bc445a7cb7a8184573ac,
         type: 3}
@@ -956,18 +1099,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5219961f6362bc445a7cb7a8184573ac, type: 3}
---- !u!4 &1689309824 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4271732051976491112, guid: 5219961f6362bc445a7cb7a8184573ac,
-    type: 3}
-  m_PrefabInstance: {fileID: 1689309823}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1856792893
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1389921771}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5284543570940175443, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
         type: 3}
@@ -1017,7 +1154,7 @@ PrefabInstance:
     - target: {fileID: 5284543570940175444, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5284543570940175444, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
         type: 3}
@@ -1126,12 +1263,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6, type: 3}
---- !u!4 &1856792894 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5284543570940175444, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-    type: 3}
-  m_PrefabInstance: {fileID: 1856792893}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2130147399
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,6 +1303,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1389921771}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
