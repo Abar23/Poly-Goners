@@ -34,6 +34,7 @@ public class Inventory : MonoBehaviour
     private float remainingTime;
 
     [SerializeField] private AudioSource m_PotionSFX;
+    [SerializeField] private AudioSource m_PurchaseSFX;
 
     void Awake()
     {
@@ -80,6 +81,7 @@ public class Inventory : MonoBehaviour
     {
         gold -= num;
         CoinDisplay.text = gold.ToString();
+        m_PurchaseSFX.Play();
     }
 
     public void UsePotion()
