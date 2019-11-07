@@ -343,8 +343,10 @@ public class DungeonCreationState : IDungeonGenerationState
         }
 
         List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
+        Quaternion originalRoomRotation;
         foreach (DungeonRoom room in dungeonList)
         {
+            originalRoomRotation = room.prefab.transform.rotation;
             // Rotate Prefab
             room.RotateRoom();
 
@@ -355,7 +357,7 @@ public class DungeonCreationState : IDungeonGenerationState
             }
 
             // Undo rotation on Prefab
-            room.SetRotation(DO_NOT_ROTATE);
+            room.OverrideRotation(originalRoomRotation);
         }
 
         invalidNode.ParentNode = null;

@@ -37,7 +37,12 @@ public class DungeonRoom
 
     public void SetRotation(RoomRotationAngle angle)
     {
-        this.prefab.transform.rotation = Quaternion.AngleAxis((float)angle, Vector3.up);
+        this.prefab.transform.rotation = Quaternion.AngleAxis((float)angle + this.prefab.transform.rotation.eulerAngles.y, Vector3.up );
+    }
+
+    public void OverrideRotation(Quaternion rotation)
+    {
+        this.prefab.transform.rotation = rotation;
     }
 
     public List<Transform> GetDooorways()
