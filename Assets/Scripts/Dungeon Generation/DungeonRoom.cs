@@ -7,8 +7,8 @@ public class DungeonRoom
     public enum RoomRotationAngle
     {
         DO_NOT_ROTATE = 0,
-        TURN_LEFT = 90,
-        TURN_RIGHT = 270,
+        TURN_CLOCKWISE = 90,
+        TURN_COUNTER_CLOCKWISE = 270,
         TURN_AROUND = 180
     }
 

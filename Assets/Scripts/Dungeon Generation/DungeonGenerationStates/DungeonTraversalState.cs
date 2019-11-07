@@ -155,7 +155,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 this.template.tileDimension,
                 0.0f,
-                TURN_LEFT);
+                TURN_CLOCKWISE);
 
             nodeToReplace.ParentNode.RightNode = newNode;
         }
@@ -167,7 +167,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.ParentNode,
                 -this.template.tileDimension,
                 0.0f,
-                TURN_RIGHT);
+                TURN_COUNTER_CLOCKWISE);
 
             nodeToReplace.ParentNode.LeftNode = newNode;
         }

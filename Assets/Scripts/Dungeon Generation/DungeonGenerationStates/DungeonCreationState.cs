@@ -178,7 +178,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             this.template.tileDimension,
                             0.0f,
-                            TURN_LEFT);
+                            TURN_CLOCKWISE);
                     }
 
                     if (newNode != null)
@@ -217,7 +217,7 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             -this.template.tileDimension,
                             0.0f,
-                            TURN_RIGHT);
+                            TURN_COUNTER_CLOCKWISE);
                     }
 
                     if (newNode != null)
@@ -452,7 +452,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     this.template.tileDimension,
                     0.0f,
-                    TURN_LEFT);
+                    TURN_CLOCKWISE);
 
                 parentNode.RightNode = newNode;
             }
@@ -464,7 +464,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     -this.template.tileDimension,
                     0.0f,
-                    TURN_RIGHT);
+                    TURN_COUNTER_CLOCKWISE);
 
                 parentNode.LeftNode = newNode;
             }
