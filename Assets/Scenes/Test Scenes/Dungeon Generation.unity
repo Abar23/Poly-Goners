@@ -218,17 +218,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f5a3d6adab9d44f90013170b6b3b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumberOfRooms: 7
+  minNumberOfRooms: 10
   maxNumberOfRooms: 40
   dungeonTemplates:
-  - {fileID: 8527457760429487797, guid: 59bcbb6a46424d245b3aa98fb6959094, type: 3}
-  - {fileID: 6001598382435354061, guid: 7fa0806e12d10ba4d830365b04529b37, type: 3}
-  - {fileID: 3121748262559402182, guid: 9800d51492ddc7043beed86187d09346, type: 3}
+  - {fileID: 1337509534774187603}
   OnGenerationFinished:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_Animator: {fileID: 0}
 --- !u!4 &567719096
 Transform:
   m_ObjectHideFlags: 0
@@ -417,3 +416,73 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1337509534774187600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1337509534774187602}
+  - component: {fileID: 1337509534774187603}
+  m_Layer: 0
+  m_Name: DungeonTemplate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1337509534774187602
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337509534774187600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1337509534774187603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1337509534774187600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efb835ded06398408056415f8d8d56d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileDimension: 10
+  goalRooms:
+  - prefab: {fileID: 8261745733964552119, guid: 52335ee8669e0194fbb6d181f2139d77,
+      type: 3}
+    spawnChance: 1
+  startRooms:
+  - prefab: {fileID: 3689736053145698269, guid: 765d48762468c6a41a1323494dfdc17b,
+      type: 3}
+    spawnChance: 1
+  internalRooms:
+  - prefab: {fileID: 1996608337422509829, guid: 3f042291fa9aa4d4bbef25232331eb28,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 5386938416603263709, guid: f6b24c33aa9a6ba4f84eb00f790a1493,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3098269931220318488, guid: a0e83e0fd45107f4f8bd71a758666158,
+      type: 3}
+    spawnChance: 1
+  deadEndRooms:
+  - prefab: {fileID: 1302764388711314577, guid: 5343647db79685e49bb3af4976b66e2c,
+      type: 3}
+    spawnChance: 1
+  shops:
+  - prefab: {fileID: 1805975771861397112, guid: 4843e60430cb2604eb8c06be918ca57a,
+      type: 3}
+    spawnChance: 1
