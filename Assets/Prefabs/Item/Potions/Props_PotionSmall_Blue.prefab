@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1994443068950261053}
   - component: {fileID: 4822905823272618109}
   - component: {fileID: 8411466435769695724}
+  - component: {fileID: -3750623491678313000}
   m_Layer: 0
   m_Name: Props_PotionSmall_Blue
   m_TagString: Untagged
@@ -34,7 +35,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: [{fileID: 7022836849486356737}]
+  m_Children:
+  - {fileID: 7022836849486356737}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -169,6 +171,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BlinkInterval: 0.07
   m_DisableTimer: 30
+--- !u!114 &-3750623491678313000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645247040696762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80fb7369dcada5e45ba7886f2ad6ea00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 854f06892f64e774d994178a13351a78, type: 3}
 --- !u!1001 &7705888532236913612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,11 +191,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4027607600193846}
     m_Modifications:
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6340037879104066781, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Name
@@ -296,20 +306,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Small Magic Potion
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_Text
-      value: A potion that restores a small amount of MP.
-      objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Restores 5 MP per second for 5 seconds
+      objectReference: {fileID: 0}
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_Text
+      value: A potion that restores a small amount of MP.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TestGold : MonoBehaviour
 {
+
+    [SerializeField] private AudioSource m_SFX;
+
     void OnTriggerEnter(Collider other)
     {
         GameObject playerOne = PlayerManager.GetInstance().GetPlayerOneGameObject();
@@ -12,10 +15,12 @@ public class TestGold : MonoBehaviour
         if (other.gameObject == playerOne)
         {
             playerOne.GetComponent<Inventory>().IncreaseGold(10000);
+            m_SFX.Play();
         }
         else if(other.gameObject == playerTwo)
         {
             playerTwo.GetComponent<Inventory>().IncreaseGold(10000);
+            m_SFX.Play();
         }
     }
 }
