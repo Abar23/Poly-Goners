@@ -14,6 +14,7 @@ public class DungeonGenerator : MonoBehaviour
 
     public List<DungeonTemplate> dungeonTemplates;
     private DungeonTemplate chosenTemplate;
+
     public List<KeyValuePair<DungeonRoom, float>> TopRooms { get; private set; }
     public List<KeyValuePair<DungeonRoom, float>> BottomRooms { get; private set; }
     public List<KeyValuePair<DungeonRoom, float>> LeftRooms { get; private set; }
@@ -22,8 +23,6 @@ public class DungeonGenerator : MonoBehaviour
     public List<KeyValuePair<DungeonRoom, float>> Shops { get; private set; }
     public List<KeyValuePair<DungeonRoom, float>> DeadEnds { get; private set; }
     public List<KeyValuePair<DungeonRoom, float>> GoalRooms { get; private set; }
-
-
 
     [SerializeField] private UnityEvent OnGenerationFinished;
     [SerializeField] private Animator m_Animator;
@@ -57,23 +56,7 @@ public class DungeonGenerator : MonoBehaviour
         // Choose random template from the list of templates given to the dungeon generator
         this.chosenTemplate = this.dungeonTemplates[Random.Range(0, this.dungeonTemplates.Count)];
 
-        this.TopRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.BottomRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.LeftRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.RightRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.StartRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.GoalRooms = new List<KeyValuePair<DungeonRoom, float>>();
-        this.Shops = new List<KeyValuePair<DungeonRoom, float>>();
-        this.DeadEnds = new List<KeyValuePair<DungeonRoom, float>>();
-
-        ConstructRooms(this.TopRooms, Vector3.back, this.chosenTemplate.internalRooms);
-        ConstructRooms(this.BottomRooms, Vector3.forward, this.chosenTemplate.internalRooms);
-        ConstructRooms(this.LeftRooms, Vector3.right, this.chosenTemplate.internalRooms);
-        ConstructRooms(this.RightRooms, Vector3.left, this.chosenTemplate.internalRooms);
-        ConstructRooms(this.StartRooms, Vector3.back, this.chosenTemplate.startRooms);
-        ConstructRooms(this.GoalRooms, Vector3.back, this.chosenTemplate.goalRooms);
-        ConstructRooms(this.DeadEnds, Vector3.back, this.chosenTemplate.deadEndRooms);
-        ConstructRooms(this.Shops, Vector3.back, this.chosenTemplate.shops);
+        ConstructRoomLists();
 
         // Init look up table for dungeon generation step
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
@@ -210,6 +193,27 @@ public class DungeonGenerator : MonoBehaviour
         DungeonNode newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
 
         return newNode;
+    }
+
+    private void ConstructRoomLists()
+    {
+        this.TopRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.BottomRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.LeftRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.RightRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.StartRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.GoalRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.Shops = new List<KeyValuePair<DungeonRoom, float>>();
+        this.DeadEnds = new List<KeyValuePair<DungeonRoom, float>>();
+
+        ConstructRooms(this.TopRooms, Vector3.back, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.BottomRooms, Vector3.forward, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.LeftRooms, Vector3.right, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.RightRooms, Vector3.left, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.StartRooms, Vector3.back, this.chosenTemplate.startRooms);
+        ConstructRooms(this.GoalRooms, Vector3.back, this.chosenTemplate.goalRooms);
+        ConstructRooms(this.DeadEnds, Vector3.back, this.chosenTemplate.deadEndRooms);
+        ConstructRooms(this.Shops, Vector3.back, this.chosenTemplate.shops);
     }
 
     private void ConstructRooms(List<KeyValuePair<DungeonRoom, float>> rooms, Vector3 connectionDirection, List<DungeonRoom> roomList)
