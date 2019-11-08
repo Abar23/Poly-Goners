@@ -6,22 +6,24 @@ using static DungeonRoom.RoomRotationAngle;
 public class DungeonCreationState : IDungeonGenerationState
 {
     private int numberOfRooms;
-    private DungeonTemplate template;
-
+    private float tileDimensions;
     private DungeonNode dungeonTree;
     private DungeonLookUpTable lookUpTable;
     private Queue<DungeonNode> nodeQueue;
+    private DungeonGenerator generator;
 
     public DungeonCreationState(
-        DungeonTemplate template, 
+        float tileDimensions, 
         DungeonLookUpTable lookUpTable,
         DungeonNode dungeonTree,
-        int numberOfRooms)
+        int numberOfRooms,
+        DungeonGenerator generator)
     {
-        this.template = template;
+        this.tileDimensions = tileDimensions;
         this.lookUpTable = lookUpTable;
         this.dungeonTree = dungeonTree;
         this.numberOfRooms = numberOfRooms;
+        this.generator = generator;
 
         // Queue used for BFS dungeon generation
         this.nodeQueue = new Queue<DungeonNode>();
@@ -40,7 +42,7 @@ public class DungeonCreationState : IDungeonGenerationState
         }
         else
         {
-            newState = new DungeonTraversalState(this.template, this.dungeonTree);
+            newState = new DungeonTraversalState(this.tileDimensions, this.dungeonTree, this.generator);
         }
 
         return newState;
@@ -85,21 +87,21 @@ public class DungeonCreationState : IDungeonGenerationState
                 {
                     if(this.numberOfRooms > 0)
                     {
-                        newNode = DungeonGenerator.AddNewRoom(this.template.TopEntranceRooms,
+                        newNode = DungeonGenerator.AddNewRoom(this.generator.TopRooms,
                             nextPosition,
                             currentNode,
                             0.0f,
-                            this.template.tileDimension,
+                            this.tileDimensions,
                             this.numberOfRooms);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
                     {
-                        newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                        newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                             nextPosition,
                             currentNode,
                             0.0f,
-                            this.template.tileDimension,
+                            this.tileDimensions,
                             DO_NOT_ROTATE);
                     }
 
@@ -124,21 +126,21 @@ public class DungeonCreationState : IDungeonGenerationState
                 {
                     if (this.numberOfRooms > 0)
                     {
-                        newNode = DungeonGenerator.AddNewRoom(this.template.BottomEntranceRooms,
+                        newNode = DungeonGenerator.AddNewRoom(this.generator.BottomRooms,
                             nextPosition,
                             currentNode,
                             0.0f,
-                            -this.template.tileDimension,
+                            -this.tileDimensions,
                             this.numberOfRooms);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
                     {
-                        newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                        newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                             nextPosition,
                             currentNode,
                             0.0f,
-                            -this.template.tileDimension,
+                            -this.tileDimensions,
                             TURN_AROUND);
                     }
 
@@ -163,22 +165,22 @@ public class DungeonCreationState : IDungeonGenerationState
                 {
                     if (this.numberOfRooms > 0)
                     {
-                        newNode = DungeonGenerator.AddNewRoom(this.template.RightEntranceRooms,
+                        newNode = DungeonGenerator.AddNewRoom(this.generator.RightRooms,
                             nextPosition,
                             currentNode,
-                            this.template.tileDimension,
+                            this.tileDimensions,
                             0.0f,
                             this.numberOfRooms);
                     }
                     
                     if(this.numberOfRooms == 0 || newNode == null)
                     {
-                        newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                        newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                             nextPosition,
                             currentNode,
-                            this.template.tileDimension,
+                            this.tileDimensions,
                             0.0f,
-                            TURN_LEFT);
+                            TURN_CLOCKWISE);
                     }
 
                     if (newNode != null)
@@ -202,22 +204,22 @@ public class DungeonCreationState : IDungeonGenerationState
                 {
                     if (this.numberOfRooms > 0)
                     {
-                        newNode = DungeonGenerator.AddNewRoom(this.template.LeftEntranceRooms,
+                        newNode = DungeonGenerator.AddNewRoom(this.generator.LeftRooms,
                             nextPosition,
                             currentNode,
-                            -this.template.tileDimension,
+                            -this.tileDimensions,
                             0.0f,
                             this.numberOfRooms);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
                     {
-                        newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                        newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                             nextPosition,
                             currentNode,
-                            -this.template.tileDimension,
+                            -this.tileDimensions,
                             0.0f,
-                            TURN_RIGHT);
+                            TURN_COUNTER_CLOCKWISE);
                     }
 
                     if (newNode != null)
@@ -317,45 +319,47 @@ public class DungeonCreationState : IDungeonGenerationState
     public DungeonNode ResolveInvalidNode(DungeonNode invalidNode, DungeonNode parentNode)
     {
         DungeonNode newNode = null;
-        List<DungeonRoom> dungeonList = new List<DungeonRoom>();
+        List<KeyValuePair<DungeonRoom, float>> dungeonList = new List<KeyValuePair<DungeonRoom, float>>();
         Vector3 directon = (invalidNode.GetPosition() - parentNode.GetPosition()).normalized;
         Vector2 connectionDirection = new Vector2(directon.x, directon.z);
 
         // Top entrance
         if (connectionDirection == Vector2.up)
         {
-            dungeonList = this.template.TopEntranceRooms;
+            dungeonList = this.generator.TopRooms;
         }
         // Bottom entrance
         else if (connectionDirection == Vector2.down)
         {
-            dungeonList = this.template.BottomEntranceRooms;
+            dungeonList = this.generator.BottomRooms;
         }
         // Right entrance
         else if (connectionDirection == Vector2.right)
         {
-            dungeonList = this.template.RightEntranceRooms;
+            dungeonList = this.generator.RightRooms;
         }
         // Left entrance
         else if (connectionDirection == Vector2.left)
         {
-            dungeonList = this.template.LeftEntranceRooms;
+            dungeonList = this.generator.LeftRooms;
         }
 
-        List<DungeonRoom> ValidNodeList = new List<DungeonRoom>();
-        foreach (DungeonRoom room in dungeonList)
+        List<KeyValuePair<DungeonRoom, float>> ValidNodeList = new List<KeyValuePair<DungeonRoom, float>>();
+        Quaternion originalRoomRotation;
+        foreach (KeyValuePair<DungeonRoom, float> room in dungeonList)
         {
+            originalRoomRotation = room.Key.prefab.transform.rotation;
             // Rotate Prefab
-            room.RotateRoom();
+            room.Key.RotateRoom();
 
-            DungeonNode potentialNode = new DungeonNode(room, invalidNode.lookUpPosition);
-            if (IsDungeonNodeValid(potentialNode, parentNode, room.GetDooorways()))
+            DungeonNode potentialNode = new DungeonNode(room.Key, invalidNode.lookUpPosition);
+            if (IsDungeonNodeValid(potentialNode, parentNode, room.Key.GetDooorways()))
             {
                 ValidNodeList.Add(room);
             }
 
             // Undo rotation on Prefab
-            room.SetRotation(DO_NOT_ROTATE);
+            room.Key.OverrideRotation(originalRoomRotation);
         }
 
         invalidNode.ParentNode = null;
@@ -368,7 +372,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     invalidNode.lookUpPosition,
                     parentNode,
                     0.0f,
-                    this.template.tileDimension,
+                    this.tileDimensions,
                     this.numberOfRooms);
 
                 parentNode.TopNode = newNode;
@@ -380,7 +384,7 @@ public class DungeonCreationState : IDungeonGenerationState
                     invalidNode.lookUpPosition,
                     parentNode,
                     0.0f,
-                    -this.template.tileDimension,
+                    -this.tileDimensions,
                     this.numberOfRooms);
 
                 parentNode.BottomNode = newNode;
@@ -391,7 +395,7 @@ public class DungeonCreationState : IDungeonGenerationState
                 newNode = DungeonGenerator.AddNewRoom(ValidNodeList,
                     invalidNode.lookUpPosition,
                     parentNode,
-                    this.template.tileDimension,
+                    this.tileDimensions,
                     0.0f,
                     this.numberOfRooms);
 
@@ -403,7 +407,7 @@ public class DungeonCreationState : IDungeonGenerationState
                 newNode = DungeonGenerator.AddNewRoom(ValidNodeList,
                     invalidNode.lookUpPosition,
                     parentNode,
-                    -this.template.tileDimension,
+                    -this.tileDimensions,
                     0.0f,
                     this.numberOfRooms);
 
@@ -421,11 +425,11 @@ public class DungeonCreationState : IDungeonGenerationState
             // Top entrance
             if (connectionDirection == Vector2.up)
             {
-                newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                     invalidNode.lookUpPosition,
                     parentNode,
                     0.0f,
-                    this.template.tileDimension,
+                    this.tileDimensions,
                     DO_NOT_ROTATE);
 
                 parentNode.TopNode = newNode;
@@ -433,11 +437,11 @@ public class DungeonCreationState : IDungeonGenerationState
             // Bottom entrance
             else if (connectionDirection == Vector2.down)
             {
-                newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                     invalidNode.lookUpPosition,
                     parentNode,
                     0.0f,
-                    -this.template.tileDimension,
+                    -this.tileDimensions,
                     TURN_AROUND);
 
                 parentNode.BottomNode = newNode;
@@ -445,24 +449,24 @@ public class DungeonCreationState : IDungeonGenerationState
             // Right entrance
             else if (connectionDirection == Vector2.right)
             {
-                newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                     invalidNode.lookUpPosition,
                     parentNode,
-                    this.template.tileDimension,
+                    this.tileDimensions,
                     0.0f,
-                    TURN_LEFT);
+                    TURN_CLOCKWISE);
 
                 parentNode.RightNode = newNode;
             }
             // Left entrance
             else if (connectionDirection == Vector2.left)
             {
-                newNode = DungeonGenerator.AddDeadEnd(this.template.DeadEndRooms,
+                newNode = DungeonGenerator.AddDeadEnd(this.generator.DeadEnds,
                     invalidNode.lookUpPosition,
                     parentNode,
-                    -this.template.tileDimension,
+                    -this.tileDimensions,
                     0.0f,
-                    TURN_RIGHT);
+                    TURN_COUNTER_CLOCKWISE);
 
                 parentNode.LeftNode = newNode;
             }

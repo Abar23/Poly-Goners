@@ -5,14 +5,16 @@ using static DungeonRoom.RoomRotationAngle;
 public class DungeonTraversalState : IDungeonGenerationState
 {
     private int numberOfEndRoomsSet;
-    private DungeonTemplate template;
+    private float tileDimension;
+    private DungeonGenerator generator;
     private DungeonNode dungeonTree;
     private Stack<DungeonNode> nodeStack;
     private List<DungeonNode> endingRooms;
 
-    public DungeonTraversalState(DungeonTemplate template, DungeonNode dungeonTree)
+    public DungeonTraversalState(float tileDimension, DungeonNode dungeonTree, DungeonGenerator generator)
     {
-        this.template = template;
+        this.tileDimension = tileDimension;
+        this.generator = generator;
         this.dungeonTree = dungeonTree;
         this.numberOfEndRoomsSet = 0;
         this.endingRooms = new List<DungeonNode>();
@@ -24,11 +26,11 @@ public class DungeonTraversalState : IDungeonGenerationState
     {
         IDungeonGenerationState newState = null;
 
-        if(this.nodeStack.Count > 0)
+        if (this.nodeStack.Count > 0)
         {
             GetEndRooms();
         }
-        else if(this.numberOfEndRoomsSet > 0)
+        else if (this.numberOfEndRoomsSet > 0)
         {
             SetEndingRooms();
         }
@@ -44,12 +46,12 @@ public class DungeonTraversalState : IDungeonGenerationState
     {
         DungeonNode node = this.nodeStack.Pop();
 
-        if(node.ParentNode != null)
+        if (node.ParentNode != null)
         {
             node.Depth = node.ParentNode.Depth + 1;
         }
 
-        if(IsEndingRoom(node))
+        if (IsEndingRoom(node))
         {
             this.endingRooms.Add(node);
             this.numberOfEndRoomsSet++;
@@ -60,7 +62,7 @@ public class DungeonTraversalState : IDungeonGenerationState
             this.nodeStack.Push(node.TopNode);
         }
 
-        if(node.BottomNode != null)
+        if (node.BottomNode != null)
         {
             this.nodeStack.Push(node.BottomNode);
         }
@@ -89,9 +91,9 @@ public class DungeonTraversalState : IDungeonGenerationState
             }
         }
 
-        foreach(DungeonNode node in this.endingRooms)
+        foreach (DungeonNode node in this.endingRooms)
         {
-            if(minDepth == node.Depth)
+            if (minDepth == node.Depth)
             {
                 deepestEndingRooms.Add(node);
             }
@@ -106,21 +108,21 @@ public class DungeonTraversalState : IDungeonGenerationState
     private void AddSpecialDeadEndRoom(DungeonNode nodeToReplace)
     {
         DungeonNode newNode = null;
-        List<DungeonRoom> roomList;
+        List<KeyValuePair<DungeonRoom, float>> roomList;
         Vector3 directon = (nodeToReplace.GetPosition() - nodeToReplace.ParentNode.GetPosition()).normalized;
         Vector2 connectionDirection = new Vector2(directon.x, directon.z);
 
-        if(this.numberOfEndRoomsSet == 1)
+        if (this.numberOfEndRoomsSet == 1)
         {
-            roomList = this.template.GoalRooms;
+            roomList = this.generator.GoalRooms;
         }
-        else if(this.numberOfEndRoomsSet == 2)
+        else if (this.numberOfEndRoomsSet == 2)
         {
-            roomList = this.template.Shops;
+            roomList = this.generator.Shops;
         }
         else
         {
-            roomList = this.template.DeadEndRooms;
+            roomList = this.generator.DeadEnds;
         }
 
         // Top entrance
@@ -130,7 +132,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
-                this.template.tileDimension,
+                this.tileDimension,
                 DO_NOT_ROTATE);
 
             nodeToReplace.ParentNode.TopNode = newNode;
@@ -142,7 +144,7 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
-                -this.template.tileDimension,
+                -this.tileDimension,
                 TURN_AROUND);
 
             nodeToReplace.ParentNode.BottomNode = newNode;
@@ -153,9 +155,9 @@ public class DungeonTraversalState : IDungeonGenerationState
             newNode = DungeonGenerator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
-                this.template.tileDimension,
+                this.tileDimension,
                 0.0f,
-                TURN_LEFT);
+                TURN_CLOCKWISE);
 
             nodeToReplace.ParentNode.RightNode = newNode;
         }
@@ -165,9 +167,9 @@ public class DungeonTraversalState : IDungeonGenerationState
             newNode = DungeonGenerator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
-                -this.template.tileDimension,
+                -this.tileDimension,
                 0.0f,
-                TURN_RIGHT);
+                TURN_COUNTER_CLOCKWISE);
 
             nodeToReplace.ParentNode.LeftNode = newNode;
         }
@@ -182,7 +184,7 @@ public class DungeonTraversalState : IDungeonGenerationState
     {
         bool isEndingRoom = true;
 
-        if(node.TopNode != null || node.BottomNode != null || node.RightNode != null || node.LeftNode != null)
+        if (node.TopNode != null || node.BottomNode != null || node.RightNode != null || node.LeftNode != null)
         {
             isEndingRoom = false;
         }

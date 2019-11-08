@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class DungeonReloader : MonoBehaviour
 {
     public UnityEvent OnReload;
+    private const float k_ExitTime = 2f;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,8 +15,17 @@ public class DungeonReloader : MonoBehaviour
         {
             DungeonCompletionTracker.GetInstance().IncreaseNumberOfCompletedDungeons();
             OnReload.Invoke();
-            Scene scene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(scene.name);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //StartCoroutine(ReloadScene());
         }
+    }
+
+    private IEnumerator ReloadScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        AsyncOperation op = SceneManager.LoadSceneAsync(scene.name);
+        op.allowSceneActivation = false;
+        yield return new WaitForSeconds(k_ExitTime);
+        op.allowSceneActivation = true;
     }
 }

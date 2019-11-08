@@ -5,12 +5,9 @@ public class DungeonTemplate : MonoBehaviour
 {
     public float tileDimension;
 
-    public List<DungeonRoom> GoalRooms;
-    public List<DungeonRoom> StartRooms;
-    public List<DungeonRoom> TopEntranceRooms;
-    public List<DungeonRoom> BottomEntranceRooms;
-    public List<DungeonRoom> LeftEntranceRooms;
-    public List<DungeonRoom> RightEntranceRooms;
-    public List<DungeonRoom> DeadEndRooms;
-    public List<DungeonRoom> Shops;
+    public List<DungeonRoom> goalRooms;
+    public List<DungeonRoom> startRooms;
+    public List<DungeonRoom> internalRooms;
+    public List<DungeonRoom> deadEndRooms;
+    public List<DungeonRoom> shops;
 }
