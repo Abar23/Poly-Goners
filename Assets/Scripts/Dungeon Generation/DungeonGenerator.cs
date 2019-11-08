@@ -14,6 +14,16 @@ public class DungeonGenerator : MonoBehaviour
 
     public List<DungeonTemplate> dungeonTemplates;
     private DungeonTemplate chosenTemplate;
+
+    public List<KeyValuePair<DungeonRoom, float>> TopRooms { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> BottomRooms { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> LeftRooms { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> RightRooms { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> StartRooms { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> Shops { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> DeadEnds { get; private set; }
+    public List<KeyValuePair<DungeonRoom, float>> GoalRooms { get; private set; }
+
     [SerializeField] private UnityEvent OnGenerationFinished;
     [SerializeField] private Animator m_Animator;
 
@@ -34,7 +44,7 @@ public class DungeonGenerator : MonoBehaviour
 
     void Start()
     {
-        
+
         /*---- Initial Data Setup ----*/
 
         // Get number of rooms to generate based upon the number of completions
@@ -46,6 +56,8 @@ public class DungeonGenerator : MonoBehaviour
         // Choose random template from the list of templates given to the dungeon generator
         this.chosenTemplate = this.dungeonTemplates[Random.Range(0, this.dungeonTemplates.Count)];
 
+        ConstructRoomLists();
+
         // Init look up table for dungeon generation step
         this.lookUpTable = new DungeonLookUpTable(lookUpTableDimensions);
         
@@ -53,7 +65,7 @@ public class DungeonGenerator : MonoBehaviour
         int centerTilePosition = (lookUpTableDimensions - 1) / 2;
 
         // Create inital node from the start room list
-        this.dungeonTree = AddNewRoom(this.chosenTemplate.StartRooms,
+        this.dungeonTree = AddNewRoom(this.StartRooms,
             new Vector2Int(centerTilePosition, centerTilePosition),
             null,
             0, 0,
@@ -63,14 +75,14 @@ public class DungeonGenerator : MonoBehaviour
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
 
         // Set inital state of the dungeon generator to the creation state
-        this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate, this.lookUpTable, this.dungeonTree, this.numberOfRoomsToGenerate - 1);
+        this.dungeonGenerationState = new DungeonCreationState(this.chosenTemplate.tileDimension, this.lookUpTable, this.dungeonTree, this.numberOfRoomsToGenerate - 1, this);
     }
 
     void Update()
     {
         IDungeonGenerationState newState = this.dungeonGenerationState.Update();
 
-        if(newState != null)
+        if (newState != null)
         {
             this.dungeonGenerationState = newState;
         }
@@ -90,7 +102,7 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    public static DungeonNode AddNewRoom(List<DungeonRoom> roomList,
+    public static DungeonNode AddNewRoom(List<KeyValuePair<DungeonRoom, float>> roomList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
@@ -103,12 +115,12 @@ public class DungeonGenerator : MonoBehaviour
         float spawnProbability = Random.Range(0.0f, 1.0f);
 
         // Get random room from list of rooms
-        List<DungeonRoom> validRoomsToChoose = new List<DungeonRoom>();
-        foreach(DungeonRoom potentialRoom in roomList)
+        List<KeyValuePair<DungeonRoom, float>> validRoomsToChoose = new List<KeyValuePair<DungeonRoom, float>>();
+        foreach(KeyValuePair<DungeonRoom, float> potentialRoom in roomList)
         {
-            if(potentialRoom.GetDooorways().Count - 1 <= numberOfRoomsLeftToPlace)
+            if(potentialRoom.Key.GetDooorways().Count - 1 <= numberOfRoomsLeftToPlace)
             {
-                if(spawnProbability >= 1.0f - potentialRoom.spawnChance)
+                if(spawnProbability >= 1.0f - potentialRoom.Key.spawnChance)
                 {
                     validRoomsToChoose.Add(potentialRoom);
                 }
@@ -117,10 +129,10 @@ public class DungeonGenerator : MonoBehaviour
 
         if(validRoomsToChoose.Count > 0)
         {
-            DungeonRoom room = validRoomsToChoose[Random.Range(0, validRoomsToChoose.Count)];
+            KeyValuePair<DungeonRoom, float> room = validRoomsToChoose[Random.Range(0, validRoomsToChoose.Count)];
 
             // Create copy of the randomly chosen room
-            DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), room.roomRotation);
+            DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value);
 
             // Set the new dungeon room to the proper position and rotation
             if(parentNode != null)
@@ -144,31 +156,31 @@ public class DungeonGenerator : MonoBehaviour
         return newNode;
     }
 
-    public static DungeonNode AddDeadEnd(List<DungeonRoom> deadEndRoomsList,
+    public static DungeonNode AddDeadEnd(List<KeyValuePair<DungeonRoom, float>> deadEndRoomsList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
         float roomYPositionOffset,
-        RoomRotationAngle angleToRotateDeadEndRoom)
+        RoomRotationAngle angleOffset)
     {
         // Get spawn chance value
         float spawnProbability = Random.Range(0.0f, 1.0f);
 
         // Get random room from list of rooms
-        List<DungeonRoom> validDeadEndRoomsToChoose = new List<DungeonRoom>();
-        foreach (DungeonRoom potentialDeadEnd in deadEndRoomsList)
+        List<KeyValuePair<DungeonRoom, float>> validDeadEndRoomsToChoose = new List<KeyValuePair<DungeonRoom, float>>();
+        foreach (KeyValuePair<DungeonRoom, float> potentialDeadEnd in deadEndRoomsList)
         {
-            if (spawnProbability >= 1.0f - potentialDeadEnd.spawnChance)
+            if (spawnProbability >= 1.0f - potentialDeadEnd.Key.spawnChance)
             {
                 validDeadEndRoomsToChoose.Add(potentialDeadEnd);
             }
         }
 
         // Get random room from list of rooms
-        DungeonRoom room = validDeadEndRoomsToChoose[Random.Range(0, validDeadEndRoomsToChoose.Count)];
+        KeyValuePair<DungeonRoom, float> room = validDeadEndRoomsToChoose[Random.Range(0, validDeadEndRoomsToChoose.Count)];
 
         // Create copy of the randomly chosen room
-        DungeonRoom newRoom = new DungeonRoom(Instantiate(room.prefab), angleToRotateDeadEndRoom);
+        DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value + (float)angleOffset);
 
         // Get the parent node position
         Vector3 parentNodePosition = parentNode.GetPosition();
@@ -181,6 +193,40 @@ public class DungeonGenerator : MonoBehaviour
         DungeonNode newNode = new DungeonNode(newRoom, lookUpTablePosition, parentNode);
 
         return newNode;
+    }
+
+    private void ConstructRoomLists()
+    {
+        this.TopRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.BottomRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.LeftRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.RightRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.StartRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.GoalRooms = new List<KeyValuePair<DungeonRoom, float>>();
+        this.Shops = new List<KeyValuePair<DungeonRoom, float>>();
+        this.DeadEnds = new List<KeyValuePair<DungeonRoom, float>>();
+
+        ConstructRooms(this.TopRooms, Vector3.back, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.BottomRooms, Vector3.forward, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.LeftRooms, Vector3.right, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.RightRooms, Vector3.left, this.chosenTemplate.internalRooms);
+        ConstructRooms(this.StartRooms, Vector3.back, this.chosenTemplate.startRooms);
+        ConstructRooms(this.GoalRooms, Vector3.back, this.chosenTemplate.goalRooms);
+        ConstructRooms(this.DeadEnds, Vector3.back, this.chosenTemplate.deadEndRooms);
+        ConstructRooms(this.Shops, Vector3.back, this.chosenTemplate.shops);
+    }
+
+    private void ConstructRooms(List<KeyValuePair<DungeonRoom, float>> rooms, Vector3 connectionDirection, List<DungeonRoom> roomList)
+    {
+        foreach (DungeonRoom room in roomList)
+        {
+            List<Transform> dungeonRoomDoorways = room.GetDooorways();
+            foreach (Transform doorway in dungeonRoomDoorways)
+            {
+                float angleBetweenVectors = Vector3.SignedAngle(doorway.forward, connectionDirection, Vector3.up);
+                rooms.Add(new KeyValuePair<DungeonRoom, float>(room, angleBetweenVectors));
+            }
+        }
     }
 
     private int mapRange(float s, float a1, float a2, float b1, float b2)

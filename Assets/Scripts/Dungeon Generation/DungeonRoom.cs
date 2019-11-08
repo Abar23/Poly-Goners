@@ -16,10 +16,10 @@ public class DungeonRoom
     public GameObject prefab;
     [Range(0.0f, 1.0f)]
     public float spawnChance;
-    [SerializeField]
-    public RoomRotationAngle roomRotation;
 
-    public DungeonRoom(GameObject prefab, RoomRotationAngle rotation)
+    private float roomRotation;
+
+    public DungeonRoom(GameObject prefab, float rotation)
     {
         this.prefab = prefab;
         this.roomRotation = rotation;
@@ -32,12 +32,7 @@ public class DungeonRoom
 
     public void RotateRoom()
     {
-        this.prefab.transform.rotation = Quaternion.AngleAxis((float)this.roomRotation + this.prefab.transform.rotation.eulerAngles.y, Vector3.up);
-    }
-
-    public void SetRotation(RoomRotationAngle angle)
-    {
-        this.prefab.transform.rotation = Quaternion.AngleAxis((float)angle + this.prefab.transform.rotation.eulerAngles.y, Vector3.up );
+        this.prefab.transform.rotation = Quaternion.AngleAxis(this.roomRotation + this.prefab.transform.rotation.eulerAngles.y, Vector3.up);
     }
 
     public void OverrideRotation(Quaternion rotation)
@@ -52,6 +47,10 @@ public class DungeonRoom
 
     public List<Transform> GetScrambledDoorways()
     {
+        Quaternion originalRotation = this.prefab.transform.rotation;
+
+        RotateRoom();
+
         List<Transform> doorways = this.GetDooorways();
 
         int numberOfDoorways = doorways.Count;
@@ -63,6 +62,8 @@ public class DungeonRoom
             doorways[numberOfDoorways - 1] = tempTransform;
             numberOfDoorways--;
         }
+
+        OverrideRotation(originalRotation);
 
         return doorways;
     }
