@@ -13,7 +13,11 @@ public class RuneSquare : MonoBehaviour
         if (other.gameObject.tag != "Player")
             return;
 
+        if (!m_Pillar.Active)
+        {
+            m_Audio.Play();
+        }
         m_Pillar.SetActive();
-        m_Audio.Play();
+        
     }
 }
