@@ -21,8 +21,7 @@ public class DoorController : MonoBehaviour
 
     void Update()
     {
-        int num_player = PlayerManager.GetInstance().GetNumberOfActivePlayers();
-        if (!triggered && playersInside.Count == num_player)
+        if (!triggered && playersInside.Count > 0)
         {
             foreach (Door door in m_Doors)
             {

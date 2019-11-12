@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DungeonDoor : Door
 {
@@ -8,11 +9,17 @@ public class DungeonDoor : Door
     [SerializeField] private float m_OpenAngle;
     [SerializeField] private AudioSource m_OpenSFX;
     [SerializeField] private AudioSource m_CloseSFX;
+    [SerializeField] private UnityEvent m_OnDoorClose;
+    [SerializeField] private UnityEvent m_OnDoorOpen;
     private const int k_RotationInterval = 30;
 
     public override IEnumerator OpenDoor()
     {
-        m_OpenSFX.Play();
+        if (m_OnDoorOpen != null)
+        {
+            m_OnDoorOpen.Invoke();
+        }
+            m_OpenSFX.Play();
         for (int i = 0; i < k_RotationInterval; i++)
         {
             transform.Rotate(Vector3.up * m_OpenAngle / k_RotationInterval);
@@ -32,6 +39,10 @@ public class DungeonDoor : Door
         }
         m_IsOpen = false;
         isMoving = false;
+        if (m_OnDoorClose != null)
+        {
+            m_OnDoorClose.Invoke();
+        }
     }
 
 }
