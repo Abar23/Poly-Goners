@@ -2,16 +2,19 @@
 
 public class Weapon : MonoBehaviour, IWeapon
 {
-    private bool swingingWeapon = false;
+    [HideInInspector]
+    public bool swingingWeapon = false;
     private bool ableToHitEnemy = false;
     private float swingTime;
     private float elapsedTime;
     private Collider collider;
-    public WeaponAnimationConfig weaponAnimationConfig;
-    public WeaponStaminaConfig weaponStaminaConfig;
+    public WeaponConfig weaponConfig;
 
     public void Start()
     {
+        this.transform.localPosition = weaponConfig.GetStartPosition();
+        this.transform.localEulerAngles = weaponConfig.GetStartRotation();
+
         GetComponentInParent<Player>().ChangeCurrentWeapon(this);
         collider = GetComponent<Collider>();
     }
@@ -60,13 +63,8 @@ public class Weapon : MonoBehaviour, IWeapon
         }
     }
 
-    public WeaponAnimationConfig GetAnimationConfig()
+    public WeaponConfig GetConfig()
     {
-        return weaponAnimationConfig;
-    }
-
-    public WeaponStaminaConfig GetStaminaConfig()
-    {
-        return weaponStaminaConfig;
+        return weaponConfig;
     }
 }
