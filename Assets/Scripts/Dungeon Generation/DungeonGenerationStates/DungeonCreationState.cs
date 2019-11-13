@@ -350,7 +350,7 @@ public class DungeonCreationState : IDungeonGenerationState
         {
             originalRoomRotation = room.Key.prefab.transform.rotation;
             // Rotate Prefab
-            room.Key.RotateRoom();
+            room.Key.OverrideRotation(Quaternion.AngleAxis(room.Value, Vector3.up));
 
             DungeonNode potentialNode = new DungeonNode(room.Key, invalidNode.lookUpPosition);
             if (IsDungeonNodeValid(potentialNode, parentNode, room.Key.GetDooorways()))
