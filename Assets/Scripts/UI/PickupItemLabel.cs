@@ -71,7 +71,7 @@ public class PickupItemLabel : MonoBehaviour
         return nearPlayer2;
     }
 
-    private bool IsClosestPickup(GameObject player) {
+    public bool IsClosestPickup(GameObject player) {
         bool isClosest = false;
 
         GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
@@ -91,8 +91,6 @@ public class PickupItemLabel : MonoBehaviour
 
         if (closestPickup == this.gameObject)
             isClosest = true;
-
-        Debug.Log(isClosest);
 
         return isClosest;
     }

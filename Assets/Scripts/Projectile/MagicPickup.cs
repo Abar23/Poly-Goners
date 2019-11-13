@@ -24,7 +24,7 @@ public class MagicPickup : MonoBehaviour
             // Check if Player 1 picks up item
             if (distanceFromPlayer1 <= pickupDistance)
             {
-                if (player1.GetComponent<Player>().CheckUseButtonPress()) 
+                if (player1.GetComponent<Player>().CheckUseButtonPress() && this.GetComponent<PickupItemLabel>().IsClosestPickup(player1)) 
                 {
                     if (!player1.GetComponent<Inventory>().IsMagicFull()) 
                     {
@@ -38,7 +38,7 @@ public class MagicPickup : MonoBehaviour
             }
 
             // Check if Player 2 picks up item
-            else if (distanceFromPlayer2 <= pickupDistance)
+            else if (distanceFromPlayer2 <= pickupDistance && this.GetComponent<PickupItemLabel>().IsClosestPickup(player2))
             {
                 if (player2.GetComponent<Player>().CheckUseButtonPress()) 
                 {
