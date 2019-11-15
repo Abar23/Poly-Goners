@@ -128,52 +128,48 @@ public class DungeonTraversalState : IDungeonGenerationState
         // Top entrance
         if (connectionDirection == Vector2.up)
         {
-            newNode = DungeonGenerator.AddDeadEnd(roomList,
+            newNode = this.generator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
                 this.tileDimensions,
-                DO_NOT_ROTATE,
-                this.tileDimensions);
+                DO_NOT_ROTATE);
 
             nodeToReplace.ParentNode.TopNode = newNode;
         }
         // Bottom entrance
         else if (connectionDirection == Vector2.down)
         {
-            newNode = DungeonGenerator.AddDeadEnd(roomList,
+            newNode = this.generator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
                 -this.tileDimensions,
-                TURN_AROUND,
-                this.tileDimensions);
+                TURN_AROUND);
 
             nodeToReplace.ParentNode.BottomNode = newNode;
         }
         // Right entrance
         else if (connectionDirection == Vector2.right)
         {
-            newNode = DungeonGenerator.AddDeadEnd(roomList,
+            newNode = this.generator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 this.tileDimensions,
                 0.0f,
-                TURN_CLOCKWISE,
-                this.tileDimensions);
+                TURN_CLOCKWISE);
 
             nodeToReplace.ParentNode.RightNode = newNode;
         }
         // Left entrance
         else if (connectionDirection == Vector2.left)
         {
-            newNode = DungeonGenerator.AddDeadEnd(roomList,
+            newNode = this.generator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 -this.tileDimensions,
                 0.0f,
-                TURN_COUNTER_CLOCKWISE,
-                this.tileDimensions);
+                TURN_COUNTER_CLOCKWISE);
 
             nodeToReplace.ParentNode.LeftNode = newNode;
         }

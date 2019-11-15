@@ -9,7 +9,7 @@ public class DungeonGenerator : MonoBehaviour
     public int minNumberOfRooms;
     [Range(6, 40)]
     public int maxNumberOfRooms;
-
+    public bool shouldOccludeTiles;
     private int numberOfRoomsToGenerate;
 
     public List<DungeonTemplate> dungeonTemplates;
@@ -69,8 +69,7 @@ public class DungeonGenerator : MonoBehaviour
             new Vector2Int(centerTilePosition, centerTilePosition),
             null,
             0, 0,
-            this.numberOfRoomsToGenerate,
-            this.chosenTemplate.tileDimension);
+            this.numberOfRoomsToGenerate);
         
         // Fill look up table position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
@@ -103,13 +102,12 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    public static DungeonNode AddNewRoom(List<KeyValuePair<DungeonRoom, float>> roomList,
+    public DungeonNode AddNewRoom(List<KeyValuePair<DungeonRoom, float>> roomList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
         float roomYPositionOffset,
-        int numberOfRoomsLeftToPlace,
-        float tileDimensions)
+        int numberOfRoomsLeftToPlace)
     {
         DungeonNode newNode = null;
 
@@ -136,9 +134,12 @@ public class DungeonGenerator : MonoBehaviour
             // Create copy of the randomly chosen room
             DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value);
 
-            // Add occluder to newly created room
-            TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
-            occluder.tileDimentions = tileDimensions;
+            if(this.shouldOccludeTiles)
+            {
+                // Add occluder to newly created room
+                TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+                occluder.tileDimentions = this.chosenTemplate.tileDimension;
+            }
 
             // Set the new dungeon room to the proper position and rotation
             if (parentNode != null)
@@ -152,7 +153,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 newRoom.SetPosition(new Vector3(roomXPositionOffset, 0.0f, roomYPositionOffset));
             }
-
+            
             newRoom.RotateRoom();
 
             // Add the new dungeon node to the dungeon tree
@@ -162,13 +163,12 @@ public class DungeonGenerator : MonoBehaviour
         return newNode;
     }
 
-    public static DungeonNode AddDeadEnd(List<KeyValuePair<DungeonRoom, float>> deadEndRoomsList,
+    public DungeonNode AddDeadEnd(List<KeyValuePair<DungeonRoom, float>> deadEndRoomsList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
         float roomYPositionOffset,
-        RoomRotationAngle angleOffset,
-        float tileDimensions)
+        RoomRotationAngle angleOffset)
     {
         // Get spawn chance value
         float spawnProbability = Random.Range(0.0f, 1.0f);
@@ -188,10 +188,13 @@ public class DungeonGenerator : MonoBehaviour
 
         // Create copy of the randomly chosen room
         DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value + (float)angleOffset);
-
-        // Add occluder to newly created room
-        TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
-        occluder.tileDimentions = tileDimensions;
+        
+        if (this.shouldOccludeTiles)
+        {
+            // Add occluder to newly created room
+            TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+            occluder.tileDimentions = this.chosenTemplate.tileDimension;
+        }
 
         // Get the parent node position
         Vector3 parentNodePosition = parentNode.GetPosition();
