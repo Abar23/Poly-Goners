@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (transform.position.y < -100.5f)
+        if (transform.position.y < -7.5f)
         {
             GetComponent<Damageable>().TakeFallDamage();
             transform.position = lastGroundedPosition;
@@ -216,15 +216,26 @@ public class Player : MonoBehaviour
             }
         }
 
+        //  MELEE SPIN MOVE
         if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0)
         {
             currentWeapon.SwingWeapon(0.1f);
-            stamina.DecreaseStamina(0.5f);
+            stamina.DecreaseStamina(0.65f);
             animator.SetBool("isSpinning", true);
         }
         else
         {
             animator.SetBool("isSpinning", false);
+        }
+
+        // HOLD MAGIC ATTACK
+        if (Controller.GetControllerActions().leftTrigger.IsPressed)
+        {
+            animator.SetBool("holdCast", true);
+        }
+        else
+        {
+            animator.SetBool("holdCast", false);
         }
 
         // Perform magic attack
