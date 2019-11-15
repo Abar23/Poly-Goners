@@ -92,7 +92,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             this.tileDimensions,
-                            this.numberOfRooms);
+                            this.numberOfRooms,
+                            this.tileDimensions);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
@@ -102,7 +103,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             this.tileDimensions,
-                            DO_NOT_ROTATE);
+                            DO_NOT_ROTATE,
+                            this.tileDimensions);
                     }
 
                     if(newNode != null)
@@ -131,7 +133,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             -this.tileDimensions,
-                            this.numberOfRooms);
+                            this.numberOfRooms,
+                            this.tileDimensions);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
@@ -141,7 +144,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             0.0f,
                             -this.tileDimensions,
-                            TURN_AROUND);
+                            TURN_AROUND,
+                            this.tileDimensions);
                     }
 
                     if (newNode != null)
@@ -170,7 +174,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             this.tileDimensions,
                             0.0f,
-                            this.numberOfRooms);
+                            this.numberOfRooms,
+                            this.tileDimensions);
                     }
                     
                     if(this.numberOfRooms == 0 || newNode == null)
@@ -180,7 +185,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             this.tileDimensions,
                             0.0f,
-                            TURN_CLOCKWISE);
+                            TURN_CLOCKWISE,
+                            this.tileDimensions);
                     }
 
                     if (newNode != null)
@@ -209,7 +215,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             -this.tileDimensions,
                             0.0f,
-                            this.numberOfRooms);
+                            this.numberOfRooms,
+                            this.tileDimensions);
                     }
 
                     if (this.numberOfRooms == 0 || newNode == null)
@@ -219,7 +226,8 @@ public class DungeonCreationState : IDungeonGenerationState
                             currentNode,
                             -this.tileDimensions,
                             0.0f,
-                            TURN_COUNTER_CLOCKWISE);
+                            TURN_COUNTER_CLOCKWISE,
+                            this.tileDimensions);
                     }
 
                     if (newNode != null)
@@ -373,7 +381,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     this.tileDimensions,
-                    this.numberOfRooms);
+                    this.numberOfRooms,
+                    this.tileDimensions);
 
                 parentNode.TopNode = newNode;
             }
@@ -385,7 +394,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     -this.tileDimensions,
-                    this.numberOfRooms);
+                    this.numberOfRooms,
+                    this.tileDimensions);
 
                 parentNode.BottomNode = newNode;
             }
@@ -397,7 +407,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     this.tileDimensions,
                     0.0f,
-                    this.numberOfRooms);
+                    this.numberOfRooms,
+                    this.tileDimensions);
 
                 parentNode.RightNode = newNode;
             }
@@ -409,7 +420,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     -this.tileDimensions,
                     0.0f,
-                    this.numberOfRooms);
+                    this.numberOfRooms,
+                    this.tileDimensions);
 
                 parentNode.LeftNode = newNode;
             }
@@ -430,7 +442,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     this.tileDimensions,
-                    DO_NOT_ROTATE);
+                    DO_NOT_ROTATE,
+                    this.tileDimensions);
 
                 parentNode.TopNode = newNode;
             }
@@ -442,7 +455,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     0.0f,
                     -this.tileDimensions,
-                    TURN_AROUND);
+                    TURN_AROUND,
+                    this.tileDimensions);
 
                 parentNode.BottomNode = newNode;
             }
@@ -454,7 +468,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     this.tileDimensions,
                     0.0f,
-                    TURN_CLOCKWISE);
+                    TURN_CLOCKWISE,
+                    this.tileDimensions);
 
                 parentNode.RightNode = newNode;
             }
@@ -466,7 +481,8 @@ public class DungeonCreationState : IDungeonGenerationState
                     parentNode,
                     -this.tileDimensions,
                     0.0f,
-                    TURN_COUNTER_CLOCKWISE);
+                    TURN_COUNTER_CLOCKWISE,
+                    this.tileDimensions);
 
                 parentNode.LeftNode = newNode;
             }

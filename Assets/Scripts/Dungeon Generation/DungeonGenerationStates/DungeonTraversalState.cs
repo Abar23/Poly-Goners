@@ -5,7 +5,7 @@ using static DungeonRoom.RoomRotationAngle;
 public class DungeonTraversalState : IDungeonGenerationState
 {
     private int numberOfEndRoomsSet;
-    private float tileDimension;
+    private float tileDimensions;
     private DungeonGenerator generator;
     private DungeonNode dungeonTree;
     private Stack<DungeonNode> nodeStack;
@@ -13,7 +13,7 @@ public class DungeonTraversalState : IDungeonGenerationState
 
     public DungeonTraversalState(float tileDimension, DungeonNode dungeonTree, DungeonGenerator generator)
     {
-        this.tileDimension = tileDimension;
+        this.tileDimensions = tileDimension;
         this.generator = generator;
         this.dungeonTree = dungeonTree;
         this.numberOfEndRoomsSet = 0;
@@ -36,7 +36,7 @@ public class DungeonTraversalState : IDungeonGenerationState
         }
         else
         {
-            newState = new FinishedDungeonState();
+            newState = new FinishedDungeonState(this.generator);
         }
 
         return newState;
@@ -132,8 +132,9 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
-                this.tileDimension,
-                DO_NOT_ROTATE);
+                this.tileDimensions,
+                DO_NOT_ROTATE,
+                this.tileDimensions);
 
             nodeToReplace.ParentNode.TopNode = newNode;
         }
@@ -144,8 +145,9 @@ public class DungeonTraversalState : IDungeonGenerationState
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
                 0.0f,
-                -this.tileDimension,
-                TURN_AROUND);
+                -this.tileDimensions,
+                TURN_AROUND,
+                this.tileDimensions);
 
             nodeToReplace.ParentNode.BottomNode = newNode;
         }
@@ -155,9 +157,10 @@ public class DungeonTraversalState : IDungeonGenerationState
             newNode = DungeonGenerator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
-                this.tileDimension,
+                this.tileDimensions,
                 0.0f,
-                TURN_CLOCKWISE);
+                TURN_CLOCKWISE,
+                this.tileDimensions);
 
             nodeToReplace.ParentNode.RightNode = newNode;
         }
@@ -167,9 +170,10 @@ public class DungeonTraversalState : IDungeonGenerationState
             newNode = DungeonGenerator.AddDeadEnd(roomList,
                 nodeToReplace.lookUpPosition,
                 nodeToReplace.ParentNode,
-                -this.tileDimension,
+                -this.tileDimensions,
                 0.0f,
-                TURN_COUNTER_CLOCKWISE);
+                TURN_COUNTER_CLOCKWISE,
+                this.tileDimensions);
 
             nodeToReplace.ParentNode.LeftNode = newNode;
         }

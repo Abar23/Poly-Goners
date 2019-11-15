@@ -69,7 +69,8 @@ public class DungeonGenerator : MonoBehaviour
             new Vector2Int(centerTilePosition, centerTilePosition),
             null,
             0, 0,
-            this.numberOfRoomsToGenerate);
+            this.numberOfRoomsToGenerate,
+            this.chosenTemplate.tileDimension);
         
         // Fill look up table position with starting room position
         this.lookUpTable.fillPosition(this.dungeonTree.lookUpPosition);
@@ -107,7 +108,8 @@ public class DungeonGenerator : MonoBehaviour
         DungeonNode parentNode,
         float roomXPositionOffset,
         float roomYPositionOffset,
-        int numberOfRoomsLeftToPlace)
+        int numberOfRoomsLeftToPlace,
+        float tileDimensions)
     {
         DungeonNode newNode = null;
 
@@ -134,8 +136,12 @@ public class DungeonGenerator : MonoBehaviour
             // Create copy of the randomly chosen room
             DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value);
 
+            // Add occluder to newly created room
+            TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+            occluder.tileDimentions = tileDimensions;
+
             // Set the new dungeon room to the proper position and rotation
-            if(parentNode != null)
+            if (parentNode != null)
             {
                 // Get the parent node position
                 Vector3 parentNodePosition = parentNode.GetPosition();
@@ -161,7 +167,8 @@ public class DungeonGenerator : MonoBehaviour
         DungeonNode parentNode,
         float roomXPositionOffset,
         float roomYPositionOffset,
-        RoomRotationAngle angleOffset)
+        RoomRotationAngle angleOffset,
+        float tileDimensions)
     {
         // Get spawn chance value
         float spawnProbability = Random.Range(0.0f, 1.0f);
@@ -181,6 +188,10 @@ public class DungeonGenerator : MonoBehaviour
 
         // Create copy of the randomly chosen room
         DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value + (float)angleOffset);
+
+        // Add occluder to newly created room
+        TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+        occluder.tileDimentions = tileDimensions;
 
         // Get the parent node position
         Vector3 parentNodePosition = parentNode.GetPosition();
