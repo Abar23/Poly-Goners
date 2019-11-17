@@ -10,6 +10,11 @@ public class Weapon : MonoBehaviour, IWeapon
     private Collider collider;
     public WeaponConfig weaponConfig;
 
+    private ParticleSystem[] pss;
+    private BoxCollider box;
+    private Vector3 defaultSize;
+    private Vector3 fullSize;
+
     public void Start()
     {
         this.transform.localPosition = weaponConfig.GetStartPosition();
@@ -17,6 +22,14 @@ public class Weapon : MonoBehaviour, IWeapon
 
         GetComponentInParent<Player>().ChangeCurrentWeapon(this);
         collider = GetComponent<Collider>();
+
+        pss = GetComponentsInChildren<ParticleSystem>();
+        ChangeParticles(false);
+
+        box = GetComponent<BoxCollider>();
+        defaultSize = box.size;
+        fullSize = new Vector3(defaultSize.x, defaultSize.y * 1.5f, defaultSize.z);
+        box.size = fullSize;
     }
 
     public void Update()
@@ -39,6 +52,7 @@ public class Weapon : MonoBehaviour, IWeapon
         if (!swingingWeapon && collider.enabled)
         {
             collider.enabled = false;
+            ChangeParticles(false);
         }
     }
 
@@ -46,7 +60,9 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         swingingWeapon = true;
         ableToHitEnemy = true;
-        swingTime = animationTime;
+        swingTime = animationTime - (animationTime * 0.3f);
+
+        ChangeParticles(true);
     }
 
     public bool CheckIfAttacking()
@@ -66,5 +82,29 @@ public class Weapon : MonoBehaviour, IWeapon
     public WeaponConfig GetConfig()
     {
         return weaponConfig;
+    }
+
+    public void ChangeParticles(bool enabled)
+    {
+        if (pss != null)
+        {
+            foreach (ParticleSystem ps in pss)
+            {
+                var em = ps.emission;
+                em.enabled = enabled;
+            }
+        }
+    }
+
+    public void SpinCollider()
+    {
+        if (box != null)
+            box.size = fullSize;
+    }
+
+    public void DefaultCollider()
+    {
+        if (box != null)
+            box.size = fullSize;
     }
 }

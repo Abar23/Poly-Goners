@@ -16,7 +16,6 @@ public class WeaponConfig : ScriptableObject
     public AnimationClip GetPrimaryAttackAnimation()
     {
         int r = rnd.Next(primaryAttackAnimation.Count);
-
         return primaryAttackAnimation[r];
     }
 

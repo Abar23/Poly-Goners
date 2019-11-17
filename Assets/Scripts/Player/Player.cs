@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
 
-    private IWeapon currentWeapon;
+    private Weapon currentWeapon;
     private WeaponManager weaponManager;
 
     private int previousLayer = -1;
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour
 
     private void UpdateInput()
     {
-        if (!animator.GetBool("isSpinning"))
+        if (!animator.GetBool("isSpinning") && !(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
         {
             HandleMove();
             HandleRotation();
@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null)
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("PRIMARY_ATTACK"))
         {
             float attackStamina = weaponManager.GetWeaponConfig().GetPrimaryAttackStamina();
             if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina)
@@ -217,15 +217,22 @@ public class Player : MonoBehaviour
         }
 
         //  MELEE SPIN MOVE
-        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0)
+        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded)
         {
-            currentWeapon.SwingWeapon(0.1f);
-            stamina.DecreaseStamina(0.65f);
+            currentWeapon.SwingWeapon(1f);
+            currentWeapon.SpinCollider();
             animator.SetBool("isSpinning", true);
+            if(!(animator.GetCurrentAnimatorStateInfo(0).IsName("Start Spin") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Start Spin")))
+                stamina.DecreaseStamina(1f);
         }
         else
         {
             animator.SetBool("isSpinning", false);
+            if (currentWeapon != null && !currentWeapon.CheckIfAttacking())
+            {
+                currentWeapon.DefaultCollider();
+                currentWeapon.ChangeParticles(false);
+            }                
         }
 
         // HOLD MAGIC ATTACK
@@ -342,7 +349,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeCurrentWeapon(IWeapon weapon)
+    public void ChangeCurrentWeapon(Weapon weapon)
     {
         currentWeapon = weapon;
         meleeDropped = false;

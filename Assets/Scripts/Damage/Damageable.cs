@@ -2,11 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public class Damageable : MonoBehaviour
 {
 
     public DamageableConfig Config;
+    public float KnockbackForce;
 
     [SerializeField] public UnityEvent OnHit;
 
@@ -21,6 +23,8 @@ public class Damageable : MonoBehaviour
     private int damageAmount = 0;
     private float elapsedTime = 2f;
     private float timeToShow = 2f;
+
+    private bool knockedBack = false;
 
     void Awake()
     {
@@ -43,6 +47,17 @@ public class Damageable : MonoBehaviour
             {
                 damageText.enabled = false;
                 damageAmount = 0;
+            }
+        }
+
+        if (knockedBack)
+        {
+            if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
+            {
+                GetComponent<Rigidbody>().isKinematic = true;
+                GetComponent<NavMeshAgent>().nextPosition = transform.position;
+                GetComponent<NavMeshAgent>().updatePosition = true;
+                knockedBack = false;
             }
         }
     }
@@ -81,10 +96,26 @@ public class Damageable : MonoBehaviour
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
+            if (damager.Config.Type == DamagerConfig.DamageType.Physical && gameObject.layer == 10)
+            {
+                Vector3 dir = PlayerManager.GetInstance().GetPlayerOneGameObject().transform.position - transform.position;
+                //Vector3 dir = other.GetContact(0).point - transform.position;
+                dir = -dir.normalized;
+
+                GetComponent<NavMeshAgent>().updatePosition = false;
+                GetComponent<Rigidbody>().isKinematic = false;
+                GetComponent<Rigidbody>().AddForce(dir * KnockbackForce, ForceMode.Impulse);
+                StartCoroutine("SetKnockedBack");
+            }
             TakeDamage(damager.Config, damager.GetMultiplier());
         }
     }
 
+    IEnumerator SetKnockedBack()
+    {
+        yield return new WaitForSeconds(0.2f);
+        knockedBack = true;
+    }
 
     void OnCollisionEnter(Collision collision)
     {
