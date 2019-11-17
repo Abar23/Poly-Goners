@@ -7,12 +7,19 @@ public class RunePillar : MonoBehaviour
 
     private bool _isActive = false;
     [SerializeField] private ParticleSystem particle;
+    [SerializeField] private Material m_ActiveMaterial;
+    private Material m_DefaultMaterial;
 
     private PuzzleController controller;
 
     void Awake()
     {
         controller = GetComponentInParent<PuzzleController>();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            m_DefaultMaterial = meshRenderer.material;
+        }
     }
 
     public bool Active
@@ -35,6 +42,11 @@ public class RunePillar : MonoBehaviour
         Active = true;
         particle.Play();
         controller.TriggerPillar(this);
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            meshRenderer.material = m_ActiveMaterial;
+        }
     }
 
     public void ResetActive()
@@ -43,6 +55,11 @@ public class RunePillar : MonoBehaviour
             return;
         Active = false;
         particle.Stop();
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            meshRenderer.material = m_DefaultMaterial;
+        }
     }
 
 }

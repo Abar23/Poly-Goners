@@ -11,6 +11,8 @@ public class PuzzleController : MonoBehaviour
     [SerializeField] private UnityEvent OnPuzzleFailed;
     private List<RunePillar> triggerSequence;
 
+    private const float k_ResetDelay = 0.5f;
+
     void Start()
     {
         triggerSequence = new List<RunePillar>();
@@ -24,33 +26,28 @@ public class PuzzleController : MonoBehaviour
 
     private void CheckPuzzle()
     {
-        if (triggerSequence.Count == m_Runes.Count)
+        
+        if (CheckSequence(triggerSequence.Count))
         {
-            if (CheckSequence())
+            if (triggerSequence.Count == m_Runes.Count && OnPuzzleFinished != null)
             {
-                if (OnPuzzleFinished != null)
-                {
-                    OnPuzzleFinished.Invoke();
-                }
+                OnPuzzleFinished.Invoke();
             }
-            else
+        }
+        else
+        {
+            triggerSequence = new List<RunePillar>();
+            StartCoroutine(ResetAllPillar());
+            if (OnPuzzleFailed != null)
             {
-                foreach (RunePillar pillar in triggerSequence)
-                {
-                    pillar.ResetActive();
-                }
-                triggerSequence = new List<RunePillar>();
-                if (OnPuzzleFailed != null)
-                {
-                    OnPuzzleFailed.Invoke();
-                }
+                OnPuzzleFailed.Invoke();
             }
         }
     }
 
-    private bool CheckSequence()
+    private bool CheckSequence(int count)
     {
-        for (int i = 0; i < triggerSequence.Count; i++)
+        for (int i = 0; i < count; i++)
         {
             if (triggerSequence[i] != m_Runes[i])
             {
@@ -58,6 +55,15 @@ public class PuzzleController : MonoBehaviour
             }
         }
         return true;
+    }
+
+    IEnumerator ResetAllPillar()
+    {
+        yield return new WaitForSeconds(k_ResetDelay);
+        foreach (RunePillar pillar in m_Runes)
+        {
+            pillar.ResetActive();
+        }
     }
 
 }
