@@ -286,23 +286,28 @@ public class SplitScreen : MonoBehaviour
 
         foreach (RaycastHit h in playerHits)
         {
-            GameObject wall = h.collider.gameObject;
+            Renderer[] tranforms = h.collider.gameObject.GetComponentsInChildren<Renderer>();
 
-            if (!wallsInHits.Contains(wall))
+            foreach(Renderer wall in tranforms)
             {
-                wallsInHits.Add(wall);
-            }
-            Transparency trans = wall.GetComponent<Transparency>();
-            if (trans == null)
-            {
-                trans = wall.AddComponent<Transparency>();
-            }
+                GameObject gameObject = wall.gameObject;
+                if (!wallsInHits.Contains(gameObject))
+                {
+                    wallsInHits.Add(gameObject);
+                }
 
-            trans.TurnOnTransparency();
+                Transparency trans = gameObject.GetComponent<Transparency>();
+                if (trans == null)
+                {
+                    trans = gameObject.AddComponent<Transparency>();
+                }
 
-            if (!this.setOfWalls.Contains(wall))
-            {
-                this.setOfWalls.Add(wall);
+                trans.TurnOnTransparency();
+
+                if (!this.setOfWalls.Contains(gameObject))
+                {
+                    this.setOfWalls.Add(gameObject);
+                }
             }
         }
 
