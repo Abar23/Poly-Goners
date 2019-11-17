@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -22,21 +23,26 @@ public class Damageable : MonoBehaviour
     private float elapsedTime = 2f;
     private float timeToShow = 2f;
 
+    private Dictionary<Damager, float> damagerCountDown;
+
     void Awake()
     {
         health = Config.StartingHealth;
         damageText = HealthBar.gameObject.GetComponentInChildren<Text>();
+        damagerCountDown = new Dictionary<Damager, float>();
     }
 
     void Update()
     {
+        float elapse = Time.deltaTime;
+
         HealthBar.value = health / (float)Config.MaxHealth;
 
         if (damageText != null)
         {
             if (elapsedTime < timeToShow)
             {
-                elapsedTime += Time.deltaTime;
+                elapsedTime += elapse;
                 damageText.enabled = true;
             }
             else
@@ -45,6 +51,18 @@ public class Damageable : MonoBehaviour
                 damageAmount = 0;
             }
         }
+
+        Dictionary<Damager, float> copy = new Dictionary<Damager, float>();
+        // countinuous effective damager update
+        foreach (Damager damager in damagerCountDown.Keys)
+        {
+            float countDown = damagerCountDown[damager] - elapse;
+            if (countDown > 0)
+            {
+                copy.Add(damager, countDown);
+            }
+        }
+        damagerCountDown = copy;
     }
 
     public int GetHealth()
@@ -78,10 +96,26 @@ public class Damageable : MonoBehaviour
         if (damager == null)
             return;
 
+        if (damager.Config is ContinuousEffectiveDamagerConfig)
+            return;
+
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
-            TakeDamage(damager.Config, damager.GetMultiplier());
+            TakeDamage(damager.Config, damager.GetMultiplier(), damager);
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+            return;
+        Damager damager = other.GetComponent<Damager>();
+        if (damager == null)
+            return;
+        if (damager.Config is ContinuousEffectiveDamagerConfig)
+        {
+            TakeCEDamage(damager, damager.GetMultiplier());
         }
     }
 
@@ -98,11 +132,11 @@ public class Damageable : MonoBehaviour
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
-            TakeDamage(damager.Config, damager.GetMultiplier());
+            TakeDamage(damager.Config, damager.GetMultiplier(), damager);
         }
     }
 
-    void TakeDamage(DamagerConfig config, float multiplier)
+    void TakeDamage(DamagerConfig config, float multiplier, Damager damager)
     {
         if (health <= 0)
             return;
@@ -122,6 +156,21 @@ public class Damageable : MonoBehaviour
         {
             StartCoroutine(TakeContinuousDamage((ContinuousDamagerConfig)config, multiplier));
         }
+    }
+
+    void TakeCEDamage(Damager damager, float multiplier)
+    {
+        if (damagerCountDown.ContainsKey(damager))
+            return;
+        health -= (int)(damager.Config.Damage * multiplier);
+        if (damageText != null)
+        {
+            damageAmount += (int)(damager.Config.Damage * multiplier);
+            elapsedTime = 0f;
+            damageText.text = "-" + damageAmount.ToString();
+        }
+        damagerCountDown.Add(damager, ((ContinuousEffectiveDamagerConfig)(damager.Config)).DamageInterval);
+        CheckHealth();
     }
 
     public void TakeFallDamage()
