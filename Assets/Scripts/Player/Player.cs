@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("PRIMARY_ATTACK"))
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !animator.GetCurrentAnimatorStateInfo(6).IsName("PRIMARY_ATTACK") && !IsMagicCasting())
         {
             float attackStamina = weaponManager.GetWeaponConfig().GetPrimaryAttackStamina();
             if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina)
@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
             currentWeapon.SpinCollider();
             animator.SetBool("isSpinning", true);
             if(!(animator.GetCurrentAnimatorStateInfo(0).IsName("Start Spin") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Start Spin")))
-                stamina.DecreaseStamina(1f);
+                stamina.DecreaseStamina(1.2f);
         }
         else
         {
@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
         }
 
         // HOLD MAGIC ATTACK
-        if (Controller.GetControllerActions().leftTrigger.IsPressed)
+        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning())
         {
             animator.SetBool("holdCast", true);
         }
@@ -514,6 +514,22 @@ public class Player : MonoBehaviour
             //|| animator.GetAnimatorTransitionInfo(0).IsName("Roll Right -> Moving") || animator.GetAnimatorTransitionInfo(0).IsName("Roll Left -> Moving")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Forward") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Back")
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
+    }
+
+    private bool IsSpinning()
+    {
+        return animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Start Spin") || animator.GetAnimatorTransitionInfo(0).IsName("Start Spin -> Spin")
+            || animator.GetAnimatorTransitionInfo(0).IsName("Spin -> End Spin") || animator.GetAnimatorTransitionInfo(0).IsName("End Spin -> Moving")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Start Spin") || animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Spin");
+    }
+
+    private bool IsMagicCasting()
+    {
+        return animator.GetAnimatorTransitionInfo(6).IsName("New State -> Magic Cast Start") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Start -> Magic Cast Loop")
+            || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Loop -> Magic Cast End") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast End -> New State")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Start") || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast End")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Loop");
     }
 
     void TriggerEvent(UnityEvent uEvent)

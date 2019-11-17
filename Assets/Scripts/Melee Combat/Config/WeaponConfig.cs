@@ -13,9 +13,13 @@ public class WeaponConfig : ScriptableObject
 
     private readonly System.Random rnd = new System.Random();
 
+    private int j = 0;
+
     public AnimationClip GetPrimaryAttackAnimation()
     {
         int r = rnd.Next(primaryAttackAnimation.Count);
+        Debug.Log(primaryAttackAnimation[r].name + " " + j);
+        j++;
         return primaryAttackAnimation[r];
     }
 

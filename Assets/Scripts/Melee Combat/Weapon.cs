@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour, IWeapon
 
         box = GetComponent<BoxCollider>();
         defaultSize = box.size;
-        fullSize = new Vector3(defaultSize.x, defaultSize.y * 1.5f, defaultSize.z);
+        fullSize = new Vector3(defaultSize.x, defaultSize.y * 1.25f, defaultSize.z);
         box.size = fullSize;
     }
 
@@ -60,7 +60,7 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         swingingWeapon = true;
         ableToHitEnemy = true;
-        swingTime = animationTime - (animationTime * 0.3f);
+        swingTime = animationTime - (animationTime * 0.4f);
 
         ChangeParticles(true);
     }
