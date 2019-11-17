@@ -50,16 +50,16 @@ public class Damageable : MonoBehaviour
             }
         }
 
-        if (knockedBack)
-        {
-            if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
-            {
-                GetComponent<Rigidbody>().isKinematic = true;
-                GetComponent<NavMeshAgent>().nextPosition = transform.position;
-                GetComponent<NavMeshAgent>().updatePosition = true;
-                knockedBack = false;
-            }
-        }
+        //if (knockedBack)
+        //{
+        //    if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
+        //    {
+        //        GetComponent<Rigidbody>().isKinematic = true;
+        //        GetComponent<NavMeshAgent>().nextPosition = transform.position;
+        //        GetComponent<NavMeshAgent>().updatePosition = true;
+        //        knockedBack = false;
+        //    }
+        //}
     }
 
     public int GetHealth()
@@ -86,7 +86,7 @@ public class Damageable : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+        if ((this.gameObject.layer == 9 || this.gameObject.layer == 10) && GetComponent<MeshBlink>().IsInvincible())
             return;
 
         Damager damager = other.GetComponent<Damager>();
@@ -96,17 +96,17 @@ public class Damageable : MonoBehaviour
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)
         {
-            if (damager.Config.Type == DamagerConfig.DamageType.Physical && gameObject.layer == 10)
-            {
-                Vector3 dir = PlayerManager.GetInstance().GetPlayerOneGameObject().transform.position - transform.position;
-                //Vector3 dir = other.GetContact(0).point - transform.position;
-                dir = -dir.normalized;
+            //if (damager.Config.Type == DamagerConfig.DamageType.Physical && gameObject.layer == 10)
+            //{
+            //    Vector3 dir = PlayerManager.GetInstance().GetPlayerOneGameObject().transform.position - transform.position;
+            //    //Vector3 dir = other.GetContact(0).point - transform.position;
+            //    dir = -dir.normalized;
 
-                GetComponent<NavMeshAgent>().updatePosition = false;
-                GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<Rigidbody>().AddForce(dir * KnockbackForce, ForceMode.Impulse);
-                StartCoroutine("SetKnockedBack");
-            }
+            //    GetComponent<NavMeshAgent>().updatePosition = false;
+            //    GetComponent<Rigidbody>().isKinematic = false;
+            //    GetComponent<Rigidbody>().AddForce(dir * KnockbackForce, ForceMode.Impulse);
+            //    StartCoroutine("SetKnockedBack");
+            //}
             TakeDamage(damager.Config, damager.GetMultiplier());
         }
     }
@@ -119,7 +119,7 @@ public class Damageable : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+        if ((this.gameObject.layer == 9 || this.gameObject.layer == 10) && GetComponent<MeshBlink>().IsInvincible())
             return;
 
         Damager damager = collision.collider.GetComponent<Damager>();

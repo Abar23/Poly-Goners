@@ -191,6 +191,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.39
   m_Center: {x: 0, y: 1.48, z: 0}
+--- !u!114 &-1219902260104083407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8696555453500835845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8de95816417b0498bf725b0eafa4bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshBlinkMiniDuration: 0.33
+  meshBlinkTotalDuration: 0.33
 --- !u!114 &1476896317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +224,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7541971674943896147}
         m_MethodName: OnHit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: -1219902260104083407}
+        m_MethodName: StartBlinking
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
