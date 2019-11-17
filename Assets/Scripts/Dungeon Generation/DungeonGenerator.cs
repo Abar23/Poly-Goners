@@ -9,7 +9,7 @@ public class DungeonGenerator : MonoBehaviour
     public int minNumberOfRooms;
     [Range(6, 40)]
     public int maxNumberOfRooms;
-
+    public bool shouldOccludeTiles;
     private int numberOfRoomsToGenerate;
 
     public List<DungeonTemplate> dungeonTemplates;
@@ -102,7 +102,7 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    public static DungeonNode AddNewRoom(List<KeyValuePair<DungeonRoom, float>> roomList,
+    public DungeonNode AddNewRoom(List<KeyValuePair<DungeonRoom, float>> roomList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
@@ -134,8 +134,15 @@ public class DungeonGenerator : MonoBehaviour
             // Create copy of the randomly chosen room
             DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value);
 
+            if(this.shouldOccludeTiles)
+            {
+                // Add occluder to newly created room
+                TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+                occluder.tileDimentions = this.chosenTemplate.tileDimension;
+            }
+
             // Set the new dungeon room to the proper position and rotation
-            if(parentNode != null)
+            if (parentNode != null)
             {
                 // Get the parent node position
                 Vector3 parentNodePosition = parentNode.GetPosition();
@@ -146,7 +153,7 @@ public class DungeonGenerator : MonoBehaviour
             {
                 newRoom.SetPosition(new Vector3(roomXPositionOffset, 0.0f, roomYPositionOffset));
             }
-
+            
             newRoom.RotateRoom();
 
             // Add the new dungeon node to the dungeon tree
@@ -156,7 +163,7 @@ public class DungeonGenerator : MonoBehaviour
         return newNode;
     }
 
-    public static DungeonNode AddDeadEnd(List<KeyValuePair<DungeonRoom, float>> deadEndRoomsList,
+    public DungeonNode AddDeadEnd(List<KeyValuePair<DungeonRoom, float>> deadEndRoomsList,
         Vector2Int lookUpTablePosition,
         DungeonNode parentNode,
         float roomXPositionOffset,
@@ -181,6 +188,13 @@ public class DungeonGenerator : MonoBehaviour
 
         // Create copy of the randomly chosen room
         DungeonRoom newRoom = new DungeonRoom(Instantiate(room.Key.prefab), room.Value + (float)angleOffset);
+        
+        if (this.shouldOccludeTiles)
+        {
+            // Add occluder to newly created room
+            TileOccluder occluder = newRoom.prefab.AddComponent<TileOccluder>();
+            occluder.tileDimentions = this.chosenTemplate.tileDimension;
+        }
 
         // Get the parent node position
         Vector3 parentNodePosition = parentNode.GetPosition();
