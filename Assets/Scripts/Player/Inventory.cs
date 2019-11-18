@@ -136,6 +136,17 @@ public class Inventory : MonoBehaviour
             return false;
     }
 
+    public bool StopMagic()
+    {
+        if (magicAbilities[currentMagicIndex] != null)
+        {
+            bool canStop = magicBox.StopMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+            return canStop;
+        }
+        else
+            return false;
+    }
+
     public void NextMeleeWeapon()
     {
         currentMeleeIndex++;
