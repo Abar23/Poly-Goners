@@ -18,7 +18,7 @@ class PlayerGroundedState : PlayerMovementState
     public override void HandleJumpingTransition()
     {
         animator.SetBool("isMoving", false);
-        player.ChangeMovementState(new PlayerJumpingState(player, animator));
+        player.ChangeMovementState(new PlayerJumpingState(player, animator, true));
     }
 
     public override void HandleRollingTransition()
