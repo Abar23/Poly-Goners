@@ -38,9 +38,9 @@ public class PickupItemLabel : MonoBehaviour
     void Update() {
 
         // account for moving pickup objects like potions
-        if (textPanel.transform.position.y < player1.transform.position.y) {
-            textPanel.transform.position = new Vector3(textPanel.transform.position.x, player1.transform.position.y + 2f, textPanel.transform.position.z);
-        }
+        //if (textPanel.transform.position.y < player1.transform.position.y) {
+        //    textPanel.transform.position = new Vector3(textPanel.transform.position.x, player1.transform.position.y + 2f, textPanel.transform.position.z);
+        //}
 
         float distanceFromPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
         float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
