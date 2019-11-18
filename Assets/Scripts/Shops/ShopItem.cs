@@ -93,6 +93,7 @@ public class ShopItem : MonoBehaviour
             // get rid of (clone) from end of name so weapon is properly added to inventory map
             weaponPickup.name = weaponPickup.name.Substring(0, weaponPickup.name.Length - 7);
             weaponPickup.GetComponent<WeaponPickup>().EquipWeapon(player);
+            ItemUnlockManager.instance.AddPickupToUnlocks(weaponPickup.name);
 
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
@@ -115,6 +116,7 @@ public class ShopItem : MonoBehaviour
             // get rid of (clone) from end of name so magic is properly added to inventory map
             magicPickup.name = magicPickup.name.Substring(0, magicPickup.name.Length - 7);
             magicPickup.GetComponentInChildren<MagicPickup>().EquipMagic(player);
+            ItemUnlockManager.instance.AddPickupToUnlocks(magicPickup.name);
             player.GetComponent<Inventory>().DecreaseGold(price);
             this.gameObject.SetActive(false);
         }
