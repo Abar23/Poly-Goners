@@ -9,13 +9,15 @@ public class UnlockPedestal : MonoBehaviour
     private GameObject displayObject;
     private GameObject player1;
     private GameObject player2;
-    private float pickupDistance = 2.5f;
+    private float pickupDistance = .75f;
     private GameObject createdPickup;
+    private GameObject promptObject;
     
     void Start() {
         isActive = false;
         pickupObject = transform.GetChild(0).gameObject;
         displayObject = transform.GetChild(1).gameObject;
+        promptObject = transform.GetChild(2).gameObject;
         player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
         player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
     }
@@ -29,18 +31,16 @@ public class UnlockPedestal : MonoBehaviour
         if (isActive) {
             displayObject.SetActive(true);
 
-            float distanceFromPlayer1 = Vector3.Distance(transform.position, player1.transform.position);
-            float distanceFromPlayer2 = Vector3.Distance(transform.position, player2.transform.position);
+            float distanceFromPlayer1 = Vector3.Distance(promptObject.transform.position, player1.transform.position);
+            float distanceFromPlayer2 = Vector3.Distance(promptObject.transform.position, player2.transform.position);
 
             if (distanceFromPlayer1 <= pickupDistance || distanceFromPlayer2 < pickupDistance) {
                 if (distanceFromPlayer1 <= pickupDistance) {
                     if (createdPickup == null) {
-                        CreateNewPickup(player1.transform.position);
+                        CreateNewPickup();
                     } 
 
                     else {
-                        createdPickup.transform.position = player1.transform.position;
-                        
                         if (player1.GetComponent<Player>().CheckUseButtonPress()) {
                             createdPickup.GetComponentInChildren<MeshRenderer>().enabled = true;
                         }
@@ -49,7 +49,7 @@ public class UnlockPedestal : MonoBehaviour
 
                 else if (distanceFromPlayer2 <= pickupDistance) {
                     if (createdPickup == null) {
-                        CreateNewPickup(player2.transform.position);
+                        CreateNewPickup();
                     } 
 
                     else {
@@ -64,13 +64,15 @@ public class UnlockPedestal : MonoBehaviour
         }
     }
 
-    private void CreateNewPickup(Vector3 playerPosition) {
-        createdPickup = Instantiate(pickupObject, playerPosition, Quaternion.identity);
+    private void CreateNewPickup() {
+        createdPickup = Instantiate(pickupObject, promptObject.transform.position, Quaternion.identity);
+        createdPickup.GetComponentInChildren<PickupItemLabel>().enabled = false;
         createdPickup.name = pickupObject.name;
         createdPickup.GetComponentInChildren<MeshRenderer>().enabled = false;
         createdPickup.SetActive(true);
         createdPickup.GetComponentInChildren<ParticleSystem>().Stop();
         createdPickup.GetComponentInChildren<ParticleSystem>().Clear();
+        createdPickup.GetComponentInChildren<PickupItemLabel>().enabled = true;
     }
 }
 
