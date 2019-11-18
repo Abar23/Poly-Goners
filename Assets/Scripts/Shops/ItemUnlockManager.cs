@@ -12,6 +12,8 @@ public class ItemUnlockManager : MonoBehaviour
             instance = this;
         else if (instance != null)
             Destroy(this.gameObject);
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start() {
