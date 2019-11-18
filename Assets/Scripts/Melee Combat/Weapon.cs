@@ -2,18 +2,34 @@
 
 public class Weapon : MonoBehaviour, IWeapon
 {
-    private bool swingingWeapon = false;
+    [HideInInspector]
+    public bool swingingWeapon = false;
     private bool ableToHitEnemy = false;
     private float swingTime;
     private float elapsedTime;
     private Collider collider;
-    public WeaponAnimationConfig weaponAnimationConfig;
-    public WeaponStaminaConfig weaponStaminaConfig;
+    public WeaponConfig weaponConfig;
+
+    private ParticleSystem[] pss;
+    private BoxCollider box;
+    private Vector3 defaultSize;
+    private Vector3 fullSize;
 
     public void Start()
     {
+        this.transform.localPosition = weaponConfig.GetStartPosition();
+        this.transform.localEulerAngles = weaponConfig.GetStartRotation();
+
         GetComponentInParent<Player>().ChangeCurrentWeapon(this);
         collider = GetComponent<Collider>();
+
+        pss = GetComponentsInChildren<ParticleSystem>();
+        ChangeParticles(false);
+
+        box = GetComponent<BoxCollider>();
+        defaultSize = box.size;
+        fullSize = new Vector3(defaultSize.x, defaultSize.y * 1.25f, defaultSize.z);
+        box.size = fullSize;
     }
 
     public void Update()
@@ -36,6 +52,7 @@ public class Weapon : MonoBehaviour, IWeapon
         if (!swingingWeapon && collider.enabled)
         {
             collider.enabled = false;
+            ChangeParticles(false);
         }
     }
 
@@ -43,7 +60,9 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         swingingWeapon = true;
         ableToHitEnemy = true;
-        swingTime = animationTime;
+        swingTime = animationTime - (animationTime * 0.4f);
+
+        ChangeParticles(true);
     }
 
     public bool CheckIfAttacking()
@@ -60,13 +79,32 @@ public class Weapon : MonoBehaviour, IWeapon
         }
     }
 
-    public WeaponAnimationConfig GetAnimationConfig()
+    public WeaponConfig GetConfig()
     {
-        return weaponAnimationConfig;
+        return weaponConfig;
     }
 
-    public WeaponStaminaConfig GetStaminaConfig()
+    public void ChangeParticles(bool enabled)
     {
-        return weaponStaminaConfig;
+        if (pss != null)
+        {
+            foreach (ParticleSystem ps in pss)
+            {
+                var em = ps.emission;
+                em.enabled = enabled;
+            }
+        }
+    }
+
+    public void SpinCollider()
+    {
+        if (box != null)
+            box.size = fullSize;
+    }
+
+    public void DefaultCollider()
+    {
+        if (box != null)
+            box.size = fullSize;
     }
 }

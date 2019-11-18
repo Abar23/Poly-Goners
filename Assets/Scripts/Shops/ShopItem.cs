@@ -9,27 +9,46 @@ public class ShopItem : MonoBehaviour
     float distanceFromPlayer2;
     private GameObject player1;
     private GameObject player2;
-    public GameObject buyPrompt;
+    private GameObject buyPrompt;
     //public Text itemName;
     private Text priceText;
-    public GameObject textPanel;
+    private GameObject textPanel;
     private GameObject notEnoughGoldText;
     private Vector3 textPanelPosition;
     float promptActivationDistance = .75f;
     public int price;
 
+    private Text nameText;
+    private Text descText;
+
     void Start()
     {
         player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
         player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
+        textPanel = transform.Find("ShopItemCanvas").transform.GetChild(0).gameObject;
+        textPanel.SetActive(false);
+        buyPrompt = textPanel.transform.GetChild(4).gameObject;
         buyPrompt.SetActive(false);
         //itemName.enabled = false;
-        textPanel.SetActive(false);
+
         priceText = textPanel.transform.GetChild(2).gameObject.GetComponent<Text>();
         priceText.text = "Price: " + price.ToString();
         textPanelPosition = textPanel.transform.position;
         notEnoughGoldText = textPanel.transform.GetChild(6).gameObject;
         notEnoughGoldText.SetActive(true);
+
+        Canvas[] cs = GetComponentsInChildren<Canvas>();
+        foreach (Canvas c in cs)
+        {
+            if (c.name == "ItemPickupCanvas")
+            {
+                GameObject otherTextPanel = c.transform.GetChild(0).gameObject;
+                nameText = textPanel.transform.GetChild(0).gameObject.GetComponent<Text>();
+                descText = textPanel.transform.GetChild(1).gameObject.GetComponent<Text>();
+                nameText.text = otherTextPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text;
+                descText.text = "\n" + otherTextPanel.transform.GetChild(6).gameObject.GetComponent<Text>().text;
+            }
+        }
     }
 
     void Update()
