@@ -59,8 +59,8 @@ public class Player : MonoBehaviour
     public float VerticalVelocity { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
+    public Weapon currentWeapon { get; private set; }
 
-    private Weapon currentWeapon;
     private WeaponManager weaponManager;
 
     private int previousLayer = -1;
@@ -77,11 +77,11 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        PlayerMovementState = new PlayerGroundedState(this, GetComponent<Animator>());
+        animator = GetComponentInChildren<Animator>();
+        PlayerMovementState = new PlayerGroundedState(this, animator);
         RevivePrompt.SetActive(false);
         DeathTimer.SetActive(false);
         character = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
         inventory = GetComponent<Inventory>();
         stamina = GetComponent<Stamina>();
         animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
@@ -169,6 +169,17 @@ public class Player : MonoBehaviour
             HandleRotation();
         }
 
+        if (Controller.GetControllerActions().dPadDown.WasPressed)
+        {
+            GetComponent<CharacterBox>().NextCharacter();
+            animator = GetComponentInChildren<Animator>();
+            PlayerMovementState.UpdateAnimator(animator);
+            animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+            animator.runtimeAnimatorController = animatorOverrideController;
+        }
+
+
+
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
 
         // Check if able to revive the other player
@@ -203,7 +214,7 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !animator.GetCurrentAnimatorStateInfo(6).IsName("PRIMARY_ATTACK") && !IsMagicCasting())
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !IsMagicCasting())
         {
             float attackStamina = weaponManager.GetWeaponConfig().GetPrimaryAttackStamina();
             if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina)
@@ -211,7 +222,7 @@ public class Player : MonoBehaviour
                 stamina.DecreaseStamina(attackStamina);
                 animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponConfig().GetPrimaryAttackAnimation();
                 animator.SetTrigger("PrimaryAttackTrigger");
-                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
+                currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(6).length);
                 TriggerEvent(OnMeleeAttack);
             }
         }
@@ -236,7 +247,7 @@ public class Player : MonoBehaviour
         }
 
         // HOLD MAGIC ATTACK
-        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning())
+        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning() && !IsRolling())
         {
             animator.SetBool("holdCast", true);
         }
@@ -606,31 +617,4 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5);
         this.gameObject.SetActive(false);
     }
-
-    #region ANIMATION EVENTS
-    //Placeholder functions for Animation events
-    public void Hit()
-    {
-        ((Weapon)currentWeapon).GetComponent<Collider>().enabled = true;
-    }
-    public void Shoot()
-    {
-    }
-    public void FootR()
-    {
-    }
-    public void FootL()
-    {
-    }
-    public void Land()
-    {
-    }
-
-    // For the switch weapon animation event
-    public void SwitchWeapon()
-    {
-        inventory.NextMeleeWeapon();
-    }
-    #endregion
-
 }
