@@ -88,4 +88,18 @@ public class Spawner : MonoBehaviour
         return UnityEngine.Random.Range(m_VerticalForce - m_VerticalVariance, m_VerticalForce + m_VerticalVariance);
     }
 
+    public void SetElementAmount(int index, int amount)
+    {
+        if (index < m_Items.Count)
+        {
+            m_Items[index] = new Item()
+            {
+                Object = m_Items[index].Object,
+                Count = amount,
+                SpawnChance = m_Items[index].SpawnChance,
+                SpawnInterval = m_Items[index].SpawnInterval,
+            };
+        }
+    }
+
 }
