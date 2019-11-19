@@ -3,9 +3,9 @@
 public class MeshBlink : MonoBehaviour
 {
     private float meshBlinkTimer = 0.0f;
-    private float meshBlinkMiniDuration = 0.15f;
+    public float meshBlinkMiniDuration = 0.10f;
     private float meshBlinkTotalTimer = 0.0f;
-    private float meshBlinkTotalDuration = 1.5f;
+    public float meshBlinkTotalDuration = 1.25f;
     private bool startBlinking = false;
 
     // Update is called once per frame

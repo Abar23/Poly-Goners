@@ -15,4 +15,6 @@ public class DamagerConfig : ScriptableObject
 
     public int Damage;
 
+    public string Tier;
+
 }

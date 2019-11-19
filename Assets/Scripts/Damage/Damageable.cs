@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.AI;
 
 public class Damageable : MonoBehaviour
 {
 
     public DamageableConfig Config;
+    public float KnockbackForce;
 
     [SerializeField] public UnityEvent OnHit;
 
@@ -24,7 +26,7 @@ public class Damageable : MonoBehaviour
     private float timeToShow = 2f;
 
     private Dictionary<Damager, float> damagerCountDown;
-
+    private bool knockedBack = false;
     void Awake()
     {
         health = Config.StartingHealth;
@@ -63,6 +65,16 @@ public class Damageable : MonoBehaviour
             }
         }
         damagerCountDown = copy;
+        //if (knockedBack)
+        //{
+        //    if (GetComponent<Rigidbody>().velocity.magnitude < 0.5f)
+        //    {
+        //        GetComponent<Rigidbody>().isKinematic = true;
+        //        GetComponent<NavMeshAgent>().nextPosition = transform.position;
+        //        GetComponent<NavMeshAgent>().updatePosition = true;
+        //        knockedBack = false;
+        //    }
+        //}
     }
 
     public int GetHealth()
@@ -89,7 +101,7 @@ public class Damageable : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+        if ((this.gameObject.layer == 9 || this.gameObject.layer == 10) && GetComponent<MeshBlink>().IsInvincible())
             return;
 
         Damager damager = other.GetComponent<Damager>();
@@ -115,14 +127,30 @@ public class Damageable : MonoBehaviour
             return;
         if (damager.Config is ContinuousEffectiveDamagerConfig)
         {
+            //if (damager.Config.Type == DamagerConfig.DamageType.Physical && gameObject.layer == 10)
+            //{
+            //    Vector3 dir = PlayerManager.GetInstance().GetPlayerOneGameObject().transform.position - transform.position;
+            //    //Vector3 dir = other.GetContact(0).point - transform.position;
+            //    dir = -dir.normalized;
+
+            //    GetComponent<NavMeshAgent>().updatePosition = false;
+            //    GetComponent<Rigidbody>().isKinematic = false;
+            //    GetComponent<Rigidbody>().AddForce(dir * KnockbackForce, ForceMode.Impulse);
+            //    StartCoroutine("SetKnockedBack");
+            //}
             TakeCEDamage(damager, damager.GetMultiplier());
         }
     }
 
+    IEnumerator SetKnockedBack()
+    {
+        yield return new WaitForSeconds(0.2f);
+        knockedBack = true;
+    }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (this.gameObject.layer == 9 && GetComponent<MeshBlink>().IsInvincible())
+        if ((this.gameObject.layer == 9 || this.gameObject.layer == 10) && GetComponent<MeshBlink>().IsInvincible())
             return;
 
         Damager damager = collision.collider.GetComponent<Damager>();

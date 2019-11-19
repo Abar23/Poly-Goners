@@ -26,7 +26,6 @@ public class Player : MonoBehaviour
     private CharacterController character;
     private Animator animator;
     private AnimatorOverrideController animatorOverrideController;
-    private float verticalVelocity;
     private bool lockAim = false;
     private bool setEnemy = false;
     private Vector3 lookDir;
@@ -57,10 +56,11 @@ public class Player : MonoBehaviour
     private Vector3 lastGroundedPosition;
 
     public Vector3 MoveDir { get; private set; }
+    public float VerticalVelocity { get; private set; }
     public IController Controller { get; private set; }
     public PlayerMovementState PlayerMovementState { get; private set; }
 
-    private IWeapon currentWeapon;
+    private Weapon currentWeapon;
     private WeaponManager weaponManager;
 
     private int previousLayer = -1;
@@ -100,7 +100,7 @@ public class Player : MonoBehaviour
         {
             GetComponent<Damageable>().TakeFallDamage();
             transform.position = lastGroundedPosition;
-            verticalVelocity = 0f;
+            VerticalVelocity = 0f;
         }
     }
 
@@ -117,6 +117,25 @@ public class Player : MonoBehaviour
             {
                 UpdateInput();
                 PlayerMovementState.Update();
+
+                if (currentWeapon != null)
+                {
+                    int currentLayer = weaponManager.GetWeaponConfig().GetAnimationLayer();
+                    if (currentLayer != previousLayer)
+                    {
+                        if (previousLayer != -1)
+                            animator.SetLayerWeight(previousLayer, 0);
+                        previousLayer = currentLayer;
+                    }
+                    else
+                    {
+                        animator.SetLayerWeight(currentLayer, 1);
+                    }
+                }
+                else if (previousLayer != -1)
+                {
+                    animator.SetLayerWeight(previousLayer, 0);
+                }
             }
             else // this player is dead
             {
@@ -144,8 +163,11 @@ public class Player : MonoBehaviour
 
     private void UpdateInput()
     {
-        HandleMove();
-        HandleRotation();
+        if (!animator.GetBool("isSpinning") && !(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
+        {
+            HandleMove();
+            HandleRotation();
+        }
 
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
 
@@ -181,17 +203,46 @@ public class Player : MonoBehaviour
         }
 
         // Perform melee attack
-        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null)
+        if (Controller.GetControllerActions().rightBumper.WasPressed && currentWeapon != null && !animator.GetCurrentAnimatorStateInfo(6).IsName("PRIMARY_ATTACK") && !IsMagicCasting())
         {
-            float attackStamina = weaponManager.GetWeaponStaminaConfig().GetPrimaryAttackStamina();
+            float attackStamina = weaponManager.GetWeaponConfig().GetPrimaryAttackStamina();
             if (!currentWeapon.CheckIfAttacking() && stamina.CurrentStaminaValue() > attackStamina)
             {
                 stamina.DecreaseStamina(attackStamina);
-                animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponAnimationConfig().GetPrimaryAttackAnimation();
+                animatorOverrideController["PRIMARY_ATTACK"] = weaponManager.GetWeaponConfig().GetPrimaryAttackAnimation();
                 animator.SetTrigger("PrimaryAttackTrigger");
                 currentWeapon.SwingWeapon(animator.GetCurrentAnimatorStateInfo(1).length);
                 TriggerEvent(OnMeleeAttack);
             }
+        }
+
+        //  MELEE SPIN MOVE
+        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded)
+        {
+            currentWeapon.SwingWeapon(1f);
+            currentWeapon.SpinCollider();
+            animator.SetBool("isSpinning", true);
+            if(!(animator.GetCurrentAnimatorStateInfo(0).IsName("Start Spin") || animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Start Spin")))
+                stamina.DecreaseStamina(1.2f);
+        }
+        else
+        {
+            animator.SetBool("isSpinning", false);
+            if (currentWeapon != null && !currentWeapon.CheckIfAttacking())
+            {
+                currentWeapon.DefaultCollider();
+                currentWeapon.ChangeParticles(false);
+            }                
+        }
+
+        // HOLD MAGIC ATTACK
+        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning())
+        {
+            animator.SetBool("holdCast", true);
+        }
+        else
+        {
+            animator.SetBool("holdCast", false);
         }
 
         // Perform magic attack
@@ -307,7 +358,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeCurrentWeapon(IWeapon weapon)
+    public void ChangeCurrentWeapon(Weapon weapon)
     {
         currentWeapon = weapon;
         meleeDropped = false;
@@ -443,12 +494,12 @@ public class Player : MonoBehaviour
             }
 
             // Handle Jump Input
-            verticalVelocity = -Gravity * Time.deltaTime;
+            VerticalVelocity = -Gravity * Time.deltaTime;
             if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()) && stamina.CurrentStaminaValue() >= jumpStaminaCost)
             {
                 stamina.DecreaseStamina(jumpStaminaCost);
                 PlayerMovementState.HandleJumpingTransition();
-                verticalVelocity = JumpSpeed;
+                VerticalVelocity = JumpSpeed;
             }
 
             lastGroundedPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
@@ -457,10 +508,10 @@ public class Player : MonoBehaviour
         else
         {
             MoveDir *= MoveSpeed;
-            verticalVelocity -= Gravity * Time.deltaTime;
+            VerticalVelocity -= Gravity * Time.deltaTime;
         }
 
-        MoveDir = new Vector3(MoveDir.x, verticalVelocity, MoveDir.z);
+        MoveDir = new Vector3(MoveDir.x, VerticalVelocity, MoveDir.z);
         character.Move(MoveDir * Time.deltaTime);
     }
 
@@ -474,10 +525,20 @@ public class Player : MonoBehaviour
             || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Right") || animator.GetCurrentAnimatorStateInfo(0).IsName("Roll Left");
     }
 
-    // For the switch weapon animation event
-    public void SwitchWeapon()
+    private bool IsSpinning()
     {
-        inventory.NextMeleeWeapon();
+        return animator.GetAnimatorTransitionInfo(0).IsName("Moving -> Start Spin") || animator.GetAnimatorTransitionInfo(0).IsName("Start Spin -> Spin")
+            || animator.GetAnimatorTransitionInfo(0).IsName("Spin -> End Spin") || animator.GetAnimatorTransitionInfo(0).IsName("End Spin -> Moving")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Start Spin") || animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Spin");
+    }
+
+    private bool IsMagicCasting()
+    {
+        return animator.GetAnimatorTransitionInfo(6).IsName("New State -> Magic Cast Start") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Start -> Magic Cast Loop")
+            || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Loop -> Magic Cast End") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast End -> New State")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Start") || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast End")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Loop");
     }
 
     void TriggerEvent(UnityEvent uEvent)
@@ -545,4 +606,31 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5);
         this.gameObject.SetActive(false);
     }
+
+    #region ANIMATION EVENTS
+    //Placeholder functions for Animation events
+    public void Hit()
+    {
+        ((Weapon)currentWeapon).GetComponent<Collider>().enabled = true;
+    }
+    public void Shoot()
+    {
+    }
+    public void FootR()
+    {
+    }
+    public void FootL()
+    {
+    }
+    public void Land()
+    {
+    }
+
+    // For the switch weapon animation event
+    public void SwitchWeapon()
+    {
+        inventory.NextMeleeWeapon();
+    }
+    #endregion
+
 }

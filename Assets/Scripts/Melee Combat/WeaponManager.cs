@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    private GameObject sword;
-    private GameObject axe;
-    private GameObject dagger;
-    private GameObject spear;
     private GameObject currentWeapon;
 
     public Dictionary<string, GameObject> weaponPickups { get; private set; }
@@ -15,18 +11,12 @@ public class WeaponManager : MonoBehaviour
     {
         weaponPickups = new Dictionary<string, GameObject>();
 
-        // child indices must correspond to order that weapons appear as children under Weapons prefab
-        sword = this.gameObject.transform.GetChild(0).gameObject;
-        weaponPickups.Add("Sword Pickup", sword);
-
-        axe = this.gameObject.transform.GetChild(1).gameObject;
-        weaponPickups.Add("Axe Pickup", axe);
-
-        dagger = this.gameObject.transform.GetChild(2).gameObject;
-        weaponPickups.Add("Dagger Pickup", dagger);
-
-        spear = this.gameObject.transform.GetChild(3).gameObject;
-        weaponPickups.Add("Spear Pickup", spear);
+        int children = transform.childCount;
+        for (int i = 0; i < children; i++)
+        {
+            GameObject newWeapon = this.gameObject.transform.GetChild(i).gameObject;
+            weaponPickups.Add(newWeapon.name + " Pickup", newWeapon);
+        }
     }
 
     public void EquipWeapon(string weaponPickupType)
@@ -58,13 +48,8 @@ public class WeaponManager : MonoBehaviour
             
     }
 
-    public WeaponAnimationConfig GetWeaponAnimationConfig()
+    public WeaponConfig GetWeaponConfig()
     {
-        return currentWeapon.GetComponent<Weapon>().GetAnimationConfig();
-    }
-
-    public WeaponStaminaConfig GetWeaponStaminaConfig()
-    {
-        return currentWeapon.GetComponent<Weapon>().GetStaminaConfig();
+        return currentWeapon.GetComponent<Weapon>().GetConfig();
     }
 }
