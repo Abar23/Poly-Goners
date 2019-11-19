@@ -12,7 +12,7 @@ public class TileOccluder : MonoBehaviour
 
     void Start()
     {
-        this.occlusionDistance = Mathf.Sqrt(Mathf.Pow(this.tileDimentions / 1.685f, 2.0f) * 2.0f);
+        this.occlusionDistance = Mathf.Sqrt(Mathf.Pow(this.tileDimentions / 2.0f, 2.0f) * 2.0f);
         Debug.Log(this.occlusionDistance);
         this.dungeonDoorways = this.gameObject.GetComponent<DungeonDoorways>();
         this.renderers = this.gameObject.GetComponentsInChildren<Renderer>();
