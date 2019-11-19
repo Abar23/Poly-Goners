@@ -36,5 +36,37 @@ public class MagicBoxController : MonoBehaviour
         {
             Box.FireMagic(4);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            Box.FireMagic(5);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            Box.FireMagic(6);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            Box.FireMagic(7);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            Box.FireMagic(8);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha6))
+        {
+            Box.StopMagic(5);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha7))
+        {
+            Box.StopMagic(6);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha8))
+        {
+            Box.StopMagic(7);
+        }
+        if (Input.GetKeyUp(KeyCode.Alpha9))
+        {
+            Box.StopMagic(8);
+        }
     }
 }

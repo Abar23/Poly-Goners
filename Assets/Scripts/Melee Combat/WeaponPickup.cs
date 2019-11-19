@@ -22,7 +22,7 @@ public class WeaponPickup : MonoBehaviour
         if (distanceFromPlayer1 <= promptActivationDistance || distanceFromPlayer2 < promptActivationDistance)
         {
             // Check if Player 1 equips weapon
-            if (distanceFromPlayer1 <= promptActivationDistance)
+            if (distanceFromPlayer1 <= promptActivationDistance && this.GetComponent<PickupItemLabel>().IsClosestPickup(player1))
             {
                 if (player1.GetComponent<Player>().CheckUseButtonPress()) 
                 {
@@ -37,7 +37,7 @@ public class WeaponPickup : MonoBehaviour
             }
 
             // Check if Player 2 equips weapon
-            else if (distanceFromPlayer2 <= promptActivationDistance)
+            else if (distanceFromPlayer2 <= promptActivationDistance && this.GetComponent<PickupItemLabel>().IsClosestPickup(player2))
             {
                 if (player2.GetComponent<Player>().CheckUseButtonPress()) 
                 {

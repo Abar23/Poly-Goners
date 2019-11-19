@@ -136,6 +136,17 @@ public class Inventory : MonoBehaviour
             return false;
     }
 
+    public bool StopMagic()
+    {
+        if (magicAbilities[currentMagicIndex] != null)
+        {
+            bool canStop = magicBox.StopMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+            return canStop;
+        }
+        else
+            return false;
+    }
+
     public void NextMeleeWeapon()
     {
         currentMeleeIndex++;
@@ -317,7 +328,7 @@ public class Inventory : MonoBehaviour
         {
             IncreaseGold(1);
         }
-        else if (collectable.CollectableType == Collectable.Type.Potion)
+        else if (collectable.CollectableType == Collectable.Type.Potion && collectable.GetComponent<PickupItemLabel>().IsClosestPickup(player.gameObject))
         {
             if (!HasPotion() && player.CheckUseButtonPress())
             {
