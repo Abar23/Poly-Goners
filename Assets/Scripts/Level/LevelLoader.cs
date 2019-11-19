@@ -5,7 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    public enum Level { HubWorld, DungeonLevel1, SnowLevel, SpaceLevel, CastleDungeonLevel };
+    public enum Level 
+    { 
+        HubWorld, 
+        DungeonLevel1,
+        SnowLevel, 
+        SpaceLevel, 
+        CastleDungeonLevel,
+        CastleHub,
+        JailRoom
+    };
     public Level level;
     [SerializeField] private Animator m_Animator;
     private const float k_ExitTime = 2f;
@@ -38,6 +47,12 @@ public class LevelLoader : MonoBehaviour
             case LevelLoader.Level.CastleDungeonLevel:
                 LoadCastleDungeonLevel();
                 break;
+            case LevelLoader.Level.CastleHub:
+                LoadCastleHub();
+                break;
+            case LevelLoader.Level.JailRoom:
+                LoadJailRoom();
+                break;
             default:
                 Debug.Log("ERROR: Level not found in LevelFactory.");
                 break;
@@ -67,6 +82,16 @@ public class LevelLoader : MonoBehaviour
     private void LoadCastleDungeonLevel()
     {
         StartCoroutine(LoadScene("CastleDungeonLevel"));
+    }
+
+    private void LoadCastleHub()
+    {
+        StartCoroutine(LoadScene("CastleHub"));
+    }
+
+    private void LoadJailRoom()
+    {
+        StartCoroutine(LoadScene("Jail"));
     }
 
     private IEnumerator LoadScene(string sceneName)
