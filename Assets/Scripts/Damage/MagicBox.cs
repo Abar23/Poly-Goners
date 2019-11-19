@@ -84,7 +84,11 @@ public class MagicBox : MonoBehaviour
         }
         if (m_Spells[index].IsConsistent)
         {
-            m_Spells[index].Object.SetActive(true);
+            if(m_Spells[index].Object.activeSelf == false)
+            {
+                m_Spells[index].Object.SetActive(true);
+            }
+            m_Spells[index].Object.GetComponent<ParticleSystem>().Play();
             _drainMana = true;
             StartCoroutine(DrainMana(index));
         }
@@ -123,10 +127,10 @@ public class MagicBox : MonoBehaviour
     {
         if (!m_Spells[index].IsConsistent)
             return false;
-        if (!m_Spells[index].Object.activeSelf)
+        if (!m_Spells[index].Object.GetComponent<ParticleSystem>().IsAlive())
             return false;
         _drainMana = false;
-        m_Spells[index].Object.SetActive(false);
+        m_Spells[index].Object.GetComponent<ParticleSystem>().Stop();
         coolDowns[index] = m_Spells[index].CoolDown;
         return true;
     }
