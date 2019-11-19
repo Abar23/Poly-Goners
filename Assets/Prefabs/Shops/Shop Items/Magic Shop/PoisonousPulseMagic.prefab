@@ -1,0 +1,339 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1693236225138945676
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2406240361260719345}
+  - component: {fileID: 5995934754649116964}
+  - component: {fileID: 2232732197538666500}
+  - component: {fileID: 8398212514928041321}
+  - component: {fileID: 4626615947379110419}
+  - component: {fileID: 5548111960248605828}
+  m_Layer: 0
+  m_Name: PoisonousPulseMagic
+  m_TagString: ShopMagicBook
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2406240361260719345
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4616397688710711310}
+  - {fileID: 8259500672655329239}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5995934754649116964
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
+--- !u!23 &2232732197538666500
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0f929f69536886448b44fd0e4203a998, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!114 &8398212514928041321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &4626615947379110419
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 0cb22f8b6987ce54f98e981425952033, type: 3}
+--- !u!114 &5548111960248605828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693236225138945676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860e1a6fae1fa954490cf199ca7482e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 3000
+--- !u!1001 &6524433469124579544
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2406240361260719345}
+    m_Modifications:
+    - target: {fileID: 2882855127372450943, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_Name
+      value: Poisonous Pulse Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 2882855127372450943, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8660254
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3fcc1e5afa0ac3a45932d76720e78dc3, type: 3}
+--- !u!4 &8259500672655329239 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2888168237779883791, guid: 3fcc1e5afa0ac3a45932d76720e78dc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6524433469124579544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7495468872754114507
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2406240361260719345}
+    m_Modifications:
+    - target: {fileID: 8390024644045347285, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Name
+      value: ShopItemCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 14258735529042929, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Text
+      value: Deals 22 poison damage every half second.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4810330659679866218, guid: e9b120ecdc6267243996243bd6401a7d,
+        type: 3}
+      propertyPath: m_Text
+      value: Poisonous Pulse
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e9b120ecdc6267243996243bd6401a7d, type: 3}
+--- !u!224 &4616397688710711310 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2888491843426248645, guid: e9b120ecdc6267243996243bd6401a7d,
+    type: 3}
+  m_PrefabInstance: {fileID: 7495468872754114507}
+  m_PrefabAsset: {fileID: 0}
