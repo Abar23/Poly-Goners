@@ -147,6 +147,7 @@ public class Player : MonoBehaviour
                     if (deathTimeRemaining <= 0)
                     {
                         permaDead = true;
+                        inventory.DropCoin();
                         StartCoroutine(DisablePlayer());
                     }
 

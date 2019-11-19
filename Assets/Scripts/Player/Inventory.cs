@@ -397,4 +397,13 @@ public class Inventory : MonoBehaviour
         }
         GameObject.DontDestroyOnLoad(parentTransform.gameObject);
     }
+
+    public void DropCoin()
+    {
+        int lossingGold = gold / 2;
+        DecreaseGold(lossingGold);
+        Spawner spawner = GetComponentInChildren<Spawner>();
+        spawner.SetElementAmount(0, lossingGold);
+        spawner.StartSpawn();
+    }
 }
