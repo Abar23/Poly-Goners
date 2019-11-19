@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PickupItemLabel : MonoBehaviour
 {
-    private float promptActivationDistance = .75f;
+    private float promptActivationDistance = 0.75f;
     private GameObject player1;
     private GameObject player2;
     private GameObject textPanel;

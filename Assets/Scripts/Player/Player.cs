@@ -254,6 +254,15 @@ public class Player : MonoBehaviour
             }
         }
 
+        // Stop magic attack
+        if (Controller.GetControllerActions().leftBumper.WasReleased)
+        {
+            if (inventory.StopMagic())
+            {
+                // Deactivate magic anim
+            }
+        }
+
         // Use Potion
         if (Controller.GetControllerActions().action4.WasPressed && inventory.HasPotion())
         {
@@ -558,6 +567,7 @@ public class Player : MonoBehaviour
         {
             DeathTimer.SetActive(true);
         }
+        inventory.StopMagic();
     }
 
     public void OnRevive()

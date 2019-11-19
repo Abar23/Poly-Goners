@@ -13,6 +13,7 @@ public class MagicBox : MonoBehaviour
         public GameObject Object;
         public float CoolDown;
         public int MagicPoint;
+        public bool IsConsistent;
     }
 
     [SerializeField] private Alignment m_Alignment;
@@ -24,6 +25,7 @@ public class MagicBox : MonoBehaviour
     private float[] coolDowns;
     private MagicPool pool;
     private int magicMax;
+    private bool _drainMana = false;
 
     public Dictionary<string, int> magicAbilites { get; private set; }
 
@@ -43,12 +45,18 @@ public class MagicBox : MonoBehaviour
         pool.Initialize(m_Spells);
         magicMax = m_MagicPoint;
 
-        magicAbilites = new Dictionary<string, int>();
-        magicAbilites.Add("Lightning Ball Pickup", 0);
-        magicAbilites.Add("Burning Fire Ball Pickup", 1);
-        magicAbilites.Add("Fast Fire Ball Pickup", 2);
-        magicAbilites.Add("Explosive Fire Ball Pickup", 3);
-        magicAbilites.Add("Poisonous Ball Pickup", 4);
+        magicAbilites = new Dictionary<string, int>
+        {
+            { "Lightning Ball Pickup", 0 },
+            { "Burning Fire Ball Pickup", 1 },
+            { "Fast Fire Ball Pickup", 2 },
+            { "Explosive Fire Ball Pickup", 3 },
+            { "Poisonous Ball Pickup", 4 },
+            { "Fire Pulse Pickup", 5 },
+            { "Myst Pulse Pickup", 6 },
+            { "Poisonous Pulse Pickup", 7 },
+            { "Snow Pulse Pickup", 8 },
+        };
     }
 
     void Update()
@@ -74,17 +82,56 @@ public class MagicBox : MonoBehaviour
         {
             return false;
         }
-        GameObject magic = pool.Require(index);
-        magic.transform.rotation = transform.rotation;
-        magic.transform.position = transform.position;
-        Projectile projectile = magic.GetComponent<Projectile>();
-        if (projectile == null)
+        if (m_Spells[index].IsConsistent)
         {
-            return false;
+            if(m_Spells[index].Object.activeSelf == false)
+            {
+                m_Spells[index].Object.SetActive(true);
+            }
+            m_Spells[index].Object.GetComponent<ParticleSystem>().Play();
+            _drainMana = true;
+            StartCoroutine(DrainMana(index));
         }
-        projectile.ProjectileInvoke();
+        else
+        {
+            GameObject magic = pool.Require(index);
+            magic.transform.rotation = transform.rotation;
+            magic.transform.position = transform.position;
+            Projectile projectile = magic.GetComponent<Projectile>();
+            if (projectile == null)
+            {
+                return false;
+            }
+            projectile.ProjectileInvoke();
+            coolDowns[index] = m_Spells[index].CoolDown;
+            ReduceMagicPoint(m_Spells[index].MagicPoint);
+        }
+        return true;
+    }
+
+    private IEnumerator DrainMana(int index)
+    {
+        while (_drainMana)
+        {
+            ReduceMagicPoint(m_Spells[index].MagicPoint);
+            if (!CheckMagicPoint(m_Spells[index].MagicPoint))
+            {
+                StopMagic(index);
+                break;
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    public bool StopMagic(int index)
+    {
+        if (!m_Spells[index].IsConsistent)
+            return false;
+        if (!m_Spells[index].Object.GetComponent<ParticleSystem>().IsAlive())
+            return false;
+        _drainMana = false;
+        m_Spells[index].Object.GetComponent<ParticleSystem>().Stop();
         coolDowns[index] = m_Spells[index].CoolDown;
-        ReduceMagicPoint(m_Spells[index].MagicPoint);
         return true;
     }
     
