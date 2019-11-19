@@ -317,7 +317,7 @@ public class Inventory : MonoBehaviour
         {
             IncreaseGold(1);
         }
-        else if (collectable.CollectableType == Collectable.Type.Potion)
+        else if (collectable.CollectableType == Collectable.Type.Potion && collectable.GetComponent<PickupItemLabel>().IsClosestPickup(player.gameObject))
         {
             if (!HasPotion() && player.CheckUseButtonPress())
             {
