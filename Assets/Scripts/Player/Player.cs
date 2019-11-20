@@ -147,6 +147,7 @@ public class Player : MonoBehaviour
                     if (deathTimeRemaining <= 0)
                     {
                         permaDead = true;
+                        inventory.DropCoin();
                         StartCoroutine(DisablePlayer());
                     }
 
@@ -172,10 +173,7 @@ public class Player : MonoBehaviour
         if (Controller.GetControllerActions().dPadDown.WasPressed)
         {
             GetComponent<CharacterBox>().NextCharacter();
-            animator = GetComponentInChildren<Animator>();
-            PlayerMovementState.UpdateAnimator(animator);
-            animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-            animator.runtimeAnimatorController = animatorOverrideController;
+            UpdateAnimator();
         }
 
 
@@ -616,5 +614,13 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         this.gameObject.SetActive(false);
+    }
+    
+    public void UpdateAnimator()
+    {
+        animator = GetComponentInChildren<Animator>();
+        PlayerMovementState.UpdateAnimator(animator);
+        animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = animatorOverrideController;
     }
 }

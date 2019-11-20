@@ -39,13 +39,10 @@ public class CharacterBox : MonoBehaviour
         charIndex = rnd.Next(Characters.Count);
         Characters[charIndex].SetActive(true);
         if (IsSmall[charIndex] == true)
-        {
             weapons.gameObject.transform.localScale = new Vector3(100, 100, 100);
-        }
         else
-        {
             weapons.gameObject.transform.localScale = new Vector3(1, 1, 1);
-        }
+
         subListIndex = rnd.Next((subLists[charIndex]).Count);
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(Hands[charIndex], false);
@@ -82,6 +79,24 @@ public class CharacterBox : MonoBehaviour
             }
         }
         
+        (subLists[charIndex])[subListIndex].SetActive(true);
+        weapons.transform.SetParent(Hands[charIndex], false);
+    }
+
+    public void SetCharacter(int cIndex, int sIndex)
+    {
+        (subLists[charIndex])[subListIndex].SetActive(false);
+        Characters[charIndex].SetActive(false);
+
+        charIndex = cIndex;
+        subListIndex = sIndex;
+
+        Characters[charIndex].SetActive(true);
+        if (IsSmall[charIndex] == true)
+            weapons.gameObject.transform.localScale = new Vector3(100, 100, 100);
+        else
+            weapons.gameObject.transform.localScale = new Vector3(1, 1, 1);
+
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(Hands[charIndex], false);
     }
