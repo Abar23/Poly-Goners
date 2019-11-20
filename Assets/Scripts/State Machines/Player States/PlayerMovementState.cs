@@ -16,4 +16,9 @@ public abstract class PlayerMovementState
     public abstract void HandleDeathTransition();
 
     public abstract void Update();
+
+    public void UpdateAnimator(Animator anim)
+    {
+        animator = anim;
+    }
 }

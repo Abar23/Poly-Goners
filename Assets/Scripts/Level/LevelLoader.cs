@@ -13,7 +13,8 @@ public class LevelLoader : MonoBehaviour
         SpaceLevel, 
         CastleDungeonLevel,
         CastleHub,
-        JailRoom
+        JailRoom,
+        CastleArmoury
     };
     public Level level;
     private Animator m_Animator;
@@ -58,6 +59,9 @@ public class LevelLoader : MonoBehaviour
             case LevelLoader.Level.JailRoom:
                 LoadJailRoom();
                 break;
+            case LevelLoader.Level.CastleArmoury:
+                LoadCastleArmoury();
+                break;
             default:
                 Debug.Log("ERROR: Level not found in LevelFactory.");
                 break;
@@ -97,6 +101,11 @@ public class LevelLoader : MonoBehaviour
     private void LoadJailRoom()
     {
         StartCoroutine(LoadScene("Jail"));
+    }
+
+    private void LoadCastleArmoury()
+    {
+        StartCoroutine(LoadScene("CastleArmoury"));
     }
 
     private IEnumerator LoadScene(string sceneName)

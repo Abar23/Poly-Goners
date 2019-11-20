@@ -20,7 +20,9 @@ public class Weapon : MonoBehaviour, IWeapon
         this.transform.localPosition = weaponConfig.GetStartPosition();
         this.transform.localEulerAngles = weaponConfig.GetStartRotation();
 
-        GetComponentInParent<Player>().ChangeCurrentWeapon(this);
+        Player player = GetComponentInParent<Player>();
+        if (player != null)
+            player.ChangeCurrentWeapon(this);
         collider = GetComponent<Collider>();
 
         pss = GetComponentsInChildren<ParticleSystem>();
@@ -60,7 +62,7 @@ public class Weapon : MonoBehaviour, IWeapon
     {
         swingingWeapon = true;
         ableToHitEnemy = true;
-        swingTime = animationTime - (animationTime * 0.4f);
+        swingTime = animationTime - (animationTime * 0.15f);
 
         ChangeParticles(true);
     }
