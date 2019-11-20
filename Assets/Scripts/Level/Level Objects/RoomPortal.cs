@@ -20,12 +20,13 @@ public class RoomPortal : MonoBehaviour
 
     IEnumerator TeleportPlayer(GameObject player)
     {
-        player.SetActive(false);
+        Renderer platerRenderer = player.GetComponent<Renderer>();
+        platerRenderer.enabled = false;
         player.transform.position = m_Destination.position;
         m_StartEffect.Play();
         yield return new WaitForSeconds(k_Delay);
         m_EndEffect.Play();
-        player.SetActive(true);
+        platerRenderer.enabled = true;
     }
 
 

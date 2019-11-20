@@ -6,16 +6,13 @@ public class TileOccluder : MonoBehaviour
 {
     public float tileDimentions;
     private float occlusionDistance;
-    private Renderer[] renderers;
     DungeonDoorways dungeonDoorways;
     private bool isRendered;
 
     void Start()
     {
-        this.occlusionDistance = Mathf.Sqrt(Mathf.Pow(this.tileDimentions / 2.0f, 2.0f) * 2.0f);
-        Debug.Log(this.occlusionDistance);
+        this.occlusionDistance = Mathf.Sqrt(Mathf.Pow(this.tileDimentions / 1.85f, 2.0f) * 2.0f);
         this.dungeonDoorways = this.gameObject.GetComponent<DungeonDoorways>();
-        this.renderers = this.gameObject.GetComponentsInChildren<Renderer>();
         this.isRendered = true;
     }
 
@@ -27,15 +24,15 @@ public class TileOccluder : MonoBehaviour
         GameObject playerOne = playerManager.GetPlayerOneGameObject();
         GameObject playerTwo = playerManager.GetPlayerTwoGameObject();
 
-        if(numberOfActivePlayers == 1 && playerOne != null)
+        if (numberOfActivePlayers == 1 && playerOne != null)
         {
             CheckOcclusionWithOnePlayer(playerOne);
         }
-        else if(numberOfActivePlayers == 1 && playerTwo != null)
+        else if (numberOfActivePlayers == 1 && playerTwo != null)
         {
             CheckOcclusionWithOnePlayer(playerTwo);
         }
-        else if(numberOfActivePlayers == 2)
+        else if (numberOfActivePlayers == 2)
         {
             CheckOcclusionWithBothPlayers(playerOne, playerTwo);
         }
@@ -65,7 +62,7 @@ public class TileOccluder : MonoBehaviour
 
         if (!shouldBeRendered)
         {
-            if(this.isRendered)
+            if (this.isRendered)
             {
                 DerenderTile();
             }
@@ -84,21 +81,6 @@ public class TileOccluder : MonoBehaviour
         bool shouldBeRendered = false;
         float playerOneDistance = Vector3.Distance(this.gameObject.transform.position, playerOne.transform.position);
         float playerTwoDistance = Vector3.Distance(this.gameObject.transform.position, playerTwo.transform.position);
-        
-        if (this.isRendered)
-        {
-            if (playerOneDistance > this.occlusionDistance && playerTwoDistance > this.occlusionDistance)
-            {
-                DerenderTile();
-            }
-        }
-        else
-        {
-            if (playerOneDistance <= this.occlusionDistance || playerTwoDistance <= this.occlusionDistance)
-            {
-                RenderTile();
-            }
-        }
 
         if (playerOneDistance <= this.occlusionDistance || playerTwoDistance <= this.occlusionDistance)
         {
@@ -137,18 +119,20 @@ public class TileOccluder : MonoBehaviour
     private void DerenderTile()
     {
         this.isRendered = false;
-        foreach(Renderer renderer in this.renderers)
-        {
-            renderer.enabled = false;
-        }
+        SetActiveStateOfChildren(this.isRendered);
     }
 
     private void RenderTile()
     {
         this.isRendered = true;
-        foreach (Renderer renderer in this.renderers)
+        SetActiveStateOfChildren(this.isRendered);
+    }
+
+    private void SetActiveStateOfChildren(bool activeState)
+    {
+        for (int i = 0; i < transform.childCount; ++i)
         {
-            renderer.enabled = true;
+            transform.GetChild(i).gameObject.SetActive(activeState);
         }
     }
 }

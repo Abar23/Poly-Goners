@@ -16,8 +16,13 @@ public class LevelLoader : MonoBehaviour
         JailRoom
     };
     public Level level;
-    [SerializeField] private Animator m_Animator;
+    private Animator m_Animator;
     private const float k_ExitTime = 2f;
+
+    private void Start()
+    {
+        this.m_Animator = GameObject.Find("SceneTransition").GetComponentInChildren<Animator>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
