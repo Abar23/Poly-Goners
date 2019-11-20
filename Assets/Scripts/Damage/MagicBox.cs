@@ -175,4 +175,13 @@ public class MagicBox : MonoBehaviour
     {
         m_MagicPoint = magicMax;
     }
+
+    public bool IsConsistent(string name)
+    {
+        if (name == null)
+            return false;
+        if (!magicAbilites.ContainsKey(name))
+            return false;
+        return m_Spells[magicAbilites[name]].IsConsistent;
+    }
 }
