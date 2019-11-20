@@ -90,6 +90,11 @@ public class MagicBox : MonoBehaviour
             }
             m_Spells[index].Object.GetComponent<ParticleSystem>().Play();
             _drainMana = true;
+            PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
+            if (pulseMagic != null)
+            {
+                pulseMagic.ExtendCollider();
+            }
             StartCoroutine(DrainMana(index));
         }
         else
@@ -132,6 +137,11 @@ public class MagicBox : MonoBehaviour
         _drainMana = false;
         m_Spells[index].Object.GetComponent<ParticleSystem>().Stop();
         coolDowns[index] = m_Spells[index].CoolDown;
+        PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
+        if (pulseMagic != null)
+        {
+            pulseMagic.ResetCollider();
+        }
         return true;
     }
     
