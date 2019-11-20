@@ -126,7 +126,7 @@ public class Damageable : MonoBehaviour
         if (damager == null)
             return;
         if ((int)damager.Alignment + (int)Config.Alignment <= 0x1
-                && damager.Alignment != Config.Alignment)
+                || damager.Alignment == Config.Alignment)
             return;
         if (damager.Config is ContinuousEffectiveDamagerConfig)
         {

@@ -8,6 +8,7 @@ public class PulseMagic : MonoBehaviour
     [SerializeField] private float m_MaxLength = 8f;
     [SerializeField] private float m_MaxTime = 1.5f;
     private CapsuleCollider capsuleCollider;
+    private Coroutine extendCoroutine;
 
     void Awake()
     {
@@ -16,14 +17,14 @@ public class PulseMagic : MonoBehaviour
 
     public void ExtendCollider()
     {
-        StartCoroutine(UpdateCollider());
+        extendCoroutine = StartCoroutine(UpdateCollider());
     }
 
     public void ResetCollider()
     {
+        StopCoroutine(extendCoroutine);
         capsuleCollider.height = 0;
         capsuleCollider.center = new Vector3(capsuleCollider.center.x, capsuleCollider.center.y, 0);
-        StopCoroutine("UpdateCollider");
     }
 
     IEnumerator UpdateCollider()
