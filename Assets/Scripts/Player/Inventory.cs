@@ -33,6 +33,9 @@ public class Inventory : MonoBehaviour
     private float potionTime;
     private float remainingTime;
 
+    // Magic Display
+    private MagicDisplayEffects magicDisplay;
+
     [SerializeField] private AudioSource m_PotionSFX;
     [SerializeField] private AudioSource m_PurchaseSFX;
 
@@ -40,6 +43,7 @@ public class Inventory : MonoBehaviour
     {
         damageable = GetComponent<Damageable>();
         magicBox = GetComponentInChildren<MagicBox>();
+        magicDisplay = GetComponentInChildren<MagicDisplayEffects>();
     }
 
     void Start()
@@ -130,6 +134,10 @@ public class Inventory : MonoBehaviour
         if (magicAbilities[currentMagicIndex] != null)
         {
             bool canFire = magicBox.FireMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+            if (canFire && magicBox.IsConsistent(magicAbilities[currentMagicIndex]))
+            {
+                magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
+            }
             return canFire;
         }
         else
@@ -141,6 +149,10 @@ public class Inventory : MonoBehaviour
         if (magicAbilities[currentMagicIndex] != null)
         {
             bool canStop = magicBox.StopMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+            if (canStop && magicBox.IsConsistent(magicAbilities[currentMagicIndex]))
+            {
+                magicDisplay.DisplayEffect(magicAbilities[currentMagicIndex]);
+            }
             return canStop;
         }
         else
@@ -170,6 +182,8 @@ public class Inventory : MonoBehaviour
 
     public void NextMagicWeapon()
     {
+        magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
+
         currentMagicIndex++;
         if (currentMagicIndex == NumberOfMagicSlots)
             currentMagicIndex = 0;
@@ -179,6 +193,7 @@ public class Inventory : MonoBehaviour
         if (magicAbilities[currentMagicIndex] != null)
         {
             MagicIcon.EnableIcon(magicDropables[currentMagicIndex]);
+            magicDisplay.DisplayEffect(magicAbilities[currentMagicIndex]);
         }
     }
 
@@ -225,8 +240,10 @@ public class Inventory : MonoBehaviour
                 DontDestroyOnLoad(pickup);
                 magicAbilities[i] = magicName;
                 magicDropables[i] = pickup;
+                magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
                 currentMagicIndex = i;
                 MagicIcon.EnableIcon(magicDropables[i]);
+                magicDisplay.DisplayEffect(magicAbilities[currentMagicIndex]);
                 added = true;
             }
         }
@@ -235,6 +252,7 @@ public class Inventory : MonoBehaviour
     public void DropMagic()
     {
         MagicIcon.DisableCurrentIcon();
+        magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
         Vector3 newPos = new Vector3(player.transform.position.x + player.transform.forward.x, player.transform.position.y + .5f, player.transform.position.z + player.transform.forward.z);
         magicDropables[currentMagicIndex].SetActive(true);
         GameObject newMagic = Instantiate(magicDropables[currentMagicIndex], newPos, Quaternion.Euler(0, 0, 0));

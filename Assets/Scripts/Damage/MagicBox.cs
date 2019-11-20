@@ -91,6 +91,11 @@ public class MagicBox : MonoBehaviour
             m_Spells[index].Object.GetComponent<ParticleSystem>().Play();
             m_Spells[index].Object.GetComponent<Collider>().enabled = true;
             _drainMana = true;
+            PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
+            if (pulseMagic != null)
+            {
+                pulseMagic.ExtendCollider();
+            }
             StartCoroutine(DrainMana(index));
         }
         else
@@ -134,6 +139,11 @@ public class MagicBox : MonoBehaviour
         m_Spells[index].Object.GetComponent<ParticleSystem>().Stop();
         m_Spells[index].Object.GetComponent<Collider>().enabled = false;
         coolDowns[index] = m_Spells[index].CoolDown;
+        PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
+        if (pulseMagic != null)
+        {
+            pulseMagic.ResetCollider();
+        }
         return true;
     }
 
@@ -166,5 +176,14 @@ public class MagicBox : MonoBehaviour
     public void ResetMagicToFull()
     {
         m_MagicPoint = magicMax;
+    }
+
+    public bool IsConsistent(string name)
+    {
+        if (name == null)
+            return false;
+        if (!magicAbilites.ContainsKey(name))
+            return false;
+        return m_Spells[magicAbilites[name]].IsConsistent;
     }
 }

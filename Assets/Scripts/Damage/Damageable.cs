@@ -125,6 +125,9 @@ public class Damageable : MonoBehaviour
         Damager damager = other.GetComponent<Damager>();
         if (damager == null)
             return;
+        if ((int)damager.Alignment + (int)Config.Alignment <= 0x1
+                || damager.Alignment == Config.Alignment)
+            return;
         if (damager.Config is ContinuousEffectiveDamagerConfig)
         {
             //if (damager.Config.Type == DamagerConfig.DamageType.Physical && gameObject.layer == 10)
