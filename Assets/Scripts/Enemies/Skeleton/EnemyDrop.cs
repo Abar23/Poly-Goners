@@ -23,6 +23,8 @@ public class EnemyDrop : MonoBehaviour
             if (UnityEngine.Random.Range(0f, 1f) < item.SpawnChance)
             {
                 GameObject newObj = Instantiate(item.Object, transform.position, Quaternion.identity);
+                newObj.name = newObj.name.Substring(0, newObj.name.Length - 7);
+                break;
             }
         }
     }
