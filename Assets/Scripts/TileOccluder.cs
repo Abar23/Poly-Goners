@@ -6,6 +6,8 @@ public class TileOccluder : MonoBehaviour
 {
     public float tileDimentions;
     private float occlusionDistance;
+    private Renderer[] childRenderers;
+    private Light[] childLights;
     DungeonDoorways dungeonDoorways;
     private bool isRendered;
 
@@ -13,6 +15,8 @@ public class TileOccluder : MonoBehaviour
     {
         this.occlusionDistance = Mathf.Sqrt(Mathf.Pow(this.tileDimentions / 1.85f, 2.0f) * 2.0f);
         this.dungeonDoorways = this.gameObject.GetComponent<DungeonDoorways>();
+        this.childRenderers = this.gameObject.GetComponentsInChildren<Renderer>();
+        this.childLights = this.gameObject.GetComponentsInChildren<Light>();
         this.isRendered = true;
     }
 
@@ -128,11 +132,15 @@ public class TileOccluder : MonoBehaviour
         SetActiveStateOfChildren(this.isRendered);
     }
 
-    private void SetActiveStateOfChildren(bool activeState)
+    private void SetActiveStateOfChildren(bool desiredState)
     {
-        for (int i = 0; i < transform.childCount; ++i)
+        foreach(Renderer childRenderer in this.childRenderers)
         {
-            transform.GetChild(i).gameObject.SetActive(activeState);
+            childRenderer.enabled = desiredState;
+        }
+        foreach(Light childLight in this.childLights)
+        {
+            childLight.enabled = desiredState;
         }
     }
 }

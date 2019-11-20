@@ -46,7 +46,6 @@ public class CharacterBox : MonoBehaviour
         subListIndex = rnd.Next((subLists[charIndex]).Count);
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(Hands[charIndex], false);
-
     }
 
     public void NextCharacter()
