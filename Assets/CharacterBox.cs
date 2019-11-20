@@ -6,6 +6,7 @@ public class CharacterBox : MonoBehaviour
 {
     public List<GameObject> Characters;
     public List<Transform> Hands;
+    public List<bool> IsSmall;
 
     private List<List<GameObject>> subLists;
     private int charIndex = 0;
@@ -37,6 +38,14 @@ public class CharacterBox : MonoBehaviour
 
         charIndex = rnd.Next(Characters.Count);
         Characters[charIndex].SetActive(true);
+        if (IsSmall[charIndex] == true)
+        {
+            weapons.gameObject.transform.localScale = new Vector3(100, 100, 100);
+        }
+        else
+        {
+            weapons.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        }
         subListIndex = rnd.Next((subLists[charIndex]).Count);
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(Hands[charIndex], false);
@@ -60,7 +69,19 @@ public class CharacterBox : MonoBehaviour
             charIndex = 0;
         }
 
-        Characters[charIndex].SetActive(true);
+        if (Characters[charIndex].activeSelf == false)
+        {
+            Characters[charIndex].SetActive(true);
+            if (IsSmall[charIndex] == true)
+            {
+                weapons.gameObject.transform.localScale = new Vector3(100, 100, 100);
+            }
+            else
+            {
+                weapons.gameObject.transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+        
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(Hands[charIndex], false);
     }
