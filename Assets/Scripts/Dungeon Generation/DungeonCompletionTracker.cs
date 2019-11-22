@@ -29,7 +29,7 @@ public class DungeonCompletionTracker : AbstractSingleton<DungeonCompletionTrack
     void LateUpdate()
     {
         Scene scene = SceneManager.GetActiveScene();
-        if (scene.buildIndex == 0 || scene.buildIndex == 1 || scene.buildIndex == 2)
+        if (scene.buildIndex == 0 || scene.buildIndex == 1 || scene.buildIndex == 2 || scene.name == "CastleHub")
         {
             Destroy(this.gameObject);
         }
