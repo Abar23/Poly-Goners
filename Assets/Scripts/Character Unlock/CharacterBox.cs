@@ -5,7 +5,8 @@ using UnityEngine;
 public class CharacterBox : MonoBehaviour
 {
     public List<GameObject> Characters;
-    public List<Transform> Hands;
+    public List<Transform> RightHands;
+    public List<Transform> LeftHands;
     public List<bool> IsSmall;
 
     private List<List<GameObject>> subLists;
@@ -13,12 +14,14 @@ public class CharacterBox : MonoBehaviour
     private int subListIndex = 0;
 
     private WeaponManager weapons;
+    private MagicDisplayEffects displayEffects;
     private readonly System.Random rnd = new System.Random();
 
-    private void Start()
+    private void Awake()
     {
         subLists = new List<List<GameObject>>();
         weapons = GetComponentInChildren<WeaponManager>();
+        displayEffects = GetComponentInChildren<MagicDisplayEffects>();
 
         foreach (GameObject character in Characters)
         {
@@ -45,7 +48,8 @@ public class CharacterBox : MonoBehaviour
 
         subListIndex = rnd.Next((subLists[charIndex]).Count);
         (subLists[charIndex])[subListIndex].SetActive(true);
-        weapons.transform.SetParent(Hands[charIndex], false);
+        weapons.transform.SetParent(RightHands[charIndex], false);
+        displayEffects.transform.SetParent(LeftHands[charIndex], false);
     }
 
     public void NextCharacter()
@@ -79,7 +83,8 @@ public class CharacterBox : MonoBehaviour
         }
         
         (subLists[charIndex])[subListIndex].SetActive(true);
-        weapons.transform.SetParent(Hands[charIndex], false);
+        weapons.transform.SetParent(RightHands[charIndex], false);
+        displayEffects.transform.SetParent(LeftHands[charIndex], false);
     }
 
     public void SetCharacter(int cIndex, int sIndex)
@@ -97,7 +102,12 @@ public class CharacterBox : MonoBehaviour
             weapons.gameObject.transform.localScale = new Vector3(1, 1, 1);
 
         (subLists[charIndex])[subListIndex].SetActive(true);
-        weapons.transform.SetParent(Hands[charIndex], false);
+        weapons.transform.SetParent(RightHands[charIndex], false);
+        displayEffects.transform.SetParent(LeftHands[charIndex], false);
     }
 
+    public Renderer GetActiveCharacterRenderer()
+    {
+        return (subLists[charIndex])[subListIndex].GetComponent<Renderer>();
+    }
 }
