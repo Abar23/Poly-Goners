@@ -24,17 +24,21 @@ public class SpearTrap : MonoBehaviour
         animator.speed = trapSpeed;
     }
 
-    void LateUpdate() {
+    void Update() {
         if (type == Type.OnTimer) {
             if (elapsedTime >= timerOffset && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
                 animator.SetTrigger("isActive");
+                isActive = true;
+                elapsedTime = 0;
             }
-        }
 
-        if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
-            elapsedTime += Time.deltaTime;
-        } else {
-            elapsedTime = 0;
+            else if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
+                isActive = false;
+            }
+
+            if (!isActive) {
+                elapsedTime += Time.deltaTime;
+            }
         }
     }
 
