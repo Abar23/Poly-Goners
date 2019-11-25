@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PlayerPrefs.HasKey("fx"))
+            m_ReviveSFX.volume = PlayerPrefs.GetFloat("fx");
+
         if (transform.position.y < -7.5f)
         {
             GetComponent<Damageable>().TakeFallDamage();

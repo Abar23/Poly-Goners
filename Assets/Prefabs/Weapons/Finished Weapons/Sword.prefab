@@ -160,6 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8425011914305620061}
   - component: {fileID: 7144060936889079822}
+  - component: {fileID: 564898305828034779}
   m_Layer: 0
   m_Name: OnHitSFX
   m_TagString: Untagged
@@ -277,6 +278,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &564898305828034779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5917625823317254111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cfa600b26b1a6345897fbd3792472c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioType: fx
 --- !u!1001 &5024113120412657518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,11 +298,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 349489907001544308}
     m_Modifications:
-    - target: {fileID: 1586552077983062415, guid: 531db1e7892f59d4eb1b152b60b48c71,
-        type: 3}
-      propertyPath: m_Name
-      value: WhiteWeaponTrail
-      objectReference: {fileID: 0}
     - target: {fileID: 4961500809920171321, guid: 531db1e7892f59d4eb1b152b60b48c71,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -344,22 +353,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8161449795050591035, guid: 531db1e7892f59d4eb1b152b60b48c71,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.158
-      objectReference: {fileID: 0}
     - target: {fileID: 6336195764616785357, guid: 531db1e7892f59d4eb1b152b60b48c71,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.085999966
       objectReference: {fileID: 0}
-    - target: {fileID: 8561177483490581158, guid: 531db1e7892f59d4eb1b152b60b48c71,
+    - target: {fileID: 8161449795050591035, guid: 531db1e7892f59d4eb1b152b60b48c71,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.158
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586552077983062415, guid: 531db1e7892f59d4eb1b152b60b48c71,
+        type: 3}
+      propertyPath: m_Name
+      value: WhiteWeaponTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 6734355382523823915, guid: 531db1e7892f59d4eb1b152b60b48c71,
         type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.57
       objectReference: {fileID: 0}
-    - target: {fileID: 6734355382523823915, guid: 531db1e7892f59d4eb1b152b60b48c71,
+    - target: {fileID: 8561177483490581158, guid: 531db1e7892f59d4eb1b152b60b48c71,
         type: 3}
       propertyPath: ShapeModule.radius.value
       value: 0.57
