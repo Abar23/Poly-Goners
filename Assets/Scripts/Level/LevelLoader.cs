@@ -104,9 +104,11 @@ public class LevelLoader : MonoBehaviour
 
     private IEnumerator LoadScene(string sceneName)
     {
+        Animator animator = GameObject.Find("SceneTransition").GetComponentInChildren<Animator>();
+        Collider collider = this.GetComponent<Collider>();
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
-        Animator animator = GameObject.Find("SceneTransition").GetComponentInChildren<Animator>();
+        collider.enabled = false;
         animator.SetTrigger("Exit");
         yield return new WaitForSeconds(k_ExitTime);
         op.allowSceneActivation = true;
