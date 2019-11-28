@@ -459,8 +459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f5a3d6adab9d44f90013170b6b3b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumberOfRooms: 32
-  maxNumberOfRooms: 40
+  minNumberOfRooms: 12
+  maxNumberOfRooms: 16
   shouldOccludeTiles: 0
   dungeonTemplates:
   - {fileID: 5494317177898344946}
@@ -1869,11 +1869,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 885556400456852046, guid: 1b582c925da3a824fbbf07e93bf63564,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 885556399883325242, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1928,6 +1923,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StepOffset
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 885556400456852046, guid: 1b582c925da3a824fbbf07e93bf63564,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b582c925da3a824fbbf07e93bf63564, type: 3}
@@ -1988,6 +1988,9 @@ MonoBehaviour:
   - prefab: {fileID: 1039606045549359830, guid: 1adf2ba440d71034e9a6fb9d04b37a0c,
       type: 3}
     spawnChance: 1
+  - prefab: {fileID: 8178589315696013340, guid: 82db89d27bfbc50438d5b5d9f9983598,
+      type: 3}
+    spawnChance: 0
 --- !u!4 &5494317177898344947
 Transform:
   m_ObjectHideFlags: 0
