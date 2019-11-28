@@ -119,13 +119,13 @@ public class MagicBox : MonoBehaviour
     {
         while (_drainMana)
         {
-            ReduceMagicPoint(m_Spells[index].MagicPoint);
-            if (!CheckMagicPoint(m_Spells[index].MagicPoint))
+            ReduceMagicPoint(1);
+            if (!CheckMagicPoint(1))
             {
                 StopMagic(index);
                 break;
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f / m_Spells[index].MagicPoint);
         }
     }
 
