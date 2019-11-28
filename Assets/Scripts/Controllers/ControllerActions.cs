@@ -28,7 +28,7 @@ public class ControllerActions : PlayerActionSet
 
     public PlayerAction leftBumper;
     public PlayerAction rightBumper;
- 
+
     public PlayerAction leftTrigger;
     public PlayerAction rightTrigger;
 
@@ -45,7 +45,7 @@ public class ControllerActions : PlayerActionSet
         moveLeft = CreatePlayerAction("Move Left");
         moveRight = CreatePlayerAction("Move Right");
         move = CreateTwoAxisPlayerAction(moveLeft, moveRight, moveDown, moveUp);
-        
+
         lookUp = CreatePlayerAction("Look Up");
         lookDown = CreatePlayerAction("Look Down");
         lookLeft = CreatePlayerAction("Look Left");
@@ -95,9 +95,9 @@ public class ControllerActions : PlayerActionSet
         actions.action1.AddDefaultBinding(Key.Space);
         actions.action2.AddDefaultBinding(Key.LeftControl);
         actions.action3.AddDefaultBinding(Key.R);
-        actions.action4.AddDefaultBinding(Key.Key4); // Not used
+        actions.action4.AddDefaultBinding(Key.F);
 
-        actions.dPadUp.AddDefaultBinding(Key.UpArrow); 
+        actions.dPadUp.AddDefaultBinding(Key.Key1);
         actions.dPadDown.AddDefaultBinding(Key.DownArrow);
         actions.dPadLeft.AddDefaultBinding(Key.Q);
         actions.dPadRight.AddDefaultBinding(Key.E);
@@ -105,8 +105,8 @@ public class ControllerActions : PlayerActionSet
         actions.leftBumper.AddDefaultBinding(Mouse.LeftButton);
         actions.rightBumper.AddDefaultBinding(Mouse.RightButton);
 
-        actions.leftTrigger.AddDefaultBinding(Key.F); // Not used
-        actions.rightTrigger.AddDefaultBinding(Key.G); // Not used
+        actions.leftTrigger.AddDefaultBinding(Key.LeftAlt); // Not used
+        actions.rightTrigger.AddDefaultBinding(Key.LeftShift);
 
         actions.leftStickClick.AddDefaultBinding(Key.Tilde); // Not used, so it is put far away from the player
         actions.rightStickClick.AddDefaultBinding(Mouse.MiddleButton);

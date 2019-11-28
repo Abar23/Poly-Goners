@@ -17,7 +17,6 @@ public class LevelLoader : MonoBehaviour
         CastleArmoury
     };
     public Level level;
-    [SerializeField] private Animator m_Animator;
     private const float k_ExitTime = 2f;
 
     void OnTriggerEnter(Collider other)
@@ -105,9 +104,12 @@ public class LevelLoader : MonoBehaviour
 
     private IEnumerator LoadScene(string sceneName)
     {
+        Animator animator = GameObject.Find("SceneTransition").GetComponentInChildren<Animator>();
+        Collider collider = this.GetComponent<Collider>();
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
-        m_Animator.SetTrigger("Exit");
+        collider.enabled = false;
+        animator.SetTrigger("Exit");
         yield return new WaitForSeconds(k_ExitTime);
         op.allowSceneActivation = true;
     }

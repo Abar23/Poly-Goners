@@ -15,16 +15,19 @@ public class DungeonReloader : MonoBehaviour
         {
             DungeonCompletionTracker.GetInstance().IncreaseNumberOfCompletedDungeons();
             OnReload.Invoke();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            //StartCoroutine(ReloadScene());
+            StartCoroutine(ReloadScene());
         }
     }
 
     private IEnumerator ReloadScene()
     {
+        Collider collider = this.GetComponent<Collider>();
+        Animator animator = GameObject.Find("SceneTransition").GetComponentInChildren<Animator>();
         Scene scene = SceneManager.GetActiveScene();
         AsyncOperation op = SceneManager.LoadSceneAsync(scene.name);
         op.allowSceneActivation = false;
+        collider.enabled = false;
+        animator.SetTrigger("Exit");
         yield return new WaitForSeconds(k_ExitTime);
         op.allowSceneActivation = true;
     }
