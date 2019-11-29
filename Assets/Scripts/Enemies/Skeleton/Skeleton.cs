@@ -40,7 +40,6 @@ public class Skeleton : MonoBehaviour, ISkeleton
     {
         if (m_AutoAim && followingIndex != -1)
         {
-            Debug.Log("entered");
             Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
             Quaternion quaternion = Quaternion.LookRotation(direction);
             transform.rotation = quaternion;
