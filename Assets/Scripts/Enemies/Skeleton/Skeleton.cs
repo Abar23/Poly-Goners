@@ -10,11 +10,12 @@ public class Skeleton : MonoBehaviour, ISkeleton
     [SerializeField] private TargetScanner m_Scanner;
     private List<Player> m_Players;
     [SerializeField] private float m_AttackDelay = 3.0f;
+    [SerializeField] private bool m_AutoAim = false;
 
     private NavMeshAgent m_Agent;
     private SkeletonAnimatorController m_Controller;
     private const float k_ScanInterval = 0.5f;
-    private int followingIndex;
+    private int followingIndex = -1;
 
 
     void Start()
@@ -32,6 +33,17 @@ public class Skeleton : MonoBehaviour, ISkeleton
             room.RegisterEnemy(this);
             damageable.OnDeath.AddListener(delegate { room.RemoveEnemy(this); });
             gameObject.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        if (m_AutoAim && followingIndex != -1)
+        {
+            Debug.Log("entered");
+            Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
+            Quaternion quaternion = Quaternion.LookRotation(direction);
+            transform.rotation = quaternion;
         }
     }
 
