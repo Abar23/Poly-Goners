@@ -27,11 +27,14 @@ public class SplitScreen : MonoBehaviour
     public float yOffsetWhenPlayersAreSeparated = 3.0f;
     public float secondarySplitDistance = 5.0f;
 
+    public RenderTexture renderTexture;
+
     private LayerMask raycastLayerMask;
 
     //The two cameras, both of which are initalized/referenced in the start function.
     private GameObject camera1;
     private GameObject camera2;
+    private GameObject camera3;
 
     //The two quads used to draw the second screen, both of which are initalized in the start function.
     private GameObject split;
@@ -46,8 +49,16 @@ public class SplitScreen : MonoBehaviour
     {
         this.raycastLayerMask = LayerMask.GetMask("CameraBlocker");
         this.setOfWalls = new HashSet<GameObject>();
+        
+        camera3 = Camera.main.gameObject;
+        camera3.tag = "MainCamera";
+        camera3.transform.position = new Vector3(0.0f, 1000.0f, 0.0f);
+
         //Referencing camera1 and initalizing camera2.
-        camera1 = Camera.main.gameObject;
+        camera1 = new GameObject();
+        camera1.AddComponent<Camera>();
+        camera1.tag = "MainCamera";
+        camera1.GetComponent<Camera>().targetTexture = this.renderTexture;
         camera2 = new GameObject();
         camera2.AddComponent<Camera>();
         //Setting up the culling mask of camera2 to ignore the layer "TransparentFX" as to avoid rendering the split and splitter on both cameras.
@@ -330,5 +341,10 @@ public class SplitScreen : MonoBehaviour
     private float mapRange(float s, float a1, float a2, float b1, float b2)
     {
         return (b1 + (s - a1) * (b2 - b1) / (a2 - a1));
+    }
+
+    public GameObject GetMainCamera()
+    {
+        return this.camera1;
     }
 }
