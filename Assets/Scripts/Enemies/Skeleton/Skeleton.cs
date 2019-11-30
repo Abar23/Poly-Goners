@@ -37,20 +37,25 @@ public class Skeleton : MonoBehaviour, ISkeleton
         Spawn();
     }
 
-    void Update()
-    {
-        if (m_AutoAim && followingIndex != -1)
-        {
-            Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
-            Quaternion quaternion = Quaternion.LookRotation(direction);
-            transform.rotation = quaternion;
-        }
-    }
-
     public void Spawn()
     {
         gameObject.SetActive(true);
         StartCoroutine(ScanForPlayer());
+        StartCoroutine(AutoAim());
+    }
+
+    IEnumerator AutoAim()
+    {
+        while (true)
+        {
+            if (m_AutoAim && followingIndex != -1)
+            {
+                Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
+                Quaternion quaternion = Quaternion.LookRotation(direction);
+                transform.rotation = quaternion;
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     IEnumerator ScanForPlayer()
