@@ -20,6 +20,9 @@ public class UnlockPedestal : MonoBehaviour
         promptObject = transform.GetChild(2).gameObject;
         player1 = PlayerManager.GetInstance().GetPlayerOneGameObject();
         player2 = PlayerManager.GetInstance().GetPlayerTwoGameObject();
+
+        if (PlayerPrefs.HasKey(pickupObject.name))
+            isActive = true;
     }
 
     void Update() {

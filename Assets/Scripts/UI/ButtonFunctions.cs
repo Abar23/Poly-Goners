@@ -158,4 +158,20 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
         PlayerPrefs.SetFloat("music", MusicSlider.value);
         PlayerPrefs.SetFloat("fx", FxSlider.value);
     }
+
+    public void ResetPlayerPrefs()
+    {
+        float music = 0f;
+        float fx = 0f;
+
+        if (PlayerPrefs.HasKey("music"))
+            music = PlayerPrefs.GetFloat("music");
+        if (PlayerPrefs.HasKey("fx"))
+            fx = PlayerPrefs.GetFloat("fx");
+
+        PlayerPrefs.DeleteAll();
+
+        PlayerPrefs.SetFloat("music", music);
+        PlayerPrefs.SetFloat("fx", fx);
+    }
 }

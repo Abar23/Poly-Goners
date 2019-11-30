@@ -172,15 +172,7 @@ public class Player : MonoBehaviour
             HandleMove();
             HandleRotation();
         }
-
-        if (Controller.GetControllerActions().dPadDown.WasPressed)
-        {
-            GetComponent<CharacterBox>().NextCharacter();
-            UpdateAnimator();
-        }
-
-
-
+                     
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
 
         // Check if able to revive the other player
@@ -229,7 +221,7 @@ public class Player : MonoBehaviour
         }
 
         //  MELEE SPIN MOVE
-        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded)
+        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded && !animator.GetBool("holdCast"))
         {
             currentWeapon.SwingWeapon(1f);
             currentWeapon.SpinCollider();
@@ -248,9 +240,10 @@ public class Player : MonoBehaviour
         }
 
         // HOLD MAGIC ATTACK
-        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning() && !IsRolling())
+        if (Controller.GetControllerActions().leftBumper.IsPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
-            animator.SetBool("holdCast", true);
+            if (inventory.MagicEquipped())
+                animator.SetBool("holdCast", true);
         }
         else
         {
@@ -258,12 +251,15 @@ public class Player : MonoBehaviour
         }
 
         // Perform magic attack
-        if (Controller.GetControllerActions().leftBumper.WasPressed)
+        if (Controller.GetControllerActions().leftBumper.WasPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
-            if (inventory.UseMagic())
-            {
-                animator.SetTrigger("CastTrigger");
-            }
+            StartCoroutine(UseMagic());
+        }
+
+        IEnumerator UseMagic()
+        {
+            yield return new WaitForSeconds(0.33f);
+            inventory.UseMagic();
         }
 
         // Stop magic attack
@@ -551,6 +547,12 @@ public class Player : MonoBehaviour
             || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Loop -> Magic Cast End") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast End -> New State")
             || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Start") || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast End")
             || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Loop");
+    }
+
+    private bool IsAttacking()
+    {
+        return animator.GetAnimatorTransitionInfo(6).IsName("New State -> PRIMARY_ATTACK") || animator.GetAnimatorTransitionInfo(6).IsName("PRIMARY_ATTACK -> New State")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("PRIMARY_ATTACK");
     }
 
     void TriggerEvent(UnityEvent uEvent)

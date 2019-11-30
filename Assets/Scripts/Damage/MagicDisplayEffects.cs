@@ -33,6 +33,7 @@ public class MagicDisplayEffects : MonoBehaviour
         if (displayMatch.ContainsKey(name))
         {
             displayMatch[name].SetActive(true);
+            displayMatch[name].GetComponent<ParticleSystem>().Play();
         }
     }
 
@@ -42,7 +43,7 @@ public class MagicDisplayEffects : MonoBehaviour
             return;
         if (displayMatch.ContainsKey(name))
         {
-            displayMatch[name].SetActive(false);
+            displayMatch[name].GetComponent<ParticleSystem>().Stop();
         }
     }
 }
