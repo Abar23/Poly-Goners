@@ -34,6 +34,7 @@ public class Skeleton : MonoBehaviour, ISkeleton
             damageable.OnDeath.AddListener(delegate { room.RemoveEnemy(this); });
             gameObject.SetActive(false);
         }
+        Spawn();
     }
 
     void Update()
