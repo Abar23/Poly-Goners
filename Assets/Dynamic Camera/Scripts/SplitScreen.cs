@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.PostProcessing;
+using UnityEditor;
 public class SplitScreen : MonoBehaviour
 {
 
@@ -28,6 +29,7 @@ public class SplitScreen : MonoBehaviour
     public float secondarySplitDistance = 5.0f;
 
     public RenderTexture renderTexture;
+    public PostProcessResources resources;
 
     private LayerMask raycastLayerMask;
 
@@ -56,15 +58,30 @@ public class SplitScreen : MonoBehaviour
 
         //Referencing camera1 and initalizing camera2.
         camera1 = new GameObject();
-        camera1.AddComponent<Camera>();
+        Camera camera = camera1.AddComponent<Camera>();
+        camera.allowHDR = true;
+        camera.renderingPath = RenderingPath.DeferredShading;
         camera1.tag = "MainCamera";
         camera1.GetComponent<Camera>().targetTexture = this.renderTexture;
+        PostProcessLayer layer = camera1.AddComponent<PostProcessLayer>();
+        layer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
+        layer.volumeLayer = LayerMask.GetMask("PostProcessing");
+        layer.volumeTrigger = camera.transform;
+        layer.Init(resources);
+
         camera2 = new GameObject();
-        camera2.AddComponent<Camera>();
+        camera = camera2.AddComponent<Camera>();
+        camera.allowHDR = true;
+        camera.renderingPath = RenderingPath.DeferredShading;
         //Setting up the culling mask of camera2 to ignore the layer "TransparentFX" as to avoid rendering the split and splitter on both cameras.
         camera2.GetComponent<Camera>().cullingMask = ~(1 << LayerMask.NameToLayer("TransparentFX"));
         camera2.AddComponent<CameraShake>();
         camera2.tag = "MainCamera";
+        layer = camera2.AddComponent<PostProcessLayer>();
+        layer.antialiasingMode = PostProcessLayer.Antialiasing.TemporalAntialiasing;
+        layer.volumeLayer = LayerMask.GetMask("PostProcessing");
+        layer.volumeTrigger = camera.transform;
+        layer.Init(resources);
 
         //Setting up the splitter and initalizing the gameobject.
         splitter = GameObject.CreatePrimitive(PrimitiveType.Quad);
@@ -106,7 +123,7 @@ public class SplitScreen : MonoBehaviour
             {
                 //Gets the z axis distance between the two players and just the standard distance.
                 float zDistance = player1.position.z - player2.transform.position.z;
-                float distance = Vector3.Distance(player1.position, player2.transform.position);
+                float distance = Vector3.Distance(new Vector3(player1.position.x, 0.0f, player1.position.z), new Vector3(player2.position.x, 0.0f, player2.position.z));
 
                 //Sets the angle of the player up, depending on who's leading on the x axis.
                 float angle;
@@ -118,7 +135,7 @@ public class SplitScreen : MonoBehaviour
                 {
                     angle = Mathf.Rad2Deg * Mathf.Asin(zDistance / distance) - 90;
                 }
-
+                Debug.Log(angle);
                 //Rotates the splitter according to the new angle.
                 splitter.transform.localEulerAngles = new Vector3(0, 0, angle);
 
