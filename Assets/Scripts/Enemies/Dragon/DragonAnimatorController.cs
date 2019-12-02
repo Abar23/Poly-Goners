@@ -63,11 +63,11 @@ public class DragonAnimatorController : MonoBehaviour
 
     public void RangedAttack()
     {
-        foreach (AttackAnim meleeAttack in m_RangedAttackAnimations)
+        foreach (AttackAnim attack in m_RangedAttackAnimations)
         {
-            if (UnityEngine.Random.Range(0f, 1f) < meleeAttack.TriggerChance)
+            if (UnityEngine.Random.Range(0f, 1f) < attack.TriggerChance)
             {
-                animatorOverrideController["RANGED_ATTACK"] = meleeAttack.Animation;
+                animatorOverrideController["RANGED_ATTACK"] = attack.Animation;
                 break;
             }
         }
@@ -76,11 +76,11 @@ public class DragonAnimatorController : MonoBehaviour
 
     public void FlyAttack()
     {
-        foreach (AttackAnim meleeAttack in m_RangedAttackAnimations)
+        foreach (AttackAnim attack in m_FlyAttackAnimations)
         {
-            if (UnityEngine.Random.Range(0f, 1f) < meleeAttack.TriggerChance)
+            if (UnityEngine.Random.Range(0f, 1f) < attack.TriggerChance)
             {
-                animatorOverrideController["FLY_ATTACK"] = meleeAttack.Animation;
+                animatorOverrideController["FLY_ATTACK"] = attack.Animation;
                 break;
             }
         }
