@@ -89,13 +89,7 @@ public class MagicBox : MonoBehaviour
                 m_Spells[index].Object.SetActive(true);
             }
             m_Spells[index].Object.GetComponent<ParticleSystem>().Play();
-            m_Spells[index].Object.GetComponent<Collider>().enabled = true;
             _drainMana = true;
-            PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
-            if (pulseMagic != null)
-            {
-                pulseMagic.ExtendCollider();
-            }
             StartCoroutine(DrainMana(index));
         }
         else
