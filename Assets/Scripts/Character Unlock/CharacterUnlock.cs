@@ -21,6 +21,7 @@ public class CharacterUnlock : MonoBehaviour
     private ParticleSystem doorPS;
     private int subCharIndex = 0;
     private bool isUnlocked = false;
+    private Vector3 unlockPosition;
 
     private Animator anim;
     private AnimatorOverrideController animatorOverrideController;
@@ -61,10 +62,11 @@ public class CharacterUnlock : MonoBehaviour
             }
         }
 
+        unlockPosition = CellDoor.transform.position + (CellDoor.transform.forward * 0.5f) + (CellDoor.transform.right * -0.75f);
         if (PlayerPrefs.HasKey(activeChar.name))
         {
             isUnlocked = true;
-            gameObject.transform.position = CellDoor.transform.position + gameObject.transform.forward * 0.5f + transform.right * -0.75f; 
+            gameObject.transform.position = unlockPosition;
         }
         else
             isUnlocked = false;
@@ -89,6 +91,7 @@ public class CharacterUnlock : MonoBehaviour
                     {
                         if (player1.GetComponent<Inventory>().GetGold() >= Price)
                         {
+                            isUnlocked = true;
                             player1.GetComponent<CharacterBox>().SetCharacter(CharacterIndex, subCharIndex);
                             player1.GetComponent<CharacterBox>().SetIcon(activeChar);
                             player1.GetComponent<Player>().UpdateAnimator();
@@ -99,8 +102,7 @@ public class CharacterUnlock : MonoBehaviour
                             if (characterPS != null)
                                 characterPS.gameObject.SetActive(true);
                             textPanel.SetActive(false);
-                            gameObject.transform.position = CellDoor.transform.position + gameObject.transform.forward * 0.5f + transform.right * -0.75f;
-                            isUnlocked = true;
+                            gameObject.transform.position = unlockPosition;
                         }
                         else
                         {
@@ -119,6 +121,7 @@ public class CharacterUnlock : MonoBehaviour
                     {
                         if (player2.GetComponent<Inventory>().GetGold() >= Price)
                         {
+                            isUnlocked = true;
                             player2.GetComponent<CharacterBox>().SetCharacter(CharacterIndex, subCharIndex);
                             player2.GetComponent<CharacterBox>().SetIcon(activeChar);
                             player2.GetComponent<Player>().UpdateAnimator();
@@ -129,8 +132,7 @@ public class CharacterUnlock : MonoBehaviour
                             if (characterPS != null)
                                 characterPS.gameObject.SetActive(true);
                             textPanel.SetActive(false);
-                            gameObject.transform.position = CellDoor.transform.position + gameObject.transform.forward * 0.5f + transform.right * -0.75f;
-                            isUnlocked = true;
+                            gameObject.transform.position = unlockPosition;
                         }
                         else
                         {
@@ -156,6 +158,8 @@ public class CharacterUnlock : MonoBehaviour
         }
         else
         {
+            gameObject.transform.position = unlockPosition;
+
             if (!PlayerPrefs.HasKey(activeChar.name))
                 PlayerPrefs.SetInt(activeChar.name, 1);
 

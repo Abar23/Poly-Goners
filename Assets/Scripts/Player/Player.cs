@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
 
     private void UpdateInput()
     {
-        if (!animator.GetBool("isSpinning") && !(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
+        if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
         {
             HandleMove();
             HandleRotation();
@@ -491,7 +491,10 @@ public class Player : MonoBehaviour
 
         if (character.isGrounded)
         {
-            MoveDir *= MoveSpeed;
+            if (animator.GetBool("isSpinning"))
+                MoveDir *= (MoveSpeed / 2f);
+            else
+                MoveDir *= MoveSpeed;
             PlayerMovementState.HandleGroundedTransition();
 
             // Handle Roll Input

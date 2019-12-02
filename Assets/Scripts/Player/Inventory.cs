@@ -316,6 +316,8 @@ public class Inventory : MonoBehaviour
         gold /= 2;
         CoinDisplay.text = gold.ToString();
 
+        magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
+
         for (int i = 0; i < NumberOfMagicSlots; i++)
         {
             magicAbilities[i] = null;

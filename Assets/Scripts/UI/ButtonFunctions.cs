@@ -71,14 +71,14 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         clickSource.PlayOneShot(clickSource.clip);
         yield return new WaitForSecondsRealtime(clickSource.clip.length);
+        //if (EventSystem.current != null)
+        //    EventSystem.current.SetSelectedGameObject(null);
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        ResetButtonColors();
         CurrentPanel.SetActive(false);
         CurrentTitle.SetActive(false);
         NextPanel.SetActive(true);
         NextTitle.SetActive(true);
-        if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(null);
-        transform.localScale = new Vector3(1f, 1f, 1f);
-        OnDeselect(null);
     }
 
     public void Quit()
@@ -93,7 +93,8 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // For mouse highlighting of buttons
     public void OnPointerEnter(PointerEventData eventData)
     {
-        highlightSource.PlayOneShot(highlightSource.clip);
+        if (highlightSource != null)
+            highlightSource.PlayOneShot(highlightSource.clip);
         ButtonText.color = _textHoverColor;
         GetComponent<Image>().color = _buttonHoverColor;
     }
@@ -105,10 +106,11 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
 
-    // For keyboard / controller highlighing of buttons
+    // For keyboard / controller highlighting of buttons
     public void OnSelect(BaseEventData eventData)
     {
-        highlightSource.PlayOneShot(highlightSource.clip);
+        if (highlightSource != null)
+            highlightSource.PlayOneShot(highlightSource.clip);
         ButtonText.color = _textHoverColor;
         Image bgnd = GetComponent<Image>();
         if (bgnd != null)
@@ -126,6 +128,14 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void ResetTimeScale()
     {
         Time.timeScale = 1.0f;
+    }
+
+    public void ResetButtonColors()
+    {
+        ButtonText.color = _textDefaultColor;
+        Image bgnd = GetComponent<Image>();
+        if (bgnd != null)
+            bgnd.color = _buttonDefaultColor;
     }
 
     public void SaveLevel(DataEncapsulator dataEncapsulator)

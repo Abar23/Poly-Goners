@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ChangeAlpha : MonoBehaviour
 {
     public Image Tint;
+    public bool Paused;
     public float Alpha;
 
     private void OnEnable()
@@ -15,6 +16,7 @@ public class ChangeAlpha : MonoBehaviour
 
     private void OnDisable()
     {
-        Tint.color = new Color(Tint.color.r, Tint.color.g, Tint.color.b, 0);
+        if (!Paused)
+            Tint.color = new Color(Tint.color.r, Tint.color.g, Tint.color.b, 0);
     }
 }

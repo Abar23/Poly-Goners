@@ -21,21 +21,28 @@ public class SelectOnInput : MonoBehaviour
         if (BackPrompt != null)
             BackPrompt.SetActive(false);
 
-        cm = ControllerManager.GetInstance().GetComponent<ControllerManager>();
+        cm = ControllerManager.GetInstance();
         firstSelected = SelectedGameObject;
     }
 
     // Update is called once per frame
     void Update ()
 	{
-	    if (!cm.GetPlayerOneController().GetControllerActions().move.Y.Equals(0f) && _buttonSelected == false)
-	    {
-            EventSystem.SetSelectedGameObject(SelectedGameObject);
-            _buttonSelected = true;
+        if (!cm.GetPlayerOneController().isUsingKeyboard())
+        {
+            if (GetComponent<StandaloneInputModule>() != null)
+                GetComponent<StandaloneInputModule>().enabled = false;
         }
+        else
+        {
+            if (GetComponent<StandaloneInputModule>() != null)
+                GetComponent<StandaloneInputModule>().enabled = true;
+        }
+
 
         if (PreviousMenu != null && cm.GetPlayerOneController().GetControllerActions().action2.WasPressed)
         {
+            Disable();
             CurrentMenu.SetActive(false);
             CurrentTitle.SetActive(false);
             PreviousMenu.SetActive(true);
@@ -48,16 +55,32 @@ public class SelectOnInput : MonoBehaviour
             BackPrompt.SetActive(false);
 	}
 
-    private void OnDisable()
+    public void Disable()
     {
-        _buttonSelected = false;
+        foreach (Transform child in transform)
+        {
+            child.localScale = new Vector3(1f, 1f, 1f);
+        }
+        if (EventSystem != null)
+        {
+            EventSystem.SetSelectedGameObject(null);
+            if (SelectedGameObject != null)
+                SelectedGameObject.GetComponent<ButtonFunctions>().ResetButtonColors();
+            SelectedGameObject = null;
+            _buttonSelected = false;
+        }
     }
 
     private void OnEnable()
     {
-        SelectedGameObject = firstSelected;
         if (EventSystem != null)
+        {
+            if (firstSelected != null)
+                SelectedGameObject = firstSelected;
             EventSystem.SetSelectedGameObject(SelectedGameObject);
-        _buttonSelected = true;
+            if (SelectedGameObject != null)
+                SelectedGameObject.GetComponent<ButtonFunctions>().OnSelect(null);
+            _buttonSelected = true;
+        }
     }
 }
