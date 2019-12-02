@@ -492,7 +492,15 @@ public class Player : MonoBehaviour
 
         if (character.isGrounded)
         {
-            MoveDir *= MoveSpeed;
+            if (this.animator.GetBool("isSpinning"))
+            {
+                MoveDir *= (MoveSpeed / 2.0f); 
+            }
+            else
+            {
+                MoveDir *= MoveSpeed;
+            }
+
             PlayerMovementState.HandleGroundedTransition();
 
             // Handle Roll Input
