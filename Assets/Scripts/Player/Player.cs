@@ -164,7 +164,7 @@ public class Player : MonoBehaviour
 
     private void UpdateInput()
     {
-        if (!animator.GetBool("isSpinning") && !(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
+        if (!(animator.GetCurrentAnimatorStateInfo(0).IsName("End Spin")))
         {
             HandleMove();
             HandleRotation();
