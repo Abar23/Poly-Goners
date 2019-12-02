@@ -401,12 +401,10 @@ public class Player : MonoBehaviour
 
             if (Controller.isUsingKeyboard())
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    lookDir = hit.point - transform.position;
-                }
+                Vector3 mousePos = new Vector3(Input.mousePosition.x, 0.0f, Input.mousePosition.y);
+                mousePos.x -= Screen.width / 2;
+                mousePos.z -= Screen.height / 2;
+                lookDir = mousePos.normalized;
             }
             else
             {
