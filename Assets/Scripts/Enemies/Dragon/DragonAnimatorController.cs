@@ -16,6 +16,7 @@ public class DragonAnimatorController : MonoBehaviour
 
     [SerializeField] private List<AttackAnim> m_MeleeAttackAnimations;
     [SerializeField] private List<AttackAnim> m_RangedAttackAnimations;
+    [SerializeField] private List<AttackAnim> m_FlyAttackAnimations;
 
     private AnimatorOverrideController animatorOverrideController;
 
@@ -44,16 +45,16 @@ public class DragonAnimatorController : MonoBehaviour
 
     public void OnDead()
     {
-        m_Animator.SetBool("IsDead", false);
+        m_Animator.SetBool("IsDead", true);
     }
 
-    public void MeleeAttack(bool isAttacking)
+    public void MeleeAttack()
     {
         foreach (AttackAnim meleeAttack in m_MeleeAttackAnimations)
         {
             if (UnityEngine.Random.Range(0f, 1f) < meleeAttack.TriggerChance)
             {
-                animatorOverrideController["PRIMARY_ATTACK"] = meleeAttack.Animation;
+                animatorOverrideController["MELEE_ATTACK"] = meleeAttack.Animation;
                 break;
             }
         }
@@ -66,7 +67,20 @@ public class DragonAnimatorController : MonoBehaviour
         {
             if (UnityEngine.Random.Range(0f, 1f) < meleeAttack.TriggerChance)
             {
-                animatorOverrideController["PRIMARY_ATTACK"] = meleeAttack.Animation;
+                animatorOverrideController["RANGED_ATTACK"] = meleeAttack.Animation;
+                break;
+            }
+        }
+        m_Animator.SetTrigger("RangedAttack");
+    }
+
+    public void FlyAttack()
+    {
+        foreach (AttackAnim meleeAttack in m_RangedAttackAnimations)
+        {
+            if (UnityEngine.Random.Range(0f, 1f) < meleeAttack.TriggerChance)
+            {
+                animatorOverrideController["FLY_ATTACK"] = meleeAttack.Animation;
                 break;
             }
         }
@@ -90,6 +104,11 @@ public class DragonAnimatorController : MonoBehaviour
             m_Animator.SetTrigger("Land");
             landed = true;
         }
+    }
+
+    public void Walk(bool isWalking)
+    {
+        m_Animator.SetBool("IsWalking", isWalking);
     }
 
 }
