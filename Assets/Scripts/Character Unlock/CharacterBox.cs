@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterBox : MonoBehaviour
 {
+    public IconManager CharacterIcon;
     public List<GameObject> Characters;
     public List<Transform> RightHands;
     public List<Transform> LeftHands;
@@ -50,6 +51,8 @@ public class CharacterBox : MonoBehaviour
         (subLists[charIndex])[subListIndex].SetActive(true);
         weapons.transform.SetParent(RightHands[charIndex], false);
         displayEffects.transform.SetParent(LeftHands[charIndex], false);
+
+        SetIcon((subLists[charIndex])[subListIndex]);
     }
 
     public void NextCharacter()
@@ -109,5 +112,12 @@ public class CharacterBox : MonoBehaviour
     public Renderer GetActiveCharacterRenderer()
     {
         return (subLists[charIndex])[subListIndex].GetComponent<Renderer>();
+    }
+
+    public void SetIcon(GameObject obj)
+    {
+        CharacterIcon.EnableIcon(obj);
+        if (GetComponent<Player>().PlayerNumber != 1)
+            CharacterIcon.FlipIcon();
     }
 }
