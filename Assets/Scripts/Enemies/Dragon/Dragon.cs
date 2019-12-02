@@ -25,10 +25,14 @@ public class Dragon : MonoBehaviour, IEnemy
     [SerializeField] private float m_FlyHeight = 4f;
     [SerializeField] private bool m_AutoAim = false;
     [SerializeField] private ParticleSystem m_DustEffect;
+    [SerializeField] private Transform m_Destination;
+    [SerializeField] private float m_ShowOffTime;
+    [SerializeField] private float m_ShowOffHeight;
 
     // Motion Control
     private const float k_TakeOffDelay = 0.5f;
     private const float k_TakeOffTime = 2f;
+    private const float k_ShowTakeOffTime = 1f;
     private const float k_LandTime = 2f;
     private float initial_height;
     private bool isLanded = true;
@@ -36,7 +40,6 @@ public class Dragon : MonoBehaviour, IEnemy
     // Game Play
     private NavMeshAgent m_Agent;
     private DragonAnimatorController m_Controller;
-    private const float k_ScanInterval = 0.5f;
     private int followingIndex = -1;
     private int levelTwoHealth;
     private int levelThreeHealth;
@@ -44,6 +47,7 @@ public class Dragon : MonoBehaviour, IEnemy
     private const float levelThreePotion = 0.2f;
     private MagicBox magicBox;
     private Damageable damageable;
+    private float k_AutoAimDrag = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -88,7 +92,7 @@ public class Dragon : MonoBehaviour, IEnemy
             {
                 Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
                 Quaternion quaternion = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, 0.1f);
+                transform.rotation = Quaternion.Slerp(transform.rotation, quaternion, k_AutoAimDrag);
             }
             yield return new WaitForEndOfFrame();
         }
@@ -97,12 +101,34 @@ public class Dragon : MonoBehaviour, IEnemy
     IEnumerator ShowUp()
     {
         yield return new WaitForSeconds(1f);
+        m_Agent.enabled = false;
         m_Controller.TakeOff();
         isLanded = false;
-        yield return new WaitForSeconds(5f);
+        StartCoroutine(ChangeHeight(transform.position.y, m_ShowOffHeight, k_ShowTakeOffTime));
+        yield return new WaitForSeconds(k_TakeOffTime);
+        StartCoroutine(FlyToDest());
+        yield return new WaitForSeconds(m_ShowOffTime);
         m_Controller.Land();
         isLanded = true;
+        m_Agent.enabled = true;
         StartCoroutine(LandedAttackLvl1(2f));
+    }
+
+    IEnumerator FlyToDest()
+    {
+        float elapse = 0f;
+        Vector3 orignalPos = transform.position;
+        while (true)
+        {
+            transform.position = Vector3.Lerp(orignalPos, m_Destination.position, elapse / m_ShowOffTime);
+            elapse += Time.deltaTime;
+            if (elapse > m_ShowOffTime)
+            {
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = m_Destination.position;
     }
 
     IEnumerator LandedAttackLvl1(float delay = 0f)
@@ -266,7 +292,7 @@ public class Dragon : MonoBehaviour, IEnemy
     public void StartSpreadMagic()
     {
         magicBox.FireMagic(1);
-        Invoke("StopSpreadMagic", 3.0f);
+        Invoke("StopSpreadMagic", 2.8f);
     }
 
     public void StopSpreadMagic()
