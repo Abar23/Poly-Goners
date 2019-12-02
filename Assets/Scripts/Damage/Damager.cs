@@ -33,6 +33,24 @@ public class Damager : MonoBehaviour
         }
     }
 
+    void OnParticleCollision(GameObject other)
+    {
+        Damageable damageable = other.gameObject.GetComponent<Damageable>();
+        if (damageable == null)
+        {
+            TriggerEvent(OnHitDummy);
+        }
+        else if ((int)damageable.Config.Alignment + (int)Alignment <= 1
+            || damageable.Config.Alignment == Alignment)
+        {
+            TriggerEvent(OnHitAlly);
+        }
+        else
+        {
+            TriggerEvent(OnCauseDamage);
+        }
+    }
+
     void TriggerEvent(UnityEvent uEvent)
     {
         if (uEvent != null)
