@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PauseManager : MonoBehaviour
 {
     //public GameObject playerHud;
 
     public GameObject pauseMenu;
+    public GameObject MainPausePanel;
+    public GameObject MainPauseText;
+    public List<GameObject> OtherPanels;
 
     public static bool isGamePaused;
 
@@ -47,10 +55,22 @@ public class PauseManager : MonoBehaviour
                 player2.SetIsPaused(true);
                 //this.playerHud.SetActive(false);
                 this.pauseMenu.SetActive(true);
+                MainPausePanel.SetActive(true);
+                MainPauseText.SetActive(true);
+                foreach (GameObject panel in OtherPanels)
+                {
+                    panel.SetActive(false);
+                }
                 Time.timeScale = 0.0f;
             }
             else
             {
+                MainPausePanel.GetComponent<SelectOnInput>().Disable();
+                foreach (GameObject panel in OtherPanels)
+                {
+                    if (panel.GetComponent<SelectOnInput>() != null)
+                        panel.GetComponent<SelectOnInput>().Disable();
+                }
                 isGamePaused = false;
                 player1.SetIsPaused(false);
                 player2.SetIsPaused(false);

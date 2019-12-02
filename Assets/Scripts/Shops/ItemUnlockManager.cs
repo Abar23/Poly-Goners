@@ -21,6 +21,9 @@ public class ItemUnlockManager : MonoBehaviour
     }
 
     public void AddPickupToUnlocks(string pickupName) {
+        if (!PlayerPrefs.HasKey(pickupName))
+            PlayerPrefs.SetInt(pickupName, 1);
+
         if (!unlockedItems.ContainsKey(pickupName))
             unlockedItems.Add(pickupName, true);
     }
