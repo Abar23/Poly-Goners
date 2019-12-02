@@ -58,9 +58,14 @@ public class WeaponPickup : MonoBehaviour
             weaponManager = player.gameObject.GetComponentInChildren<WeaponManager>();
             if (weaponManager != null)
             {
-                inv.AddMeleeWeapon(weaponManager.weaponPickups[this.gameObject.name].GetComponent<Weapon>(), this.gameObject);
-                weaponManager.EquipWeapon(this.gameObject.name);
-                this.gameObject.SetActive(false);
+                GameObject newDrop = Instantiate(this.gameObject, player.transform.position + player.transform.forward, Quaternion.identity);
+                newDrop.name = this.gameObject.name;
+
+                inv.AddMeleeWeapon(weaponManager.weaponPickups[this.gameObject.name].GetComponent<Weapon>(), newDrop);
+                weaponManager.EquipWeapon(newDrop.name);
+                newDrop.SetActive(false);
+
+                Destroy(this.gameObject);
             }
         }
     }

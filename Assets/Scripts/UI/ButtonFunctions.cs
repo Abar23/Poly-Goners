@@ -4,12 +4,13 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
 public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
     public Text ButtonText;
     public AudioClip ClickClip;
     public AudioClip HighlightClip;
+    public Slider MusicSlider;
+    public Slider FxSlider;
     public GameObject CurrentPanel;
     public GameObject CurrentTitle;
     public GameObject NextPanel;
@@ -35,6 +36,14 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
         highlightSource.volume = 0.25f;
     }
 
+    public void FixedUpdate()
+    {
+        if (PlayerPrefs.HasKey("fx"))
+        {
+            clickSource.volume = PlayerPrefs.GetFloat("fx");
+            highlightSource.volume = PlayerPrefs.GetFloat("fx");
+        }
+    }
 
     public void LoadSceneByIndex(int sceneIndex)
     {
@@ -55,20 +64,21 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void LoadNextMenu()
     {
-        StartCoroutine(DelayMenuLoad());
+        StartCoroutine(DelayNextMenuLoad());
     }
 
-    IEnumerator DelayMenuLoad()
+    IEnumerator DelayNextMenuLoad()
     {
         clickSource.PlayOneShot(clickSource.clip);
         yield return new WaitForSecondsRealtime(clickSource.clip.length);
+        //if (EventSystem.current != null)
+        //    EventSystem.current.SetSelectedGameObject(null);
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        ResetButtonColors();
         CurrentPanel.SetActive(false);
         CurrentTitle.SetActive(false);
         NextPanel.SetActive(true);
         NextTitle.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(null);
-        transform.localScale = new Vector3(1f, 1f, 1f);
-        OnDeselect(null);
     }
 
     public void Quit()
@@ -83,7 +93,8 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     // For mouse highlighting of buttons
     public void OnPointerEnter(PointerEventData eventData)
     {
-        highlightSource.PlayOneShot(highlightSource.clip);
+        if (highlightSource != null)
+            highlightSource.PlayOneShot(highlightSource.clip);
         ButtonText.color = _textHoverColor;
         GetComponent<Image>().color = _buttonHoverColor;
     }
@@ -95,23 +106,36 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     }
 
 
-    // For keyboard / controller highlighing of buttons
+    // For keyboard / controller highlighting of buttons
     public void OnSelect(BaseEventData eventData)
     {
-        highlightSource.PlayOneShot(highlightSource.clip);
+        if (highlightSource != null)
+            highlightSource.PlayOneShot(highlightSource.clip);
         ButtonText.color = _textHoverColor;
-        GetComponent<Image>().color = _buttonHoverColor;
+        Image bgnd = GetComponent<Image>();
+        if (bgnd != null)
+            bgnd.color = _buttonHoverColor;
     }
 
     public void OnDeselect(BaseEventData eventData)
     {        
         ButtonText.color = _textDefaultColor;
-        GetComponent<Image>().color = _buttonDefaultColor;
+        Image bgnd = GetComponent<Image>();
+        if (bgnd != null)
+            bgnd.color = _buttonDefaultColor;
     }
 
     public void ResetTimeScale()
     {
         Time.timeScale = 1.0f;
+    }
+
+    public void ResetButtonColors()
+    {
+        ButtonText.color = _textDefaultColor;
+        Image bgnd = GetComponent<Image>();
+        if (bgnd != null)
+            bgnd.color = _buttonDefaultColor;
     }
 
     public void SaveLevel(DataEncapsulator dataEncapsulator)
@@ -136,5 +160,28 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public void RemovePlayer2()
     {
         PlayerManager.GetInstance().RemovePlayer2();
+    }
+
+    public void ApplyVolume()
+    {
+        clickSource.PlayOneShot(clickSource.clip);
+        PlayerPrefs.SetFloat("music", MusicSlider.value);
+        PlayerPrefs.SetFloat("fx", FxSlider.value);
+    }
+
+    public void ResetPlayerPrefs()
+    {
+        float music = 0f;
+        float fx = 0f;
+
+        if (PlayerPrefs.HasKey("music"))
+            music = PlayerPrefs.GetFloat("music");
+        if (PlayerPrefs.HasKey("fx"))
+            fx = PlayerPrefs.GetFloat("fx");
+
+        PlayerPrefs.DeleteAll();
+
+        PlayerPrefs.SetFloat("music", music);
+        PlayerPrefs.SetFloat("fx", fx);
     }
 }
