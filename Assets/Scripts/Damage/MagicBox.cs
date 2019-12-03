@@ -72,6 +72,24 @@ public class MagicBox : MonoBehaviour
         return magicAbilites[name];
     }
 
+    public bool CheckMagic(int index)
+    {
+        if (coolDowns[index] > 0)
+        {
+            return false;
+        }
+        if (!CheckMagicPoint(m_Spells[index].MagicPoint))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public bool IsPulseMagic(int index)
+    {
+        return m_Spells[index].IsConsistent;
+    }
+
     public bool FireMagic(int index)
     {
         if (coolDowns[index] > 0)
@@ -113,13 +131,13 @@ public class MagicBox : MonoBehaviour
     {
         while (_drainMana)
         {
-            ReduceMagicPoint(m_Spells[index].MagicPoint);
-            if (!CheckMagicPoint(m_Spells[index].MagicPoint))
+            ReduceMagicPoint(1);
+            if (!CheckMagicPoint(1))
             {
                 StopMagic(index);
                 break;
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f / m_Spells[index].MagicPoint);
         }
     }
 
@@ -131,7 +149,6 @@ public class MagicBox : MonoBehaviour
             return false;
         _drainMana = false;
         m_Spells[index].Object.GetComponent<ParticleSystem>().Stop();
-        m_Spells[index].Object.GetComponent<Collider>().enabled = false;
         coolDowns[index] = m_Spells[index].CoolDown;
         PulseMagic pulseMagic = m_Spells[index].Object.GetComponent<PulseMagic>();
         if (pulseMagic != null)

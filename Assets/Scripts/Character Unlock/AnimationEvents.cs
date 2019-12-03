@@ -14,6 +14,7 @@ public class AnimationEvents : MonoBehaviour
 
     public void Shoot()
     {
+        inventory.UseMagic();
     }
 
     public void FootR()

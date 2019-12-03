@@ -129,6 +129,11 @@ public class Inventory : MonoBehaviour
             return true;
     }
 
+    public bool IsPulseMagic()
+    {
+        return magicBox.IsPulseMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+    }
+
     public bool UseMagic()
     {
         if (magicAbilities[currentMagicIndex] != null)
