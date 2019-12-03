@@ -134,7 +134,6 @@ public class SplitScreen : MonoBehaviour
                 {
                     angle = Mathf.Rad2Deg * Mathf.Asin(zDistance / distance) - 90;
                 }
-                Debug.Log(angle);
                 //Rotates the splitter according to the new angle.
                 splitter.transform.localEulerAngles = new Vector3(0, 0, angle);
 

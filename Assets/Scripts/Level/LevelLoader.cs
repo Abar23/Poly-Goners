@@ -57,7 +57,6 @@ public class LevelLoader : MonoBehaviour
                 LoadCastleArmoury();
                 break;
             default:
-                Debug.Log("ERROR: Level not found in LevelFactory.");
                 break;
         }
     }
