@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ISkeleton
+public interface IEnemy
 {
     void Spawn();
 

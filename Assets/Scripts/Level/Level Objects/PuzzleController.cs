@@ -5,8 +5,9 @@ using UnityEngine.Events;
 
 public class PuzzleController : MonoBehaviour
 {
-
+    [Header("Rune List")]
     [SerializeField] private List<RunePillar> m_Runes;
+    [Header("Events")]
     [SerializeField] private UnityEvent OnPuzzleFinished;
     [SerializeField] private UnityEvent OnPuzzleFailed;
     private List<RunePillar> triggerSequence;

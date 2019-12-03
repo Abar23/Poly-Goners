@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(SkeletonAnimatorController))]
-public class RangedSkeleton : MonoBehaviour, ISkeleton
+public class RangedSkeleton : MonoBehaviour, IEnemy
 {
 
     [SerializeField] private TargetScanner m_Scanner;
