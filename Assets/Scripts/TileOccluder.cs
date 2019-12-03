@@ -136,11 +136,13 @@ public class TileOccluder : MonoBehaviour
     {
         foreach(Renderer childRenderer in this.childRenderers)
         {
-            childRenderer.enabled = desiredState;
+            if (childRenderer != null)
+                childRenderer.enabled = desiredState;
         }
         foreach(Light childLight in this.childLights)
         {
-            childLight.enabled = desiredState;
+            if (childLight != null)
+                childLight.enabled = desiredState;
         }
     }
 }
