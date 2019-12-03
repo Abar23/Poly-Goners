@@ -74,7 +74,6 @@ public class Dragon : MonoBehaviour, IEnemy
 
         levelTwoHealth = (int) (levelTwoPotion * this.damageable.GetMaxHealth());
         levelThreeHealth = (int)(levelThreePotion * this.damageable.GetMaxHealth());
-        Spawn();
     }
 
     public void Spawn()
