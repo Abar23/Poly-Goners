@@ -6,6 +6,12 @@ public class AudioVolume : MonoBehaviour
 {
     public string AudioType;
 
+    private void Awake()
+    {
+        if (PlayerPrefs.HasKey(AudioType))
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat(AudioType);
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
