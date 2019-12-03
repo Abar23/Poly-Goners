@@ -243,17 +243,24 @@ public class Player : MonoBehaviour
         if (Controller.GetControllerActions().leftBumper.IsPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
             if (inventory.MagicEquipped())
-                animator.SetBool("holdCast", true);
-        }
-        else
-        {
-            animator.SetBool("holdCast", false);
+            {
+                if (inventory.IsPulseMagic())
+                {
+                    animator.SetBool("holdCast", true);
+                }
+                else
+                {
+                    if (inventory.UseMagic())
+                        animator.SetTrigger("CastTrigger");
+                }
+            }
+                
         }
 
         // Perform magic attack
         if (Controller.GetControllerActions().leftBumper.WasPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
-            StartCoroutine(UseMagic());
+
         }
 
         IEnumerator UseMagic()
@@ -268,6 +275,7 @@ public class Player : MonoBehaviour
             if (inventory.StopMagic())
             {
                 // Deactivate magic anim
+                animator.SetBool("holdCast", false);
             }
         }
 
