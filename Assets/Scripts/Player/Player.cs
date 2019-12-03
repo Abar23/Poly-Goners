@@ -268,6 +268,7 @@ public class Player : MonoBehaviour
             if (inventory.StopMagic())
             {
                 // Deactivate magic anim
+                animator.SetBool("holdCast", false);
             }
         }
 
