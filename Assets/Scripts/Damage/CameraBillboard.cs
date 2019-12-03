@@ -17,11 +17,15 @@ public class CameraBillboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(transform.position + Camera.main.GetComponent<SplitScreen>().GetMainCamera().transform.rotation * Vector3.forward,
-                                                               Camera.main.GetComponent<SplitScreen>().GetMainCamera().transform.rotation * Vector3.up);
-        if (!BillboardX || !BillboardY || !BillboardZ)
-            transform.rotation = Quaternion.Euler(BillboardX ? transform.rotation.eulerAngles.x : 0f, BillboardY ? transform.rotation.eulerAngles.y : 0f, BillboardZ ? transform.rotation.eulerAngles.z : 0f);
-        transform.localPosition = localStartPosition;
-        transform.position = transform.position + transform.rotation * Vector3.forward * OffsetToCamera;
+        SplitScreen splitScreen = Camera.main.GetComponent<SplitScreen>();
+        if(splitScreen != null)
+        {
+            transform.LookAt(transform.position + splitScreen.GetMainCamera().transform.rotation * Vector3.forward,
+                                                       splitScreen.GetComponent<SplitScreen>().GetMainCamera().transform.rotation * Vector3.up);
+            if (!BillboardX || !BillboardY || !BillboardZ)
+                transform.rotation = Quaternion.Euler(BillboardX ? transform.rotation.eulerAngles.x : 0f, BillboardY ? transform.rotation.eulerAngles.y : 0f, BillboardZ ? transform.rotation.eulerAngles.z : 0f);
+            transform.localPosition = localStartPosition;
+            transform.position = transform.position + transform.rotation * Vector3.forward * OffsetToCamera;
+        }
     }
 }

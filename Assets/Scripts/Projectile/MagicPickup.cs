@@ -63,8 +63,12 @@ public class MagicPickup : MonoBehaviour
             magicBox = player.GetComponentInChildren<MagicBox>();
             if (magicBox != null)
             {
-                inv.AddMagicAbility(this.gameObject.name, this.gameObject);
-                this.transform.root.gameObject.SetActive(false);
+                GameObject newDrop = Instantiate(this.gameObject, player.transform.position + player.transform.forward, Quaternion.identity);
+                newDrop.name = this.gameObject.name;
+
+                inv.AddMagicAbility(this.gameObject.name, newDrop);
+                newDrop.transform.root.gameObject.SetActive(false);
+                Destroy(this.gameObject);
             }
         }
     }

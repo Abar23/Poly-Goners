@@ -82,6 +82,11 @@ public class Damageable : MonoBehaviour
         return health;
     }
 
+    public int GetMaxHealth()
+    {
+        return Config.MaxHealth;
+    }
+
     public void IncreaseHealth(int number)
     {
         health = Mathf.Min(health + number, Config.MaxHealth);
@@ -110,6 +115,27 @@ public class Damageable : MonoBehaviour
 
         if (damager.Config is ContinuousEffectiveDamagerConfig)
             return;
+
+        if ((int)damager.Alignment + (int)Config.Alignment > 0x1
+                && damager.Alignment != Config.Alignment)
+        {
+            TakeDamage(damager.Config, damager.GetMultiplier(), damager);
+        }
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        if ((this.gameObject.layer == 9 || this.gameObject.layer == 10) && GetComponent<MeshBlink>().IsInvincible())
+            return;
+
+        Damager damager = other.GetComponent<Damager>();
+        if (damager == null)
+            return;
+
+        if (damager.Config is ContinuousEffectiveDamagerConfig)
+        {
+            TakeCEDamage(damager, damager.GetMultiplier());
+        }
 
         if ((int)damager.Alignment + (int)Config.Alignment > 0x1
                 && damager.Alignment != Config.Alignment)

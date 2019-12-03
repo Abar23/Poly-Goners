@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 6591462967714580618}
   - component: {fileID: 6591462967733980618}
   - component: {fileID: 6591462967733957738}
-  - component: {fileID: 2820678565450380337}
   - component: {fileID: 2820678565450380336}
-  - component: {fileID: 5585740529272688128}
   m_Layer: 0
   m_Name: Continuous Fire
   m_TagString: Untagged
@@ -118,8 +116,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: 1
+      scalar: 3
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -153,7 +151,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -609,13 +607,13 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 6.46
+    angle: 5.31
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 3, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -814,7 +812,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 200
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1378,7 +1376,7 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 11180
-        ctime1: 65535
+        ctime1: 54548
         ctime2: 0
         ctime3: 0
         ctime4: 0
@@ -2205,8 +2203,8 @@ ParticleSystem:
     x:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: -2
+      scalar: 0.8
+      minScalar: -0.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2240,7 +2238,7 @@ ParticleSystem:
     y:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
+      scalar: 10.4
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -2275,8 +2273,8 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 2
-      minScalar: -2
+      scalar: 0.8
+      minScalar: -0.8
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3757,7 +3755,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4774,20 +4772,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!136 &2820678565450380337
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6591462967714419882}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.7
-  m_Height: 0
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2820678565450380336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4817,17 +4801,3 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &5585740529272688128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6591462967714419882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 768e608535f095c4fa7b888d37be1d2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxLength: 8
-  m_MaxTime: 1.5

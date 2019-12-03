@@ -129,6 +129,11 @@ public class Inventory : MonoBehaviour
             return true;
     }
 
+    public bool IsPulseMagic()
+    {
+        return magicBox.IsPulseMagic(magicBox.GetIndexFromName(magicAbilities[currentMagicIndex]));
+    }
+
     public bool UseMagic()
     {
         if (magicAbilities[currentMagicIndex] != null)
@@ -315,6 +320,8 @@ public class Inventory : MonoBehaviour
     {
         gold /= 2;
         CoinDisplay.text = gold.ToString();
+
+        magicDisplay.ResetEffect(magicAbilities[currentMagicIndex]);
 
         for (int i = 0; i < NumberOfMagicSlots; i++)
         {

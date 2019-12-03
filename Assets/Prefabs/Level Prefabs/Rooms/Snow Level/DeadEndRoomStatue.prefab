@@ -572,20 +572,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DungeonDoorwayPositions:
   - {fileID: 4381924081458549235}
---- !u!64 &2201702436363488371
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1039606045602604455}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300000, guid: 8d10ceaec8ba28d4a854a9084af1b0de, type: 3}
 --- !u!54 &7728179959216079191
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -602,6 +588,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!64 &2201702436363488371
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039606045602604455}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300000, guid: 8d10ceaec8ba28d4a854a9084af1b0de, type: 3}
 --- !u!54 &1039606046018016718
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1874,14 +1874,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.25
       objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 100000, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 19800002, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
       propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.size
       value: 3
@@ -1949,6 +1941,14 @@ PrefabInstance:
     - target: {fileID: 19800002, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
       propertyPath: RotationModule.y.scalar
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc0b6ba9e00ef3340b5f7cd1c36bc7ca, type: 3}
@@ -5235,11 +5235,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1039606045257900042}
     m_Modifications:
-    - target: {fileID: 3648712348250703438, guid: 4bb84762033eb6447a8f31ec954911cc,
-        type: 3}
-      propertyPath: m_Name
-      value: Doorway Position
-      objectReference: {fileID: 0}
     - target: {fileID: 3648712348250703437, guid: 4bb84762033eb6447a8f31ec954911cc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5294,6 +5289,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3648712348250703438, guid: 4bb84762033eb6447a8f31ec954911cc,
+        type: 3}
+      propertyPath: m_Name
+      value: Doorway Position
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bb84762033eb6447a8f31ec954911cc, type: 3}
@@ -6704,6 +6704,42 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snow Flakes 03
       objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: ShapeModule.m_Scale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: ShapeModule.m_Scale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: ShapeModule.m_Scale.z
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: InitialModule.startSizeY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: InitialModule.startSizeZ.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -6747,26 +6783,6 @@ PrefabInstance:
     - target: {fileID: 400000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
-      propertyPath: playOnAwake
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
-      propertyPath: ShapeModule.m_Scale.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
-      propertyPath: ShapeModule.m_Scale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
-      propertyPath: ShapeModule.m_Scale.z
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 19800000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
-      propertyPath: EmissionModule.rateOverTime.scalar
-      value: 500
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 999d1523b94750a4cb3992fc5ff1c8c6, type: 3}
