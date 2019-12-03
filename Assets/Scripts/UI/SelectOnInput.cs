@@ -40,7 +40,8 @@ public class SelectOnInput : MonoBehaviour
         }
 
 
-        if (PreviousMenu != null && (cm.GetPlayerOneController().GetControllerActions().action2.WasPressed || cm.GetPlayerTwoController().GetControllerActions().action2.WasPressed))
+        if (PreviousMenu != null && (cm.GetPlayerOneController().GetControllerActions().action2.WasPressed
+                    || (cm.GetPlayerTwoController() is Controller && cm.GetPlayerTwoController().GetControllerActions().action2.WasPressed)))
         {
             Disable();
             CurrentMenu.SetActive(false);
