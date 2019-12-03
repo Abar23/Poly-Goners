@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovingSawTrap : MonoBehaviour
 {
-    private float rotateSpeed = 10f;
+    private float rotateSpeed = 5f;
     public Transform leftEndpoint;
     public Transform rightEndpoint;
     private bool goingToRightEndpoint;
@@ -14,17 +14,28 @@ public class MovingSawTrap : MonoBehaviour
     private float previousDist = Mathf.Infinity;
     public float moveSpeed;
     private Rigidbody rb;
-    private Vector3 startPosition;
+    public GameObject sawRail;
+    private Vector3 railSize;
+    //[Range(1.0f, 5.0f)]
+    //public float trackSize;
 
     void Start() {
         rb = this.GetComponent<Rigidbody>();
         goingToRightEndpoint = true;
         retarget = false;
         TargetRightEndpoint();
-        startPosition = this.transform.position;
+
+        //sawRail.transform.localScale = new Vector3(sawRail.transform.localScale.localScale.x, sawRail.transform.localScale.localScale.y, trackSize);
+        //sawRail.gameObject.transform.localScale = new Vector3(sawRail.gameObject.transform.localScale.x, sawRail.transform.localScale.y, trackSize);
+        var renderer = sawRail.GetComponent<MeshRenderer>();
+        railSize = renderer.bounds.size;
+        //Debug.Log(railSize.z);
+        leftEndpoint.localPosition = new Vector3(0, 0, this.transform.localPosition.z + -railSize.z / 2 + 1.25f);
+        rightEndpoint.localPosition = new Vector3(0, 0, this.transform.localPosition.z + railSize.z / 2 - 1.25f);
     }
 
     void Update() {
+        rotateSpeed = moveSpeed;
         transform.position += velocity * moveSpeed * Time.deltaTime;
 
         if (retarget) {

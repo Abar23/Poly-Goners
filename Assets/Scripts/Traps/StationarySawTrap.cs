@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SawTrap : MonoBehaviour
 {
-    private float rotateSpeed = 10f;
+    private float rotateSpeed = 15f;
 
     void Start() {
         
