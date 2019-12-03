@@ -82,6 +82,11 @@ public class Damageable : MonoBehaviour
         return health;
     }
 
+    public int GetMaxHealth()
+    {
+        return Config.MaxHealth;
+    }
+
     public void IncreaseHealth(int number)
     {
         health = Mathf.Min(health + number, Config.MaxHealth);
