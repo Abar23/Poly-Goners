@@ -246,7 +246,8 @@ public class Player : MonoBehaviour
             {
                 if (inventory.IsPulseMagic())
                 {
-                    animator.SetBool("holdCast", true);
+                    if (inventory.CheckMagic())
+                        animator.SetBool("holdCast", true);
                 }
                 else
                 {
