@@ -168,6 +168,7 @@ public class Damageable : MonoBehaviour
             //    StartCoroutine("SetKnockedBack");
             //}
             TakeCEDamage(damager, damager.GetMultiplier());
+            TriggerEvent(OnHit);
         }
     }
 
