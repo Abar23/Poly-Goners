@@ -29,7 +29,6 @@ public class SpearTrap : MonoBehaviour
     }
 
     void Update() {
-        Debug.Log(cooldownTime);
         if (type == Type.OnTimer) {
             if (elapsedTime >= timerOffset + cooldownTime && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
                 animator.SetTrigger("isActive");
