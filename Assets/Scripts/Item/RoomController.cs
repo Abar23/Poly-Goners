@@ -7,22 +7,22 @@ public class RoomController : MonoBehaviour
 {
 
     public UnityEvent OnClearRoom;
-    private List<ISkeleton> enemies;
+    private List<IEnemy> enemies;
 
     private int m_NumEnemy = 0;
 
     void Awake()
     {
-        enemies = new List<ISkeleton>();
+        enemies = new List<IEnemy>();
     }
 
-    public void RegisterEnemy(ISkeleton enemy)
+    public void RegisterEnemy(IEnemy enemy)
     {
         m_NumEnemy++;
         enemies.Add(enemy);
     }
 
-    public void RemoveEnemy(ISkeleton enemy)
+    public void RemoveEnemy(IEnemy enemy)
     {
         m_NumEnemy--;
         if (enemies.Contains(enemy))
@@ -37,7 +37,7 @@ public class RoomController : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        foreach (ISkeleton enemy in enemies)
+        foreach (IEnemy enemy in enemies)
         {
             enemy.Spawn();
         }

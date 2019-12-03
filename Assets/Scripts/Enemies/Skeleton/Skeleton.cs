@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent), typeof(SkeletonAnimatorController))]
-public class Skeleton : MonoBehaviour, ISkeleton
+public class Skeleton : MonoBehaviour, IEnemy
 {
 
     [SerializeField] private TargetScanner m_Scanner;
     private List<Player> m_Players;
     [SerializeField] private float m_AttackDelay = 3.0f;
+    [SerializeField] private bool m_AutoAim = false;
 
     private NavMeshAgent m_Agent;
     private SkeletonAnimatorController m_Controller;
     private const float k_ScanInterval = 0.5f;
-    private int followingIndex;
+    private int followingIndex = -1;
 
 
     void Start()
@@ -33,12 +34,31 @@ public class Skeleton : MonoBehaviour, ISkeleton
             damageable.OnDeath.AddListener(delegate { room.RemoveEnemy(this); });
             gameObject.SetActive(false);
         }
+        if (gameObject.activeSelf)
+        {
+            Spawn();
+        }
     }
 
     public void Spawn()
     {
         gameObject.SetActive(true);
         StartCoroutine(ScanForPlayer());
+        StartCoroutine(AutoAim());
+    }
+
+    IEnumerator AutoAim()
+    {
+        while (true)
+        {
+            if (m_AutoAim && followingIndex != -1)
+            {
+                Vector3 direction = (m_Players[followingIndex].transform.position - transform.position).normalized;
+                Quaternion quaternion = Quaternion.LookRotation(direction);
+                transform.rotation = quaternion;
+            }
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     IEnumerator ScanForPlayer()
