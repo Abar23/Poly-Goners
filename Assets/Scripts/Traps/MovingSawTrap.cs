@@ -30,8 +30,8 @@ public class MovingSawTrap : MonoBehaviour
         var renderer = sawRail.GetComponent<MeshRenderer>();
         railSize = renderer.bounds.size;
         //Debug.Log(railSize.z);
-        leftEndpoint.localPosition = new Vector3(0, 0, this.transform.localPosition.z + -railSize.z / 2 + 1.25f);
-        rightEndpoint.localPosition = new Vector3(0, 0, this.transform.localPosition.z + railSize.z / 2 - 1.25f);
+        leftEndpoint.localPosition = new Vector3(0, 0, -railSize.z / 2 + 1f);
+        rightEndpoint.localPosition = new Vector3(0, 0, railSize.z / 2 - 1f);
     }
 
     void Update() {
