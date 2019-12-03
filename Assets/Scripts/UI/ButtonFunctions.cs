@@ -34,14 +34,20 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
         clickSource.playOnAwake = false;
         highlightSource.playOnAwake = false;
         highlightSource.volume = 0.25f;
+
+        if (PlayerPrefs.HasKey("fx"))
+        {
+            clickSource.volume = PlayerPrefs.GetFloat("fx") * 0.5f;
+            highlightSource.volume = PlayerPrefs.GetFloat("fx") * 0.25f;
+        }
     }
 
     public void FixedUpdate()
     {
         if (PlayerPrefs.HasKey("fx"))
         {
-            clickSource.volume = PlayerPrefs.GetFloat("fx");
-            highlightSource.volume = PlayerPrefs.GetFloat("fx");
+            clickSource.volume = PlayerPrefs.GetFloat("fx") * 0.5f;
+            highlightSource.volume = PlayerPrefs.GetFloat("fx") * 0.25f;
         }
     }
 
