@@ -96,6 +96,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PlayerPrefs.HasKey("fx"))
+            m_ReviveSFX.volume = PlayerPrefs.GetFloat("fx");
+
         if (transform.position.y < -7.5f)
         {
             GetComponent<Damageable>().TakeFallDamage();
@@ -169,15 +172,7 @@ public class Player : MonoBehaviour
             HandleMove();
             HandleRotation();
         }
-
-        if (Controller.GetControllerActions().dPadDown.WasPressed)
-        {
-            GetComponent<CharacterBox>().NextCharacter();
-            UpdateAnimator();
-        }
-
-
-
+                     
         float dist = Vector3.Distance(transform.position, OtherPlayer.transform.position);
 
         // Check if able to revive the other player
@@ -226,7 +221,7 @@ public class Player : MonoBehaviour
         }
 
         //  MELEE SPIN MOVE
-        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded)
+        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded && !animator.GetBool("holdCast"))
         {
             currentWeapon.SwingWeapon(1f);
             currentWeapon.SpinCollider();
@@ -245,22 +240,34 @@ public class Player : MonoBehaviour
         }
 
         // HOLD MAGIC ATTACK
-        if (Controller.GetControllerActions().leftTrigger.IsPressed && !IsSpinning() && !IsRolling())
+        if (Controller.GetControllerActions().leftBumper.IsPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
-            animator.SetBool("holdCast", true);
-        }
-        else
-        {
-            animator.SetBool("holdCast", false);
+            if (inventory.MagicEquipped())
+            {
+                if (inventory.IsPulseMagic())
+                {
+                    if (inventory.CheckMagic())
+                        animator.SetBool("holdCast", true);
+                }
+                else
+                {
+                    if (inventory.UseMagic())
+                        animator.SetTrigger("CastTrigger");
+                }
+            }
+                
         }
 
         // Perform magic attack
-        if (Controller.GetControllerActions().leftBumper.WasPressed)
+        if (Controller.GetControllerActions().leftBumper.WasPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
         {
-            if (inventory.UseMagic())
-            {
-                animator.SetTrigger("CastTrigger");
-            }
+
+        }
+
+        IEnumerator UseMagic()
+        {
+            yield return new WaitForSeconds(0.33f);
+            inventory.UseMagic();
         }
 
         // Stop magic attack
@@ -269,6 +276,7 @@ public class Player : MonoBehaviour
             if (inventory.StopMagic())
             {
                 // Deactivate magic anim
+                animator.SetBool("holdCast", false);
             }
         }
 
@@ -402,12 +410,10 @@ public class Player : MonoBehaviour
 
             if (Controller.isUsingKeyboard())
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    lookDir = hit.point - transform.position;
-                }
+                Vector3 mousePos = new Vector3(Input.mousePosition.x, 0.0f, Input.mousePosition.y);
+                mousePos.x -= Screen.width / 2;
+                mousePos.z -= Screen.height / 2;
+                lookDir = mousePos.normalized;
             }
             else
             {
@@ -492,15 +498,10 @@ public class Player : MonoBehaviour
 
         if (character.isGrounded)
         {
-            if (this.animator.GetBool("isSpinning"))
-            {
-                MoveDir *= (MoveSpeed / 2.0f); 
-            }
+            if (animator.GetBool("isSpinning"))
+                MoveDir *= (MoveSpeed / 2f);
             else
-            {
                 MoveDir *= MoveSpeed;
-            }
-
             PlayerMovementState.HandleGroundedTransition();
 
             // Handle Roll Input
@@ -556,6 +557,12 @@ public class Player : MonoBehaviour
             || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast Loop -> Magic Cast End") || animator.GetAnimatorTransitionInfo(6).IsName("Magic Cast End -> New State")
             || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Start") || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast End")
             || animator.GetCurrentAnimatorStateInfo(6).IsName("Magic Cast Loop");
+    }
+
+    private bool IsAttacking()
+    {
+        return animator.GetAnimatorTransitionInfo(6).IsName("New State -> PRIMARY_ATTACK") || animator.GetAnimatorTransitionInfo(6).IsName("PRIMARY_ATTACK -> New State")
+            || animator.GetCurrentAnimatorStateInfo(6).IsName("PRIMARY_ATTACK");
     }
 
     void TriggerEvent(UnityEvent uEvent)

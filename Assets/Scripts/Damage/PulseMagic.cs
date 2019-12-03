@@ -17,7 +17,10 @@ public class PulseMagic : MonoBehaviour
 
     public void ExtendCollider()
     {
-        extendCoroutine = StartCoroutine(UpdateCollider());
+        if (extendCoroutine != null)
+        {
+            extendCoroutine = StartCoroutine(UpdateCollider());
+        }
     }
 
     public void ResetCollider()

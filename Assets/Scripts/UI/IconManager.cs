@@ -5,9 +5,9 @@ public class IconManager : MonoBehaviour
 {
     public Image icon;
 
-    private void Start()
+    private void Awake()
     {
-        icon.enabled = false;
+        //icon.enabled = false;
     }
 
     public void EnableIcon(GameObject itemWithIcon)
@@ -22,6 +22,11 @@ public class IconManager : MonoBehaviour
         {
             icon.enabled = false;
         }
+    }
+
+    public void FlipIcon()
+    {
+        icon.transform.rotation = new Quaternion(icon.transform.rotation.x, 180, icon.transform.rotation.z, 0);
     }
 
 }

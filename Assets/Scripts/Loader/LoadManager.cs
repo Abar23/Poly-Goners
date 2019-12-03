@@ -29,10 +29,6 @@ public class LoadManager : MonoBehaviour
 
     public Image Mask;
 
-    public Text ProgressStatus;
-
-    public Slider ProgressBar;
-
     public string NextSceneName;
 
     private AsyncOperation op;
@@ -94,13 +90,6 @@ public class LoadManager : MonoBehaviour
         op.allowSceneActivation = false;
         while (!op.isDone)
         {
-            float progress = Mathf.Clamp01(op.progress / 0.9f);
-            ProgressStatus.text = String.Format("{0,0:F0} %", progress * 100f);
-            ProgressBar.value = progress;
-            if (Mathf.Abs(progress - 1f) < 0.001f)
-            {
-                ProgressStatus.text = "Done";
-            }
             yield return null;
         }
         
@@ -108,13 +97,6 @@ public class LoadManager : MonoBehaviour
 
     void Exit()
     {
-        //#if UNITY_EDITOR
-        //// Application.Quit() does not work in the editor so
-        //// UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-        //UnityEditor.EditorApplication.isPlaying = false;
-        //#else
-        //Application.Quit();
-        //#endif
         op.allowSceneActivation = true;
     }
 
