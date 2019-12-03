@@ -12,15 +12,16 @@ public class MovingSawTrap : MonoBehaviour
     private Vector3 velocity;
     private float retargetDistance = .5f;
     private float previousDist = Mathf.Infinity;
-    public float moveSpeed;
-    private Rigidbody rb;
     public GameObject sawRail;
     private Vector3 railSize;
     //[Range(1.0f, 5.0f)]
     //public float trackSize;
+    public float moveSpeed;
+    public bool randomizeSpeed;
+    private const float minSpeed = 3.0f;
+    private const float maxSpeed = 10.0f;
 
     void Start() {
-        rb = this.GetComponent<Rigidbody>();
         goingToRightEndpoint = true;
         retarget = false;
         TargetRightEndpoint();
@@ -29,9 +30,13 @@ public class MovingSawTrap : MonoBehaviour
         //sawRail.gameObject.transform.localScale = new Vector3(sawRail.gameObject.transform.localScale.x, sawRail.transform.localScale.y, trackSize);
         var renderer = sawRail.GetComponent<MeshRenderer>();
         railSize = renderer.bounds.size;
-        //Debug.Log(railSize.z);
         leftEndpoint.localPosition = new Vector3(0, 0, -railSize.z / 2 + 1f);
         rightEndpoint.localPosition = new Vector3(0, 0, railSize.z / 2 - 1f);
+
+        if (randomizeSpeed) {
+            moveSpeed = Random.Range(minSpeed, maxSpeed);
+        }
+        moveSpeed = Mathf.Clamp(moveSpeed, minSpeed, maxSpeed);
     }
 
     void Update() {

@@ -10,6 +10,8 @@ public class SpearTrap : MonoBehaviour
     private GameObject spears;
     public Type type;
     public float timerOffset;
+    public float cooldownTime;
+    private float cooldownTimeAfterFirst;
     private float elapsedTime;
     private bool isActive;
     
@@ -22,14 +24,17 @@ public class SpearTrap : MonoBehaviour
         elapsedTime = 0;
         isActive = false;
         animator.speed = trapSpeed;
+        cooldownTimeAfterFirst = cooldownTime;
+        cooldownTime = 0;
     }
 
     void Update() {
         if (type == Type.OnTimer) {
-            if (elapsedTime >= timerOffset && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
+            if (elapsedTime >= timerOffset + cooldownTime && !this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
                 animator.SetTrigger("isActive");
                 isActive = true;
                 elapsedTime = 0;
+                cooldownTime = cooldownTimeAfterFirst;
             }
 
             else if (!this.animator.GetCurrentAnimatorStateInfo(0).IsName("SpearTrap")) {
