@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
         }
 
         //  MELEE SPIN MOVE
-        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && character.isGrounded && !animator.GetBool("holdCast"))
+        if (Controller.GetControllerActions().rightTrigger.IsPressed && currentWeapon != null && stamina.CurrentStaminaValue() > 0 && !animator.GetBool("holdCast"))
         {
             currentWeapon.SwingWeapon(1f);
             currentWeapon.SpinCollider();
@@ -493,7 +493,7 @@ public class Player : MonoBehaviour
             PlayerMovementState.HandleGroundedTransition();
 
             // Handle Roll Input
-            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() >= rollStaminaCost)
+            if (Controller.GetControllerActions().action2.WasPressed && !IsRolling() && stamina.CurrentStaminaValue() >= rollStaminaCost && !IsSpinning())
             {
                 stamina.DecreaseStamina(rollStaminaCost);
                 PlayerMovementState.HandleRollingTransition();
@@ -501,7 +501,7 @@ public class Player : MonoBehaviour
 
             // Handle Jump Input
             VerticalVelocity = -Gravity * Time.deltaTime;
-            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()) && stamina.CurrentStaminaValue() >= jumpStaminaCost)
+            if (Controller.GetControllerActions().action1.WasPressed && !(animator.GetCurrentAnimatorStateInfo(0).IsName("Land") || animator.GetCurrentAnimatorStateInfo(0).IsName("Jump") || IsRolling()) && stamina.CurrentStaminaValue() >= jumpStaminaCost && !IsSpinning())
             {
                 stamina.DecreaseStamina(jumpStaminaCost);
                 PlayerMovementState.HandleJumpingTransition();
