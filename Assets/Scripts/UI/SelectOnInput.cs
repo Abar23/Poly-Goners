@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections;
 
 public class SelectOnInput : MonoBehaviour
 {
@@ -37,6 +38,11 @@ public class SelectOnInput : MonoBehaviour
         {
             if (GetComponent<StandaloneInputModule>() != null)
                 GetComponent<StandaloneInputModule>().enabled = true;
+
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+            {
+                StartCoroutine(CatchMouseClicks(firstSelected));
+            }
         }
 
 
@@ -83,5 +89,11 @@ public class SelectOnInput : MonoBehaviour
                 SelectedGameObject.GetComponent<ButtonFunctions>().OnSelect(null);
             _buttonSelected = true;
         }
+    }
+
+    private IEnumerator CatchMouseClicks(GameObject setSelection)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        EventSystem.current.SetSelectedGameObject(setSelection);
     }
 }
