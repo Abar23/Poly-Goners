@@ -258,18 +258,6 @@ public class Player : MonoBehaviour
                 
         }
 
-        // Perform magic attack
-        if (Controller.GetControllerActions().leftBumper.WasPressed && !animator.GetBool("isSpinning") && !IsSpinning() && !IsRolling() && !IsAttacking())
-        {
-
-        }
-
-        IEnumerator UseMagic()
-        {
-            yield return new WaitForSeconds(0.33f);
-            inventory.UseMagic();
-        }
-
         // Stop magic attack
         if (Controller.GetControllerActions().leftBumper.WasReleased)
         {
