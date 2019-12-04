@@ -30,8 +30,8 @@ public class MovingSawTrap : MonoBehaviour
         //sawRail.gameObject.transform.localScale = new Vector3(sawRail.gameObject.transform.localScale.x, sawRail.transform.localScale.y, trackSize);
         var renderer = sawRail.GetComponent<MeshRenderer>();
         railSize = renderer.bounds.size;
-        leftEndpoint.localPosition = new Vector3(0, 0, -railSize.z / 2 + 1f);
-        rightEndpoint.localPosition = new Vector3(0, 0, railSize.z / 2 - 1f);
+        //leftEndpoint.localPosition = new Vector3(0, 0, -railSize.z / 2);
+        //rightEndpoint.localPosition = new Vector3(0, 0, railSize.z / 2);
 
         if (randomizeSpeed) {
             moveSpeed = Random.Range(minSpeed, maxSpeed);
