@@ -14,7 +14,6 @@ public class DungeonReloader : MonoBehaviour
         if(other.tag == "Player")
         {
             DungeonCompletionTracker.GetInstance().IncreaseNumberOfCompletedDungeons();
-            OnReload.Invoke();
             StartCoroutine(ReloadScene());
         }
     }
@@ -29,6 +28,7 @@ public class DungeonReloader : MonoBehaviour
         collider.enabled = false;
         animator.SetTrigger("Exit");
         yield return new WaitForSeconds(k_ExitTime);
+        OnReload.Invoke();
         op.allowSceneActivation = true;
     }
 }
