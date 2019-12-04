@@ -8,6 +8,8 @@ public class MeshBlink : MonoBehaviour
     public float meshBlinkTotalDuration = 1.25f;
     private bool startBlinking = false;
 
+    public bool BlinkMesh = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -32,7 +34,8 @@ public class MeshBlink : MonoBehaviour
             meshBlinkTimer = 0.0f;
             if (this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled == true)
             {
-                this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+                if (BlinkMesh)
+                    this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
             }
             else
             {
