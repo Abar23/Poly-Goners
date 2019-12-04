@@ -6,6 +6,8 @@ class PlayerDeathState : PlayerMovementState
     {
         this.player = player;
         animator = anim;
+        animator.SetBool("isSpinning", false);
+        animator.SetBool("holdCast", false);
         animator.SetBool("isDead", true);
     }
 

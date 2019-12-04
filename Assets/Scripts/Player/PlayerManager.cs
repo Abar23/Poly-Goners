@@ -77,6 +77,11 @@ public class PlayerManager : AbstractSingleton<PlayerManager>
             playerTwoHud.SetActive(false);
             playerTwoDied.SetActive(true);
         }
+        else if (!playerTwo.GetComponent<Player>().IsPermaDead())
+        {
+            playerTwoHud.SetActive(true);
+            playerTwoDied.SetActive(false);
+        }
         else if (playerOne.GetComponent<Player>().IsPermaDead())
         {
             playerOneHud.SetActive(false);

@@ -111,5 +111,8 @@ public class LevelLoader : MonoBehaviour
         animator.SetTrigger("Exit");
         yield return new WaitForSeconds(k_ExitTime);
         op.allowSceneActivation = true;
+
+        if (sceneName == "CastleHub")
+            GameState.ResetPlayers();
     }
 }
