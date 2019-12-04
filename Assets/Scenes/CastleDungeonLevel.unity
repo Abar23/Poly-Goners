@@ -137,6 +137,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7969767915472172377, guid: 1be4ce8b9f8bbfe4f974910e14673234,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7969767915472172390, guid: 1be4ce8b9f8bbfe4f974910e14673234,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -207,11 +212,6 @@ PrefabInstance:
       propertyPath: PlayerBottomScreenOffset
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 7969767915472172377, guid: 1be4ce8b9f8bbfe4f974910e14673234,
-        type: 3}
-      propertyPath: m_ClearFlags
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 836050000, guid: 1be4ce8b9f8bbfe4f974910e14673234, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -247,11 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f5a3d6adab9d44f90013170b6b3b5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumberOfRooms: 5
+  minNumberOfRooms: 9
   maxNumberOfRooms: 30
   shouldOccludeTiles: 1
   dungeonTemplates:
   - {fileID: 1908628361}
+  - {fileID: 980431645}
   OnGenerationFinished:
     m_PersistentCalls:
       m_Calls: []
@@ -489,15 +490,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6610881972004957581, guid: 1819ed2c0633bd54eb7ca504729e471b,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -1.4001465
-      objectReference: {fileID: 0}
     - target: {fileID: 6610881971424525682, guid: 1819ed2c0633bd54eb7ca504729e471b,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610881972004957581, guid: 1819ed2c0633bd54eb7ca504729e471b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1.4001465
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1819ed2c0633bd54eb7ca504729e471b, type: 3}
@@ -573,6 +574,36 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6898980312705160570, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -629,42 +660,102 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6898980312017763144, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8154405648837679636, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db26bd903d0bbbc4e9fc99a7c9d99ad6, type: 3}
+--- !u!1 &980431644
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 980431646}
+  - component: {fileID: 980431645}
+  m_Layer: 0
+  m_Name: CastleDungeonAllTraps
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &980431645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980431644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4efb835ded06398408056415f8d8d56d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileDimension: 30
+  goalRooms:
+  - prefab: {fileID: 8480796197559523453, guid: a32ddea117676cf44ae79ebf407675f6,
+      type: 3}
+    spawnChance: 1
+  startRooms:
+  - prefab: {fileID: 3780725071102144083, guid: 5a99abedeea034444bedfe2cff22a5f5,
+      type: 3}
+    spawnChance: 1
+  internalRooms:
+  - prefab: {fileID: 7913222217814570185, guid: 53f0e853292a417428fb44c1d6881f18,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 3802972161033566921, guid: d9901ddd1b1c6cd4f839ed07da07c420,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 8490343968283098413, guid: 4bcc7052c48c7ad40999ebe790dfd304,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 1592087911602628486, guid: a236fcdc6036b1041b6039b3d89a7fb9,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3911588772606210157, guid: 4f09627a259ca51419514d589a661aeb,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 7709334155884130455, guid: 086ae92f2d732704ebddec5fddfc3dce,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 2333410390821548833, guid: bf35d1046231294449a9f6858ece475b,
+      type: 3}
+    spawnChance: 0
+  - prefab: {fileID: 1755633878666009642, guid: 33d74f4aa7e4b014da1ac028da204e8b,
+      type: 3}
+    spawnChance: 0
+  deadEndRooms:
+  - prefab: {fileID: 743996347206449983, guid: 86d73ddabb73089448a0d8862ac95f11, type: 3}
+    spawnChance: 1
+  shops:
+  - prefab: {fileID: 3212818871896125217, guid: a76761d0283ca294db5e9bbb1423f9c6,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3210526148113446083, guid: 9e11d5fbc9ba52a49aa94f6c2cbc1009,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 7189395051979140411, guid: 96369c564ad73284e984de2ce2560fa0,
+      type: 3}
+    spawnChance: 1
+--- !u!4 &980431646
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 980431644}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1105898859 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6610881972004957582, guid: 1819ed2c0633bd54eb7ca504729e471b,
@@ -773,17 +864,7 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 885556400456852042, guid: 1b582c925da3a824fbbf07e93bf63564,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 792278434645877269, guid: 1b582c925da3a824fbbf07e93bf63564,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3977645449219475011, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -797,6 +878,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 885556400456852042, guid: 1b582c925da3a824fbbf07e93bf63564,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3977645449219475011, guid: 1b582c925da3a824fbbf07e93bf63564,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 792278433405971586, guid: 1b582c925da3a824fbbf07e93bf63564,
         type: 3}
@@ -877,16 +968,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7007804511766773453, guid: 9fa9f3cca34e51849889b891405b2de8,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 418027262}
     - target: {fileID: 4217849029291520857, guid: 9fa9f3cca34e51849889b891405b2de8,
         type: 3}
       propertyPath: m_Text
       value: The Castle of Avarice
       objectReference: {fileID: 0}
+    - target: {fileID: 7007804511766773453, guid: 9fa9f3cca34e51849889b891405b2de8,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 418027262}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fa9f3cca34e51849889b891405b2de8, type: 3}
 --- !u!1001 &1858944464
@@ -1065,6 +1156,24 @@ MonoBehaviour:
       type: 3}
     spawnChance: 1
   - prefab: {fileID: 3683063695249425222, guid: 2d10d0240e957df479b192ed6f1bd58a,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 7913222217814570185, guid: 53f0e853292a417428fb44c1d6881f18,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 1592087911602628486, guid: a236fcdc6036b1041b6039b3d89a7fb9,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 3911588772606210157, guid: 4f09627a259ca51419514d589a661aeb,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 7709334155884130455, guid: 086ae92f2d732704ebddec5fddfc3dce,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 1755633878666009642, guid: 33d74f4aa7e4b014da1ac028da204e8b,
+      type: 3}
+    spawnChance: 1
+  - prefab: {fileID: 2333410390821548833, guid: bf35d1046231294449a9f6858ece475b,
       type: 3}
     spawnChance: 1
   deadEndRooms:

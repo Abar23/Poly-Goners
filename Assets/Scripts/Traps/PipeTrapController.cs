@@ -50,7 +50,7 @@ public class PipeTrapController : MonoBehaviour
     IEnumerator TurnOffTrap()
     {
         this.particleSys.Stop();
-        yield return new WaitForSeconds(this.onTime);
+        yield return new WaitForSeconds(this.offTime);
         StartCoroutine(TurnOnTrap());
     }
 }
