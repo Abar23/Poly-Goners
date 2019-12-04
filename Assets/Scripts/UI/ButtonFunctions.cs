@@ -53,6 +53,7 @@ public class ButtonFunctions : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void LoadSceneByIndex(int sceneIndex)
     {
+        PlayerPrefs.SetString(HubSpawnController.getPlayerPrefsKey(), SceneManager.GetActiveScene().name);
         StartCoroutine(DelaySceneLoad(sceneIndex));
     }
 

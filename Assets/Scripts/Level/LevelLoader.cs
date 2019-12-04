@@ -108,11 +108,11 @@ public class LevelLoader : MonoBehaviour
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
         collider.enabled = false;
+        PlayerPrefs.SetString(HubSpawnController.getPlayerPrefsKey(), SceneManager.GetActiveScene().name);
         animator.SetTrigger("Exit");
-        yield return new WaitForSeconds(k_ExitTime);
-        op.allowSceneActivation = true;
-
         if (sceneName == "CastleHub")
             GameState.ResetPlayers();
+        yield return new WaitForSeconds(k_ExitTime);
+        op.allowSceneActivation = true;
     }
 }
