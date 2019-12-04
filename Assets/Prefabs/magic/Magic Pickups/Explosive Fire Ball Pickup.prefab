@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4151517779394283946}
   - component: {fileID: 1755223738472657184}
   - component: {fileID: 6810889460684435718}
+  - component: {fileID: 3743907892136271874}
   m_Layer: 0
   m_Name: Explosive Fire Ball Pickup
   m_TagString: Pickup
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 4e6ca6c233cbef84bb8ac11c0a919931, type: 3}
+--- !u!114 &3743907892136271874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1173342265669808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5982285087145820527
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +96,6 @@ GameObject:
   - component: {fileID: 6686829188841590390}
   - component: {fileID: 8333328722061915056}
   - component: {fileID: 2080950872139601502}
-  - component: {fileID: 2657159443345196464}
   - component: {fileID: 2409834408979918208}
   m_Layer: 0
   m_Name: Explosive Fire Ball Model
@@ -153,18 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2657159443345196464
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5982285087145820527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &2409834408979918208
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -190,6 +190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ItemPickupCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 830615257689139917, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
@@ -296,26 +301,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Explosive Fire Ball
+      value: Casts an explosive fireball that deals damage to all enemies caught in
+        the explosion.
       objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 10 damage on hit and 30 damage to all enemies caught in explosion.
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Casts an explosive fireball that deals damage to all enemies caught in
-        the explosion.
+      value: Explosive Fire Ball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}

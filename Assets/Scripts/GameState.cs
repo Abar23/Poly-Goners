@@ -68,10 +68,10 @@ public class GameState : MonoBehaviour
         }
     }
 
-    public void ResetPlayers()
+    public static void ResetPlayers()
     {
-        Player playerOne = playerManager.GetPlayerOneGameObject().GetComponent<Player>();
-        Player playerTwo = playerManager.GetPlayerTwoGameObject().GetComponent<Player>();
+        Player playerOne = PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>();
+        Player playerTwo = PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>();
 
         playerOne.PlayerMovementState.HandleGroundedTransition();
         playerOne.GetComponent<Damageable>().ResetHealthToFull();
@@ -84,7 +84,7 @@ public class GameState : MonoBehaviour
             playerOne.OnRevive();
         }
 
-        if (playerManager.GetNumberOfActivePlayers() == 2)
+        if (PlayerManager.GetInstance().GetNumberOfActivePlayers() == 2)
         {
             playerTwo.PlayerMovementState.HandleGroundedTransition();
             playerTwo.GetComponent<Damageable>().ResetHealthToFull();

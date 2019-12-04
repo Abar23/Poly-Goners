@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4587316740350309937}
   - component: {fileID: 1788832520616733471}
   - component: {fileID: 3988688834244928113}
+  - component: {fileID: 869305083907606697}
   m_Layer: 0
   m_Name: Myst Pulse Pickup
   m_TagString: Pickup
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 859eba8243df52a4ba30f257da4eb6b0, type: 3}
+--- !u!114 &869305083907606697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258211122723131495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6429013910430932237
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +96,6 @@ GameObject:
   - component: {fileID: 8008325560685703024}
   - component: {fileID: 2121812880804979365}
   - component: {fileID: 5817425228357413765}
-  - component: {fileID: 4236645624239075048}
   - component: {fileID: 1041155898750091666}
   m_Layer: 0
   m_Name: Myst Pulse Model
@@ -153,18 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4236645624239075048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6429013910430932237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &1041155898750091666
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -311,6 +311,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemPickupCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 830615257689139917, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -416,25 +421,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Myst Pulse
+      value: A consistent myst pulse magic, damaging enemies in front of you.
       objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 20 damage every half second, cost 5 mana every second.
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: A consistent myst pulse magic, damaging enemies in front of you.
+      value: Myst Pulse
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}

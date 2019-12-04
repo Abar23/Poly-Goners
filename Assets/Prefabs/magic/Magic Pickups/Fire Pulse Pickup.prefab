@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3289353723901287147}
   - component: {fileID: 782632646620481477}
   - component: {fileID: 2690310139588284075}
+  - component: {fileID: 8750535157199732588}
   m_Layer: 0
   m_Name: Fire Pulse Pickup
   m_TagString: Pickup
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: a3afe09a6365e784d9c4e8deb65c28ba, type: 3}
+--- !u!114 &8750535157199732588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268348407483825341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5419870612089811415
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +96,6 @@ GameObject:
   - component: {fileID: 9019588719588197290}
   - component: {fileID: 1116184756070665855}
   - component: {fileID: 4806722758108333919}
-  - component: {fileID: 2937713866602005042}
   - component: {fileID: 2052973253390740808}
   m_Layer: 0
   m_Name: Fire Pulse Model
@@ -153,18 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2937713866602005042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5419870612089811415}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &2052973253390740808
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -296,6 +296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemPickupCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 830615257689139917, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -401,25 +406,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Fire Pulse
+      value: A consistent fire pulse magic, burning enemies in front of you.
       objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 18 damage every half second, cost 5 mana every second.
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: A consistent fire pulse magic, burning enemies in front of you.
+      value: Fire Pulse
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}
