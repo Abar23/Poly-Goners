@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2522545361645605800}
   - component: {fileID: 323054462031400582}
   - component: {fileID: 3166636084990183400}
+  - component: {fileID: 8895831366053721274}
   m_Layer: 0
   m_Name: Snow Pulse Pickup
   m_TagString: Pickup
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: fa7dfb001fe49c84d866e20c8ad9e1c8, type: 3}
+--- !u!114 &8895831366053721274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2251188779837421054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5012787824491870356
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +96,6 @@ GameObject:
   - component: {fileID: 8325964165145447145}
   - component: {fileID: 133626344260028220}
   - component: {fileID: 5481769758264774172}
-  - component: {fileID: 2766084690459872113}
   - component: {fileID: 1358503960150221835}
   m_Layer: 0
   m_Name: Snow Pulse Model
@@ -153,18 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2766084690459872113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5012787824491870356}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &1358503960150221835
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -316,6 +316,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemPickupCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 830615257689139917, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -421,25 +426,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Snow Pulse
+      value: A consistent snow pulse magic, freezing enemies in front of you.
       objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 15 damage every half second, cost 5 mana every second.
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: A consistent snow pulse magic, freezing enemies in front of you.
+      value: Snow Pulse
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}

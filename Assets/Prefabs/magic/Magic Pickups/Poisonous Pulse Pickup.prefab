@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1458533606825470505}
   - component: {fileID: 3695090657162147591}
   - component: {fileID: 2075604791840030313}
+  - component: {fileID: 983849517750953511}
   m_Layer: 0
   m_Name: Poisonous Pulse Pickup
   m_TagString: Pickup
@@ -72,6 +73,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 603a0da76007c4e42851129ece9375a7, type: 3}
+--- !u!114 &983849517750953511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2882855127372450943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8263224357904613653
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +96,6 @@ GameObject:
   - component: {fileID: 4951678626817864552}
   - component: {fileID: 3956022229405269693}
   - component: {fileID: 8876324108269713309}
-  - component: {fileID: 1251783459731337968}
   - component: {fileID: 2730941783432764810}
   m_Layer: 0
   m_Name: Poisonous Pulse Model
@@ -153,18 +165,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1251783459731337968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8263224357904613653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23e3cb19f7927ce49a7d8e373cbd00dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!64 &2730941783432764810
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -316,6 +316,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemPickupCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 830615257689139917, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -421,25 +426,20 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 350466170278503133, guid: 4050bafe840b24548b74f26cb7e3f3b0,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: Poisonous Pulse
+      value: A consistent poisonous pulse magic, damaging enemies in front of you.
       objectReference: {fileID: 0}
     - target: {fileID: 7370010126403045394, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
       value: Deals 22 damage every half second, cost 5 mana every second.
       objectReference: {fileID: 0}
-    - target: {fileID: 2567513670963425017, guid: 4050bafe840b24548b74f26cb7e3f3b0,
+    - target: {fileID: 7012867773864853602, guid: 4050bafe840b24548b74f26cb7e3f3b0,
         type: 3}
       propertyPath: m_Text
-      value: A consistent poisonous pulse magic, damaging enemies in front of you.
+      value: Poisonous Pulse
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4050bafe840b24548b74f26cb7e3f3b0, type: 3}
