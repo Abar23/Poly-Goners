@@ -40,18 +40,18 @@ public class DungeonGenerator : MonoBehaviour
         {
             m_Animator.SetTrigger("Load");
         }
-    }
-
-    void Start()
-    {
-
-        /*---- Initial Data Setup ----*/
 
         // Get number of rooms to generate based upon the number of completions
         DungeonCompletionTracker tracker = DungeonCompletionTracker.GetInstance();
         int numberOfCompletions = tracker.GetNumberOfCompletedDungeons();
         int numberOfCompeletionsToMaxSize = tracker.numberOfCompletionsToMaxDungeonSize;
         this.numberOfRoomsToGenerate = mapRange(numberOfCompletions, 0, numberOfCompeletionsToMaxSize, this.minNumberOfRooms, this.maxNumberOfRooms);
+    }
+
+    void Start()
+    {
+
+        /*---- Initial Data Setup ----*/
 
         // Choose random template from the list of templates given to the dungeon generator
         this.chosenTemplate = this.dungeonTemplates[Random.Range(0, this.dungeonTemplates.Count)];
@@ -85,20 +85,6 @@ public class DungeonGenerator : MonoBehaviour
         if (newState != null)
         {
             this.dungeonGenerationState = newState;
-        }
-
-        if (this.dungeonGenerationState is FinishedDungeonState)
-        {
-            if (OnGenerationFinished != null)
-            {
-                OnGenerationFinished.Invoke();
-                OnGenerationFinished = null;
-                if (m_Animator != null)
-                {
-                    m_Animator.SetTrigger("Enter");
-                }
-                Destroy(gameObject);
-            }
         }
     }
 
@@ -246,5 +232,20 @@ public class DungeonGenerator : MonoBehaviour
     private int mapRange(float s, float a1, float a2, float b1, float b2)
     {
         return (int)(b1 + (s - a1) * (b2 - b1) / (a2 - a1));
+    }
+
+    public int GetNumberOfRooms()
+    {
+        return numberOfRoomsToGenerate;
+    }
+
+    public UnityEvent GetOnGenerationFinished()
+    {
+        return OnGenerationFinished;
+    }
+
+    public Animator GetAnimator()
+    {
+        return m_Animator;
     }
 }

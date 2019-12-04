@@ -10,6 +10,14 @@
         generator.Shops.Clear();
         generator.GoalRooms.Clear();
         generator.DeadEnds.Clear();
+
+        generator.GetOnGenerationFinished().Invoke();
+        DungeonCompletionTracker.GetInstance().UpdateLevelText(generator);
+
+        if (generator.GetAnimator() != null)
+        {
+            generator.GetAnimator().SetTrigger("Enter");
+        }
     }
 
     public IDungeonGenerationState Update()

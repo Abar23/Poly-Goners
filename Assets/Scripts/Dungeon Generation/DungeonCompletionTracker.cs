@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DungeonCompletionTracker : AbstractSingleton<DungeonCompletionTracker>
 {
     [Range(1, 100)]
     public int numberOfCompletionsToMaxDungeonSize;
 
-    private int numberOfCopmletedDungeons;   
+    private int numberOfCopmletedDungeons;
+
+    public Text LevelText; 
 
     protected override void Awake()
     {
@@ -40,11 +43,22 @@ public class DungeonCompletionTracker : AbstractSingleton<DungeonCompletionTrack
         if(this.numberOfCopmletedDungeons < this.numberOfCompletionsToMaxDungeonSize)
         {
             this.numberOfCopmletedDungeons++;
+
         }
     }
 
     public int GetNumberOfCompletedDungeons()
     {
         return this.numberOfCopmletedDungeons;
+    }
+
+    public void UpdateLevelText(DungeonGenerator generator)
+    {
+        if (LevelText != null)
+        {
+            LevelText.text = "Level " + (numberOfCopmletedDungeons + 1).ToString() + "	 - 	 " + generator.GetNumberOfRooms().ToString() + " Rooms";
+        }
+        Animator anim = GetComponentInChildren<Animator>();
+        anim.Play("AreaName", -1, 0f);
     }
 }
