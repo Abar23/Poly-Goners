@@ -8,7 +8,7 @@ public class Explosion : MonoBehaviour
     public SparkParticles Sparks;
     public ParticleSystem Flash;
     public ParticleSystem[] Debris;
-
+    public float ExplodeTime = 1.9f;
 
     public void Play()
     {
@@ -25,7 +25,7 @@ public class Explosion : MonoBehaviour
 
     private IEnumerator WaitPlay()
     {
-        yield return new WaitForSeconds(1.9f);
+        yield return new WaitForSeconds(ExplodeTime);
 
         //Main.Play();
         for (int i = 0; i < Ring.Length; i++)
@@ -38,7 +38,7 @@ public class Explosion : MonoBehaviour
 
     private IEnumerator DestroyObject()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(20f);
         Destroy(this.gameObject);
     }
 }
