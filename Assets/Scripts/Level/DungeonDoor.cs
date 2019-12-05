@@ -19,6 +19,8 @@ public class DungeonDoor : Door
         {
             m_OnDoorOpen.Invoke();
         }
+
+        if (m_OpenSFX != null)
             m_OpenSFX.Play();
         for (int i = 0; i < k_RotationInterval; i++)
         {
@@ -31,7 +33,8 @@ public class DungeonDoor : Door
 
     public override IEnumerator CloseDoor()
     {
-        m_CloseSFX.Play();
+        if (m_CloseSFX != null)
+            m_CloseSFX.Play();
         for (int i = 0; i < k_RotationInterval; i++)
         {
             transform.Rotate(Vector3.up * m_OpenAngle / -k_RotationInterval);
