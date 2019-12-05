@@ -18,9 +18,10 @@ public class EnemyDrop : MonoBehaviour
 
     public void DropItem()
     {
+        float spawnChance = UnityEngine.Random.Range(0f, 1f);
         foreach (DropableItem item in DropList)
         {
-            if (UnityEngine.Random.Range(0f, 1f) < item.SpawnChance)
+            if (spawnChance < item.SpawnChance)
             {
                 GameObject newObj = Instantiate(item.Object, transform.position, Quaternion.identity);
                 newObj.name = newObj.name.Substring(0, newObj.name.Length - 7);
