@@ -886,8 +886,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minNumberOfRooms: 12
-  maxNumberOfRooms: 16
-  shouldOccludeTiles: 0
+  maxNumberOfRooms: 40
+  shouldOccludeTiles: 1
   dungeonTemplates:
   - {fileID: 5494317177898344946}
   OnGenerationFinished:
@@ -3372,35 +3372,91 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileDimension: 30
   goalRooms:
-  - prefab: {fileID: 1039606045549359830, guid: 1adf2ba440d71034e9a6fb9d04b37a0c,
+  - prefab: {fileID: 3069437818240642950, guid: beb105a23799d22449ca87bd5f647512,
       type: 3}
     spawnChance: 1
   startRooms:
   - prefab: {fileID: 699180851154159396, guid: 3f1b7c9b8cda13e449d27e1eb68f140f, type: 3}
     spawnChance: 1
   internalRooms:
+  - prefab: {fileID: 9145283547940483391, guid: a34ce0c56dea1dc4995a6c9cd2328cf2,
+      type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: b0f7bd99704c4224ba31342a784c4331,
+      type: 3}
+    spawnChance: 0.1
+  - prefab: {fileID: 9145283547940483391, guid: 0124406bbbf371f40bdf26a7c1071fe3,
+      type: 3}
+    spawnChance: 0.2
+  - prefab: {fileID: 9145283547940483391, guid: 6328053fff076da4185bbe9f29a15e31,
+      type: 3}
+    spawnChance: 0.5
+  - prefab: {fileID: 699180851154159396, guid: b14f39aef12c97f4bafc50696b923d25, type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: f8d2d8e83813dc14f940ad1c7df9e087,
+      type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: 90e97e344b9d740478149f2b18e058ac,
+      type: 3}
+    spawnChance: 0.2
+  - prefab: {fileID: 9145283547940483391, guid: 2d24bc27626cac34aa13594b7f3a3075,
+      type: 3}
+    spawnChance: 0.5
   - prefab: {fileID: 2351166385204216407, guid: 3440e73020d482d48812cef00322d0e4,
       type: 3}
     spawnChance: 0.6
   - prefab: {fileID: 9145283547940483391, guid: e0980ded94576934b84a6f8fc7edfbcb,
       type: 3}
-    spawnChance: 0.8
-  - prefab: {fileID: 901906110745197514, guid: 784f6cb902655874e9aaf96a4fa064f0, type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: 54bcd8adbb47e314f9bbd28ce7a6172c,
+      type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: 671feb754d6e05048810f0ec91493a09,
+      type: 3}
+    spawnChance: 0.1
+  - prefab: {fileID: 9145283547940483391, guid: 8e84a0d1640a36c418caac87bec0d2ba,
+      type: 3}
+    spawnChance: 0.2
+  - prefab: {fileID: 9145283547940483391, guid: f5f02f0fb437d1940863bc49f0487054,
+      type: 3}
     spawnChance: 0.5
   - prefab: {fileID: 8178589315696013340, guid: 82db89d27bfbc50438d5b5d9f9983598,
       type: 3}
     spawnChance: 0.1
+  - prefab: {fileID: 901906110745197514, guid: 784f6cb902655874e9aaf96a4fa064f0, type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: 39e225abaa7934d4f9ee0413574555dc,
+      type: 3}
+    spawnChance: 0.6
+  - prefab: {fileID: 9145283547940483391, guid: bc6518fcc4669e2468cef4c9352ad91b,
+      type: 3}
+    spawnChance: 0.1
+  - prefab: {fileID: 9145283547940483391, guid: ae004486723189343be44645d6199214,
+      type: 3}
+    spawnChance: 0.2
+  - prefab: {fileID: 9145283547940483391, guid: 985451fb6fadeb04e993c700e06abd1b,
+      type: 3}
+    spawnChance: 0.5
+  - prefab: {fileID: 9145283547940483391, guid: 5f32bd4cf8beaf94087fa30fa3bfe7fd,
+      type: 3}
+    spawnChance: 0.1
   deadEndRooms:
-  - prefab: {fileID: 1039606045549359830, guid: 1adf2ba440d71034e9a6fb9d04b37a0c,
+  - prefab: {fileID: 3069437818240642950, guid: 0faad8da547d6a940b2742a35fa356a9,
+      type: 3}
+    spawnChance: 0.2
+  - prefab: {fileID: 3069437818240642950, guid: 2fdef3c2b585c4044a140d47172737cb,
+      type: 3}
+    spawnChance: 0.3
+  - prefab: {fileID: 3069437818240642950, guid: 92ca0a777935bd743994edd34fc7157d,
+      type: 3}
+    spawnChance: 0.5
+  - prefab: {fileID: 3069437818240642950, guid: d2c776aaf11cc8841a0fbed3786d78ba,
       type: 3}
     spawnChance: 1
   shops:
   - prefab: {fileID: 1039606045549359830, guid: 1adf2ba440d71034e9a6fb9d04b37a0c,
       type: 3}
     spawnChance: 1
-  - prefab: {fileID: 8178589315696013340, guid: 82db89d27bfbc50438d5b5d9f9983598,
-      type: 3}
-    spawnChance: 0
 --- !u!4 &5494317177898344947
 Transform:
   m_ObjectHideFlags: 0
