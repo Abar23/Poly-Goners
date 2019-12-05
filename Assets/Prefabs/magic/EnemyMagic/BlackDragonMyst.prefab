@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 1597266753511931710}
   - component: {fileID: 1597266753530280574}
   - component: {fileID: 1597266753530299358}
-  - component: {fileID: 2283289738692242999}
   - component: {fileID: 1547508187034114780}
-  - component: {fileID: 5032883322300672072}
   m_Layer: 0
   m_Name: BlackDragonMyst
   m_TagString: Untagged
@@ -3753,11 +3751,11 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 105271
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4774,20 +4772,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!136 &2283289738692242999
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597266753511564062}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.7
-  m_Height: 0
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1547508187034114780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4800,7 +4784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163631946c5e47c4f94d9b85d86a361d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Config: {fileID: 11400000, guid: 824750df2f3baad4eadb8b93fb12b27f, type: 2}
+  Config: {fileID: 11400000, guid: 23e7049e42a9ada41ac53630389107f2, type: 2}
   Alignment: 0
   OnCauseDamage:
     m_PersistentCalls:
@@ -4817,17 +4801,3 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &5032883322300672072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597266753511564062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 768e608535f095c4fa7b888d37be1d2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxLength: 8
-  m_MaxTime: 1.3
