@@ -98,5 +98,36 @@ public class GameState : MonoBehaviour
             }
         }
     }
+
+    public void ResetPlayersNonStatic()
+    {
+        Player playerOne = PlayerManager.GetInstance().GetPlayerOneGameObject().GetComponent<Player>();
+        Player playerTwo = PlayerManager.GetInstance().GetPlayerTwoGameObject().GetComponent<Player>();
+
+        playerOne.PlayerMovementState.HandleGroundedTransition();
+        playerOne.GetComponent<Damageable>().ResetHealthToFull();
+        playerOne.GetComponentInChildren<MagicBox>().ResetMagicToFull();
+        playerOne.GetComponent<Stamina>().ResetStaminaToFull();
+
+        if (playerOne.IsDead() || playerOne.IsPermaDead())
+        {
+            playerOne.GetComponent<Inventory>().OnDeath();
+            playerOne.OnRevive();
+        }
+
+        if (PlayerManager.GetInstance().GetNumberOfActivePlayers() == 2)
+        {
+            playerTwo.PlayerMovementState.HandleGroundedTransition();
+            playerTwo.GetComponent<Damageable>().ResetHealthToFull();
+            playerTwo.GetComponentInChildren<MagicBox>().ResetMagicToFull();
+            playerTwo.GetComponent<Stamina>().ResetStaminaToFull();
+
+            if (playerTwo.IsDead() || playerTwo.IsPermaDead())
+            {
+                playerTwo.GetComponent<Inventory>().OnDeath();
+                playerTwo.OnRevive();
+            }
+        }
+    }
 }
 
