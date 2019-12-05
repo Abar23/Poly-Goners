@@ -26,6 +26,7 @@ public class DungeonCompletionTracker : AbstractSingleton<DungeonCompletionTrack
 
     void Start()
     {
+        DontDestroyOnLoad(this.gameObject);
         this.numberOfCopmletedDungeons = 0;
     }
 

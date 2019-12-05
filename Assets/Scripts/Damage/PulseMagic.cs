@@ -25,7 +25,10 @@ public class PulseMagic : MonoBehaviour
 
     public void ResetCollider()
     {
-        StopCoroutine(extendCoroutine);
+        if (extendCoroutine != null)
+        {
+            StopCoroutine(extendCoroutine);
+        }
         capsuleCollider.height = 0;
         capsuleCollider.center = new Vector3(capsuleCollider.center.x, capsuleCollider.center.y, 0);
     }

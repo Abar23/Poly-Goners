@@ -32,6 +32,7 @@ public class Dragon : MonoBehaviour, IEnemy
     // Motion Control
     private const float k_TakeOffDelay = 0.5f;
     private const float k_TakeOffTime = 2f;
+    private const float k_ShowOffTakeOffTime = 3f;
     private const float k_ShowTakeOffTime = 1f;
     private const float k_LandTime = 2f;
     private float initial_height;
@@ -104,7 +105,7 @@ public class Dragon : MonoBehaviour, IEnemy
         m_Controller.TakeOff();
         isLanded = false;
         StartCoroutine(ChangeHeight(transform.position.y, m_ShowOffHeight, k_ShowTakeOffTime));
-        yield return new WaitForSeconds(k_TakeOffTime);
+        yield return new WaitForSeconds(k_ShowOffTakeOffTime);
         StartCoroutine(FlyToDest());
         yield return new WaitForSeconds(m_ShowOffTime);
         m_Controller.Land();
